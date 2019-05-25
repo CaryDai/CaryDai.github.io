@@ -95,14 +95,15 @@
 <meta property="og:site_name" content="Dai戴蛋的博客">
 <meta property="og:description" content="捣鼓了一个下午，终于使用hexo搭完了自己的博客，有必要记录一下。 一、创建GitHub仓库仓库的名称有格式要求。比如我的github仓库名是“Work4CP”，那么创建的仓库名就是Work4CP.github.io。 二、下载node.js，安装git三、安装hexo官方中文文档https://hexo.io/zh-cn/docs/index.html hexo常用命令1234hexo s #完">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/05/24/使用Hexo搭建博客/D:/MyBlogs/source/_posts/使用Hexo搭建博客/1.repo.png">
-<meta property="og:image" content="http://yoursite.com/2019/05/24/使用Hexo搭建博客/D:/MyBlogs/source/_posts/使用Hexo搭建博客/2.ssh.png">
-<meta property="og:image" content="http://yoursite.com/2019/05/24/使用Hexo搭建博客/D:/MyBlogs/source/_posts/使用Hexo搭建博客/3.sshgithub.png">
-<meta property="og:updated_time" content="2019-05-24T14:39:11.688Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dgzbpcxaj311j0gj75b.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dh0c60bvj311q0hn75w.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dh0nr4gzj30ic0axjrf.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dh5axjfvj30lt0f1q3w.jpg">
+<meta property="og:updated_time" content="2019-05-25T05:00:01.781Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用Hexo搭建博客">
 <meta name="twitter:description" content="捣鼓了一个下午，终于使用hexo搭完了自己的博客，有必要记录一下。 一、创建GitHub仓库仓库的名称有格式要求。比如我的github仓库名是“Work4CP”，那么创建的仓库名就是Work4CP.github.io。 二、下载node.js，安装git三、安装hexo官方中文文档https://hexo.io/zh-cn/docs/index.html hexo常用命令1234hexo s #完">
-<meta name="twitter:image" content="http://yoursite.com/2019/05/24/使用Hexo搭建博客/D:/MyBlogs/source/_posts/使用Hexo搭建博客/1.repo.png">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dgzbpcxaj311j0gj75b.jpg">
 
 
 
@@ -370,7 +371,7 @@
 
       
         <p>捣鼓了一个下午，终于使用hexo搭完了自己的博客，有必要记录一下。</p>
-<h2 id="一、创建GitHub仓库"><a href="#一、创建GitHub仓库" class="headerlink" title="一、创建GitHub仓库"></a>一、创建GitHub仓库</h2><p>仓库的名称有格式要求。比如我的github仓库名是“Work4CP”，那么创建的仓库名就是Work4CP.github.io。<br><img src="/2019/05/24/使用Hexo搭建博客/D:/MyBlogs\source\_posts\使用Hexo搭建博客\1.repo.png" alt></p>
+<h2 id="一、创建GitHub仓库"><a href="#一、创建GitHub仓库" class="headerlink" title="一、创建GitHub仓库"></a>一、创建GitHub仓库</h2><p>仓库的名称有格式要求。比如我的github仓库名是“Work4CP”，那么创建的仓库名就是Work4CP.github.io。<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dgzbpcxaj311j0gj75b.jpg" alt></p>
 <h2 id="二、下载node-js，安装git"><a href="#二、下载node-js，安装git" class="headerlink" title="二、下载node.js，安装git"></a>二、下载node.js，安装git</h2><h2 id="三、安装hexo"><a href="#三、安装hexo" class="headerlink" title="三、安装hexo"></a>三、安装hexo</h2><p>官方中文文档<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/index.html</a></p>
 <h3 id="hexo常用命令"><a href="#hexo常用命令" class="headerlink" title="hexo常用命令"></a>hexo常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo s <span class="comment">#完整命令为hexo server，用于启动服务器，主要用来本地预览</span></span><br><span class="line">hexo g <span class="comment">#完整命令为hexo generate，用于生成静态文件</span></span><br><span class="line">hexo d <span class="comment">#完整命令为hexo deploy，用于将本地文件发布到github上</span></span><br><span class="line">hexo new <span class="string">"博客的名字"</span> <span class="comment">#用于新建一篇文章</span></span><br></pre></td></tr></table></figure>
 <ol>
@@ -404,9 +405,9 @@
 </li>
 <li><p>生成ssh密钥文件<br><strong>ssh-keygen -t rsa -C “Github邮箱”</strong>（ssh-keygen -t rsa -C “<a href="mailto:daiqianjieaixia@126.com" target="_blank" rel="noopener">daiqianjieaixia@126.com</a>“）<br>这一步会让你设置私钥密码。</p>
 </li>
-<li><p>把本机生成的公钥添加到github中<br>将刚新生成的公钥 <strong>id_rsa.pub</strong> 添加到Github中<br><img src="/2019/05/24/使用Hexo搭建博客/D:/MyBlogs\source\_posts\使用Hexo搭建博客\2.ssh.png" alt></p>
+<li><p>把本机生成的公钥添加到github中<br>将刚新生成的公钥 <strong>id_rsa.pub</strong> 添加到Github中<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dh0c60bvj311q0hn75w.jpg" alt></p>
 </li>
-<li><p>使用私人密钥与GitHub进行认证和通信<br><img src="/2019/05/24/使用Hexo搭建博客/D:/MyBlogs\source\_posts\使用Hexo搭建博客\3.sshgithub.png" alt></p>
+<li><p>使用私人密钥与GitHub进行认证和通信<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dh0nr4gzj30ic0axjrf.jpg" alt></p>
 </li>
 <li><p>将hexo和github进行关联<br>在D:\MyBlogs_config.yml最下方，添加如下配置：</p>
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr"> type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr"> repository:</span> <span class="string">git@github.com:Work4CP/Work4CP.github.io</span></span><br><span class="line"><span class="attr"> branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
@@ -441,6 +442,8 @@
 <p>关于博客中主题的更改和其它的设置，可以查看中文官方文档：<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/index.html</a></p>
 <p>hexo主题库：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a></p>
 <p>知乎：有哪些好看的hexo主题：<a href="https://www.zhihu.com/question/24422335" target="_blank" rel="noopener">https://www.zhihu.com/question/24422335</a></p>
+<h2 id="六、关于博客图片显示的问题"><a href="#六、关于博客图片显示的问题" class="headerlink" title="六、关于博客图片显示的问题"></a>六、关于博客图片显示的问题</h2><p>开始图片显示不了，后来网上说用插件的方法，还是不行。最后用了新浪微博的图床，只要在Chrome浏览器上添加<strong>新浪微博图床</strong>插件，然后再把图片添加上去即可，它会自动生成图片的地址：<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dh5axjfvj30lt0f1q3w.jpg" alt></p>
+<p>把这个Markdown地址添加到博客中就行了。</p>
 <h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ol>
 <li>“Windows下，Hexo+GitHub搭建博客”<a href="https://blog.csdn.net/qq_27754983/article/details/76143478" target="_blank" rel="noopener">https://blog.csdn.net/qq_27754983/article/details/76143478</a></li>
 <li>“win10 如何搭建hexo博客”<a href="https://blog.csdn.net/xiaoritai7803/article/details/79325017" target="_blank" rel="noopener">https://blog.csdn.net/xiaoritai7803/article/details/79325017</a></li>
@@ -627,7 +630,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、创建GitHub仓库"><span class="nav-number">1.</span> <span class="nav-text">一、创建GitHub仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、下载node-js，安装git"><span class="nav-number">2.</span> <span class="nav-text">二、下载node.js，安装git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、安装hexo"><span class="nav-number">3.</span> <span class="nav-text">三、安装hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo常用命令"><span class="nav-number">3.1.</span> <span class="nav-text">hexo常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、部署本地文件到github"><span class="nav-number">4.</span> <span class="nav-text">四、部署本地文件到github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、发表一篇文章"><span class="nav-number">5.</span> <span class="nav-text">五、发表一篇文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、创建GitHub仓库"><span class="nav-number">1.</span> <span class="nav-text">一、创建GitHub仓库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、下载node-js，安装git"><span class="nav-number">2.</span> <span class="nav-text">二、下载node.js，安装git</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、安装hexo"><span class="nav-number">3.</span> <span class="nav-text">三、安装hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo常用命令"><span class="nav-number">3.1.</span> <span class="nav-text">hexo常用命令</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、部署本地文件到github"><span class="nav-number">4.</span> <span class="nav-text">四、部署本地文件到github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、发表一篇文章"><span class="nav-number">5.</span> <span class="nav-text">五、发表一篇文章</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、关于博客图片显示的问题"><span class="nav-number">6.</span> <span class="nav-text">六、关于博客图片显示的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文档"><span class="nav-number">7.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
             
 
           </div>
