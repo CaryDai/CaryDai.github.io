@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Java,">
+  <meta name="keywords" content="idea,">
 
 
 
@@ -87,18 +87,20 @@
 
 
 
-<meta name="description" content="本篇文档用来记录下SSM的搭建过程。">
-<meta name="keywords" content="Java">
+<meta name="description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
+<meta name="keywords" content="idea">
 <meta property="og:type" content="article">
-<meta property="og:title" content="SSM框架的搭建">
-<meta property="og:url" content="http://yoursite.com/2019/05/24/SSM框架的搭建/index.html">
+<meta property="og:title" content="idea常用技巧">
+<meta property="og:url" content="http://yoursite.com/2019/05/26/idea常用技巧/index.html">
 <meta property="og:site_name" content="Dai戴的博客">
-<meta property="og:description" content="本篇文档用来记录下SSM的搭建过程。">
+<meta property="og:description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-24T10:28:04.825Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg">
+<meta property="og:updated_time" content="2019-05-26T12:00:07.502Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="SSM框架的搭建">
-<meta name="twitter:description" content="本篇文档用来记录下SSM的搭建过程。">
+<meta name="twitter:title" content="idea常用技巧">
+<meta name="twitter:description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg">
 
 
 
@@ -126,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/05/24/SSM框架的搭建/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/26/idea常用技巧/">
 
 
 
 
 
-  <title> SSM框架的搭建 | Dai戴的博客 </title>
+  <title> idea常用技巧 | Dai戴的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +263,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/SSM框架的搭建/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/idea常用技巧/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Dai">
@@ -282,7 +284,7 @@
             
             
               
-                SSM框架的搭建
+                idea常用技巧
               
             
           </h1>
@@ -297,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-24T18:25:52+08:00">
-                2019-05-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-26T17:30:58+08:00">
+                2019-05-26
               </time>
             
 
@@ -355,7 +357,12 @@
       
 
       
-        <p>本篇文档用来记录下SSM的搭建过程。</p>
+        <h2 id="idea-中复制一个-Maven-工程"><a href="#idea-中复制一个-Maven-工程" class="headerlink" title="idea 中复制一个 Maven 工程"></a>idea 中复制一个 Maven 工程</h2><ol>
+<li>将原工程整个文件夹复制，重新命名，<strong>并删除掉里面的 .idea 文件夹</strong>；</li>
+<li>用 idea 打开刚才重命名的文件夹，在 Project Structure ——&gt; Project Settings ——&gt; Project 和 Modules 里重新选择 Project SDK。</li>
+<li>Artifacts 里面：<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg" alt><br>选择刚刚打开的项目，再点 Apply。</li>
+<li>配置 Tomcat<br>Run ——&gt; Edit Configurations，点左侧绿色的 + 号，选择本地 tomcat，并自己命名。<br>选择 Deployment，点 + 号，选择“Artifact”，再点 Apply，OK。启动项目即可打开网页。</li>
+</ol>
 
       
     </div>
@@ -385,7 +392,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Java/" rel="tag"># Java</a>
+            <a href="/tags/idea/" rel="tag"># idea</a>
           
         </div>
       
@@ -398,8 +405,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/24/使用Hexo搭建博客/" rel="next" title="使用Hexo搭建博客">
-                <i class="fa fa-chevron-left"></i> 使用Hexo搭建博客
+              <a href="/2019/05/26/Spring系列-1/" rel="next" title="Spring系列(1)">
+                <i class="fa fa-chevron-left"></i> Spring系列(1)
               </a>
             
           </div>
@@ -453,13 +460,22 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="Mr.Dai">
           <p class="site-author-name" itemprop="name">Mr.Dai</p>
            
-              <p class="site-description motion-element" itemprop="description">行成于思，毁于随。</p>
+              <p class="site-description motion-element" itemprop="description">每个最好最坏时代，都是你的华丽舞台。</p>
           
         </div>
         <nav class="site-state motion-element">
@@ -467,7 +483,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -489,7 +505,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -514,6 +530,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-中复制一个-Maven-工程"><span class="nav-number">1.</span> <span class="nav-text">idea 中复制一个 Maven 工程</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
