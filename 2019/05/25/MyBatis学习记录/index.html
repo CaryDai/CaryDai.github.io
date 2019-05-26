@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="MyBatis,">
 
 
 
@@ -87,16 +87,21 @@
 
 
 
-<meta name="description" content="每个最好最坏时代，都是你的华丽舞台。">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Dai戴的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="MyBatis架构  MyBatis配置SqlMapConfig.xml 是 MyBatis 的全局配置文件，配置了MyBatis 的运行环境等信息。Mapper.xml 文件是 sql 映射文件，文件中配置了操作数据库的语句。此文件需要在 SqlMapConfig.xml 中加载。 SqlSessionFactoryBuilderSqlSessionFactory 由 SqlSessionFac">
+<meta name="keywords" content="MyBatis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyBatis学习记录">
+<meta property="og:url" content="http://yoursite.com/2019/05/25/MyBatis学习记录/index.html">
 <meta property="og:site_name" content="Dai戴的博客">
-<meta property="og:description" content="每个最好最坏时代，都是你的华丽舞台。">
+<meta property="og:description" content="MyBatis架构  MyBatis配置SqlMapConfig.xml 是 MyBatis 的全局配置文件，配置了MyBatis 的运行环境等信息。Mapper.xml 文件是 sql 映射文件，文件中配置了操作数据库的语句。此文件需要在 SqlMapConfig.xml 中加载。 SqlSessionFactoryBuilderSqlSessionFactory 由 SqlSessionFac">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3djsxc954j30x00s6421.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3eqvziuyej30du042a9x.jpg">
+<meta property="og:updated_time" content="2019-05-26T07:33:57.310Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dai戴的博客">
-<meta name="twitter:description" content="每个最好最坏时代，都是你的华丽舞台。">
+<meta name="twitter:title" content="MyBatis学习记录">
+<meta name="twitter:description" content="MyBatis架构  MyBatis配置SqlMapConfig.xml 是 MyBatis 的全局配置文件，配置了MyBatis 的运行环境等信息。Mapper.xml 文件是 sql 映射文件，文件中配置了操作数据库的语句。此文件需要在 SqlMapConfig.xml 中加载。 SqlSessionFactoryBuilderSqlSessionFactory 由 SqlSessionFac">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3djsxc954j30x00s6421.jpg">
 
 
 
@@ -124,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/25/MyBatis学习记录/">
 
 
 
 
 
-  <title> Dai戴的博客 </title>
+  <title> MyBatis学习记录 | Dai戴的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -155,9 +160,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -250,9 +253,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -282,10 +285,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2019/05/25/MyBatis学习记录/" itemprop="url">
-                  MyBatis学习记录
-                </a>
+                MyBatis学习记录
               
             
           </h1>
@@ -358,9 +358,7 @@
       
 
       
-        
-          
-            <h2 id="MyBatis架构"><a href="#MyBatis架构" class="headerlink" title="MyBatis架构"></a>MyBatis架构</h2><p><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3djsxc954j30x00s6421.jpg" alt></p>
+        <h2 id="MyBatis架构"><a href="#MyBatis架构" class="headerlink" title="MyBatis架构"></a>MyBatis架构</h2><p><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3djsxc954j30x00s6421.jpg" alt></p>
 <ol>
 <li>MyBatis配置<br>SqlMapConfig.xml 是 MyBatis 的全局配置文件，配置了MyBatis 的运行环境等信息。<br>Mapper.xml 文件是 sql 映射文件，文件中配置了操作数据库的语句。此文件需要在 SqlMapConfig.xml 中加载。</li>
 <li>SqlSessionFactoryBuilder<br>SqlSessionFactory 由 SqlSessionFactoryBuilder 创建，SqlSessionFactory 一旦创建完成就不需要 SqlSessionFactoryBuilder 了。</li>
@@ -511,535 +509,72 @@
 <p>测试方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testGetUserOrderMap</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    SqlSession sqlSession = SqlSessionFactoryUtils.getSqlSessionFactory().openSession();</span><br><span class="line">    UserMapper userMapper = sqlSession.getMapper(UserMapper.class);</span><br><span class="line">    List&lt;User&gt; list = userMapper.getUserOrderMap();</span><br><span class="line">    <span class="keyword">for</span> (User user : list) &#123;</span><br><span class="line">        System.out.println(user);</span><br><span class="line">        <span class="keyword">for</span> (Order order : user.getOrders()) &#123;</span><br><span class="line">            <span class="keyword">if</span> (order.getId() != <span class="keyword">null</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">"此用户下的订单有："</span> + order);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    sqlSession.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-          
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <div>
+      
+        
+
       
     </div>
 
     <footer class="post-footer">
       
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/使用idea搭建SSM框架/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Dai">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/touxiang.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dai戴的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/24/使用idea搭建SSM框架/" itemprop="url">
-                  使用idea搭建SSM框架
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-24T18:25:52+08:00">
-                2019-05-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
+        <div class="post-tags">
           
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
+            <a href="/tags/MyBatis/" rel="tag"># MyBatis</a>
           
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
         
-          
-            <p>本篇文档用来记录下在idea中搭建SSM的过程。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/使用Hexo搭建博客/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Dai">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/touxiang.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dai戴的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2019/05/24/使用idea搭建SSM框架/" rel="next" title="使用idea搭建SSM框架">
+                <i class="fa fa-chevron-left"></i> 使用idea搭建SSM框架
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2019/05/24/使用Hexo搭建博客/" itemprop="url">
-                  使用Hexo搭建博客
-                </a>
-              
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-24T16:11:31+08:00">
-                2019-05-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">Hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>捣鼓了一个下午，终于使用hexo搭完了自己的博客，有必要记录一下。</p>
-<h2 id="一、创建GitHub仓库"><a href="#一、创建GitHub仓库" class="headerlink" title="一、创建GitHub仓库"></a>一、创建GitHub仓库</h2><p>仓库的名称有格式要求。比如我的github仓库名是“Work4CP”，那么创建的仓库名就是Work4CP.github.io。<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dgzbpcxaj311j0gj75b.jpg" alt></p>
-<h2 id="二、下载node-js，安装git"><a href="#二、下载node-js，安装git" class="headerlink" title="二、下载node.js，安装git"></a>二、下载node.js，安装git</h2><h2 id="三、安装hexo"><a href="#三、安装hexo" class="headerlink" title="三、安装hexo"></a>三、安装hexo</h2><p>官方中文文档<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/index.html</a></p>
-<h3 id="hexo常用命令"><a href="#hexo常用命令" class="headerlink" title="hexo常用命令"></a>hexo常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo s <span class="comment">#完整命令为hexo server，用于启动服务器，主要用来本地预览</span></span><br><span class="line">hexo g <span class="comment">#完整命令为hexo generate，用于生成静态文件</span></span><br><span class="line">hexo d <span class="comment">#完整命令为hexo deploy，用于将本地文件发布到github上</span></span><br><span class="line">hexo new <span class="string">"博客的名字"</span> <span class="comment">#用于新建一篇文章</span></span><br></pre></td></tr></table></figure>
-<ol>
-<li><p>新建文件夹 D:\MyBlogs，进入该文件夹，右键选择 Git Bash here (提前安装好git bash工具)</p>
-</li>
-<li><p>运行命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol start="3">
-<li>执行以下命令，初始化hexo，这时候会在该文件夹中创建网站所需要的文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol start="4">
-<li>安装依赖包<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol start="5">
-<li>生成静态文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol start="6">
-<li><p>此时最基本的网站已经搭建好了，只不过是在本地放着，我们可以先预览一下</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-<p>这时，会在本地开启一个http服务，监听4000端口，可以在浏览器输入<a href="http://localhost:4000访问" target="_blank" rel="noopener">http://localhost:4000访问</a></p>
-</li>
-</ol>
-<h2 id="四、部署本地文件到github"><a href="#四、部署本地文件到github" class="headerlink" title="四、部署本地文件到github"></a>四、部署本地文件到github</h2><ol>
-<li><p>配置Git的用户信息<br><strong>git config –global user.name “GitHub用户名”</strong>（git config –global user.name “Work4CP”）</p>
-<p><strong>git config –global user.email “GitHub邮箱”</strong>（git config –global user.email “<a href="mailto:daiqianjieaixia@126.com" target="_blank" rel="noopener">daiqianjieaixia@126.com</a>“）</p>
-</li>
-<li><p>生成ssh密钥文件<br><strong>ssh-keygen -t rsa -C “Github邮箱”</strong>（ssh-keygen -t rsa -C “<a href="mailto:daiqianjieaixia@126.com" target="_blank" rel="noopener">daiqianjieaixia@126.com</a>“）<br>这一步会让你设置私钥密码。</p>
-</li>
-<li><p>把本机生成的公钥添加到github中<br>将刚新生成的公钥 <strong>id_rsa.pub</strong> 添加到Github中<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dh0c60bvj311q0hn75w.jpg" alt></p>
-</li>
-<li><p>使用私人密钥与GitHub进行认证和通信<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dh0nr4gzj30ic0axjrf.jpg" alt></p>
-</li>
-<li><p>将hexo和github进行关联<br>在D:\MyBlogs_config.yml最下方，添加如下配置：</p>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr"> type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr"> repository:</span> <span class="string">git@github.com:Work4CP/Work4CP.github.io</span></span><br><span class="line"><span class="attr"> branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol start="6">
-<li>将本地文件同步到GitHub<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol start="7">
-<li>访问<a href="https://work4cp.github.io/" target="_blank" rel="noopener">https://work4cp.github.io/</a>可以看到自己的博客了。</li>
-</ol>
-<h2 id="五、发表一篇文章"><a href="#五、发表一篇文章" class="headerlink" title="五、发表一篇文章"></a>五、发表一篇文章</h2><ol>
-<li>在Git Bash中执行命令：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"使用Hexo搭建博客"</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol start="2">
-<li><p>这时会在<em>D:\MyBlogs\source_posts</em>中，生成一个<strong><em>使用Hexo搭建博客.md</em></strong>文件，我们就在里面编写自己的内容。</p>
-</li>
-<li><p>写完后，可以现在本地预览一下生成的博客：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>   访问<a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a></p>
-<ol start="4">
-<li>同步到GitHub上<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo d</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<ol start="5">
-<li>访问自己的网站即可查看<a href="https://work4cp.github.io/" target="_blank" rel="noopener">https://work4cp.github.io/</a></li>
-</ol>
-<p>关于博客中主题的更改和其它的设置，可以查看中文官方文档：<a href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="noopener">https://hexo.io/zh-cn/docs/index.html</a></p>
-<p>hexo主题库：<a href="https://hexo.io/themes/" target="_blank" rel="noopener">https://hexo.io/themes/</a></p>
-<p>知乎：有哪些好看的hexo主题：<a href="https://www.zhihu.com/question/24422335" target="_blank" rel="noopener">https://www.zhihu.com/question/24422335</a></p>
-<h2 id="六、关于博客图片显示的问题"><a href="#六、关于博客图片显示的问题" class="headerlink" title="六、关于博客图片显示的问题"></a>六、关于博客图片显示的问题</h2><p>开始图片显示不了，后来网上说用插件的方法，还是不行。最后用了新浪微博的图床，只要在Chrome浏览器上添加<strong>新浪微博图床</strong>插件，然后再把图片添加上去即可，它会自动生成图片的地址：<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3dh5axjfvj30lt0f1q3w.jpg" alt></p>
-<p>把这个Markdown地址添加到博客中就行了。</p>
-<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ol>
-<li>“Windows下，Hexo+GitHub搭建博客”<a href="https://blog.csdn.net/qq_27754983/article/details/76143478" target="_blank" rel="noopener">https://blog.csdn.net/qq_27754983/article/details/76143478</a></li>
-<li>“win10 如何搭建hexo博客”<a href="https://blog.csdn.net/xiaoritai7803/article/details/79325017" target="_blank" rel="noopener">https://blog.csdn.net/xiaoritai7803/article/details/79325017</a></li>
-<li>“windows使用hexo搭建博客”<a href="https://jingyan.baidu.com/article/e8cdb32b0ce12137042bad51.html" target="_blank" rel="noopener">https://jingyan.baidu.com/article/e8cdb32b0ce12137042bad51.html</a></li>
-</ol>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/24/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Mr.Dai">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/touxiang.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Dai戴的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2019/05/24/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-24T13:01:04+08:00">
-                2019-05-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -1047,6 +582,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -1066,8 +605,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="Mr.Dai">
           <p class="site-author-name" itemprop="name">Mr.Dai</p>
@@ -1127,6 +675,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MyBatis架构"><span class="nav-number">1.</span> <span class="nav-text">MyBatis架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Dao-开发方法"><span class="nav-number">2.</span> <span class="nav-text">Dao 开发方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#原始-Dao-开发方法"><span class="nav-number">2.1.</span> <span class="nav-text">原始 Dao 开发方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存在的问题"><span class="nav-number">2.2.</span> <span class="nav-text">存在的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mapper-动态代理方法"><span class="nav-number">3.</span> <span class="nav-text">Mapper 动态代理方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#开发步骤"><span class="nav-number">3.1.</span> <span class="nav-text">开发步骤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输入和输出映射"><span class="nav-number">4.</span> <span class="nav-text">输入和输出映射</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#输入类型（parameterType）"><span class="nav-number">4.1.</span> <span class="nav-text">输入类型（parameterType）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出类型（resultType）"><span class="nav-number">4.2.</span> <span class="nav-text">输出类型（resultType）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-resultMap"><span class="nav-number">4.3.</span> <span class="nav-text">使用 resultMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#动态sql"><span class="nav-number">5.</span> <span class="nav-text">动态sql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#sql-片段抽取"><span class="nav-number">5.1.</span> <span class="nav-text">sql 片段抽取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#where-标签和if-标签"><span class="nav-number">5.2.</span> <span class="nav-text">where 标签和if 标签</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#foreach标签"><span class="nav-number">5.3.</span> <span class="nav-text">foreach标签</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关联查询"><span class="nav-number">6.</span> <span class="nav-text">关联查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一对一查询"><span class="nav-number">6.1.</span> <span class="nav-text">一对一查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一对多查询"><span class="nav-number">6.2.</span> <span class="nav-text">一对多查询</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1234,6 +798,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
 
   
 
