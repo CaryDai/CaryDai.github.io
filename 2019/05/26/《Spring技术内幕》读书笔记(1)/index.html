@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="jsp,">
+  <meta name="keywords" content="Spring,">
 
 
 
@@ -87,18 +87,20 @@
 
 
 
-<meta name="description" content="JSP简介JSP全名为Java Server Pages，中文名叫java服务器页面。它是一种动态页面技术，主要目的是将表示逻辑从 Servlet 中分离出来。 在 idea 中新建一个.jsp页面时，在注释信息的下面有一行标签： 1&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&amp;gt; 这行指令标签定义了页面">
-<meta name="keywords" content="jsp">
+<meta name="description" content="第1章 Spring的设计理念和整体架构Spring的设计理念：在Java EE的应用开发中，支持POJO和使用JavaBean的开发方式，使应用面向接口开发，充分支持OO的设计方法。 我们可以把IoC容器和AOP模块看做Spring的Kernel，是平台实现的核心部分。 Spring的整体架构  SpringIoC：在这个Spring的核心包中，不仅定义了IoC容器的最基本接口（BeanFact">
+<meta name="keywords" content="Spring">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jsp知识记录">
-<meta property="og:url" content="http://yoursite.com/2019/06/05/jsp知识记录/index.html">
+<meta property="og:title" content="《Spring技术内幕》读书笔记">
+<meta property="og:url" content="http://yoursite.com/2019/05/26/《Spring技术内幕》读书笔记(1)/index.html">
 <meta property="og:site_name" content="Dai戴的博客">
-<meta property="og:description" content="JSP简介JSP全名为Java Server Pages，中文名叫java服务器页面。它是一种动态页面技术，主要目的是将表示逻辑从 Servlet 中分离出来。 在 idea 中新建一个.jsp页面时，在注释信息的下面有一行标签： 1&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&amp;gt; 这行指令标签定义了页面">
+<meta property="og:description" content="第1章 Spring的设计理念和整体架构Spring的设计理念：在Java EE的应用开发中，支持POJO和使用JavaBean的开发方式，使应用面向接口开发，充分支持OO的设计方法。 我们可以把IoC容器和AOP模块看做Spring的Kernel，是平台实现的核心部分。 Spring的整体架构  SpringIoC：在这个Spring的核心包中，不仅定义了IoC容器的最基本接口（BeanFact">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-05T14:24:55.636Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3r8djq536j30df07wq5x.jpg">
+<meta property="og:updated_time" content="2019-06-06T05:45:25.154Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jsp知识记录">
-<meta name="twitter:description" content="JSP简介JSP全名为Java Server Pages，中文名叫java服务器页面。它是一种动态页面技术，主要目的是将表示逻辑从 Servlet 中分离出来。 在 idea 中新建一个.jsp页面时，在注释信息的下面有一行标签： 1&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&amp;gt; 这行指令标签定义了页面">
+<meta name="twitter:title" content="《Spring技术内幕》读书笔记">
+<meta name="twitter:description" content="第1章 Spring的设计理念和整体架构Spring的设计理念：在Java EE的应用开发中，支持POJO和使用JavaBean的开发方式，使应用面向接口开发，充分支持OO的设计方法。 我们可以把IoC容器和AOP模块看做Spring的Kernel，是平台实现的核心部分。 Spring的整体架构  SpringIoC：在这个Spring的核心包中，不仅定义了IoC容器的最基本接口（BeanFact">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3r8djq536j30df07wq5x.jpg">
 
 
 
@@ -126,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/06/05/jsp知识记录/">
+  <link rel="canonical" href="http://yoursite.com/2019/05/26/《Spring技术内幕》读书笔记(1)/">
 
 
 
 
 
-  <title> jsp知识记录 | Dai戴的博客 </title>
+  <title> 《Spring技术内幕》读书笔记 | Dai戴的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -261,7 +263,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/jsp知识记录/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/《Spring技术内幕》读书笔记(1)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Dai">
@@ -282,7 +284,7 @@
             
             
               
-                jsp知识记录
+                《Spring技术内幕》读书笔记
               
             
           </h1>
@@ -297,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-05T19:10:30+08:00">
-                2019-06-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-26T16:01:16+08:00">
+                2019-05-26
               </time>
             
 
@@ -355,26 +357,17 @@
       
 
       
-        <h2 id="JSP简介"><a href="#JSP简介" class="headerlink" title="JSP简介"></a>JSP简介</h2><p>JSP全名为Java Server Pages，中文名叫java服务器页面。它是一种动态页面技术，主要目的是将表示逻辑从 Servlet 中分离出来。</p>
-<p>在 idea 中新建一个<code>.jsp</code>页面时，在注释信息的下面有一行标签：</p>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page contentType=<span class="string">"text/html;charset=UTF-8"</span> language=<span class="string">"java"</span> %&gt;</span><br></pre></td></tr></table></figure>
-<p>这行指令标签定义了页面的依赖属性，contentType 指定了当前JSP页面的MIME类型和字符编码，language 则定义了JSP页面所用的脚本语言，默认是 Java。</p>
-<h2 id="JSTL"><a href="#JSTL" class="headerlink" title="JSTL"></a>JSTL</h2><p>JSP标准标签库（JSTL）是一个JSP标签集合，它封装了JSP应用的通用核心功能。JSTL支持通用的、结构化的任务，比如迭代，条件判断，XML文档操作，国际化标签，SQL标签。 除了这些，它还提供了一个框架来使用集成JSTL的自定义标签。（来自菜鸟教程<a href="https://www.runoob.com/jsp/jsp-jstl.html" target="_blank" rel="noopener">https://www.runoob.com/jsp/jsp-jstl.html</a>）</p>
-<h2 id="JSP指令"><a href="#JSP指令" class="headerlink" title="JSP指令"></a>JSP指令</h2><p>JSP 中有三种类型的指令：page指令、include指令、taglib指令。</p>
+        <h2 id="第1章-Spring的设计理念和整体架构"><a href="#第1章-Spring的设计理念和整体架构" class="headerlink" title="第1章 Spring的设计理念和整体架构"></a>第1章 Spring的设计理念和整体架构</h2><p><strong>Spring的设计理念</strong>：在Java EE的应用开发中，支持POJO和使用JavaBean的开发方式，使应用面向接口开发，充分支持OO的设计方法。</p>
+<p>我们可以把<strong>IoC</strong>容器和<strong>AOP</strong>模块看做Spring的Kernel，是平台实现的核心部分。</p>
+<h3 id="Spring的整体架构"><a href="#Spring的整体架构" class="headerlink" title="Spring的整体架构"></a>Spring的整体架构</h3><p><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3r8djq536j30df07wq5x.jpg" alt></p>
 <ul>
-<li><p>page指令为容器提供当前页面的使用说明。一个JSP页面可以包含多个page指令。示例如上所示。</p>
-</li>
-<li><p>include指令用来包含其他文件。被包含的文件可以是JSP文件、HTML文件或文本文件。包含的文件就好像是该JSP文件的一部分，会被同时编译执行。</p>
-</li>
-<li><p>taglib指令引入一个自定义标签集合的定义，包括库路径、自定义标签。<br>taglib指令的语法：</p>
-<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- uri属性确定标签库的位置，prefix属性指定标签库的前缀 --&gt;</span><br><span class="line">&lt;%@ taglib uri=<span class="string">"uri"</span> prefix=<span class="string">"prefixOfTag"</span> %&gt;</span><br><span class="line">如：</span><br><span class="line">&lt;!-- 引用核心标签库 --&gt;</span><br><span class="line">&lt;%@ taglib uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span> prefix=<span class="string">"c"</span> %&gt;</span><br><span class="line">&lt;!-- 引用格式化库。JSTL格式化标签用来格式化并输出文本、日期、时间、数字。 --&gt;</span><br><span class="line">&lt;%@ taglib uri=<span class="string">"http://java.sun.com/jsp/jstl/fmt"</span>  prefix=<span class="string">"fmt"</span>%&gt;</span><br></pre></td></tr></table></figure>
-</li>
+<li>SpringIoC：在这个Spring的核心包中，不仅定义了IoC容器的最基本接口（BeanFactory），也提供了一系列这个接口的实现，如XmlBeanFactory就是一个最基本的BeanFactory（IoC容器）。此外，Spring还设计了IoC容器的高级形态ApplicationContext应用上下文供用户使用（如FileSystemXmlApplicationContext、ClassPathXmlApplicationContext）。</li>
+<li>Spring AOP：围绕着AOP的增强功能，Spring集成了AspectJ作为AOP的一个特定实现，同时还在JVM动态代理/CGLIB的基础上，实现了一个AOP框架，作为Spring集成其它模块的工具，比如TransactionProxyFactoryBean声明式事务处理，就是通过AOP集成到Spring中的。</li>
+<li>Spring MVC：Spring MVC以DispacherServlet为核心，实现了MVC模式，通过这个模块，可以完成Web的前端设计。</li>
+<li>Spring JDBC/ORM：对于关系数据库的处理，Java提供了JDBC来进行操作，但在实际应用中，单纯使用JDBC的方式还是有些繁琐，所以Spring对JDBC做了一层封装。Spring JDBC包提供了JdbcTemplate作为模板类，封装了基本的数据库操作方法。此外，Spring还提供了对ORM工具的封装，如Hibernate、iBatis等。</li>
+<li>Spring事务处理</li>
 </ul>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
-<li>JSP百度百科(<a href="https://baike.baidu.com/item/JSP/141543?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/JSP/141543?fr=aladdin</a>)</li>
-<li>JSP菜鸟教程(<a href="https://www.runoob.com/jsp/jsp-directives.html" target="_blank" rel="noopener">https://www.runoob.com/jsp/jsp-directives.html</a>)</li>
-</ol>
-
+<h2 id="第2章-IoC容器的实现"><a href="#第2章-IoC容器的实现" class="headerlink" title="第2章 IoC容器的实现"></a>第2章 IoC容器的实现</h2>
       
     </div>
 
@@ -403,7 +396,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/jsp/" rel="tag"># jsp</a>
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
           
         </div>
       
@@ -416,8 +409,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/26/idea常用技巧/" rel="next" title="idea常用技巧">
-                <i class="fa fa-chevron-left"></i> idea常用技巧
+              <a href="/2019/05/25/MyBatis学习记录/" rel="next" title="MyBatis学习记录">
+                <i class="fa fa-chevron-left"></i> MyBatis学习记录
               </a>
             
           </div>
@@ -426,8 +419,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/05/SpringMVC学习记录/" rel="prev" title="SpringMVC学习记录">
-                SpringMVC学习记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/05/26/idea常用技巧/" rel="prev" title="idea常用技巧">
+                idea常用技巧 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -555,7 +548,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP简介"><span class="nav-number">1.</span> <span class="nav-text">JSP简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSTL"><span class="nav-number">2.</span> <span class="nav-text">JSTL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP指令"><span class="nav-number">3.</span> <span class="nav-text">JSP指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第1章-Spring的设计理念和整体架构"><span class="nav-number">1.</span> <span class="nav-text">第1章 Spring的设计理念和整体架构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring的整体架构"><span class="nav-number">1.1.</span> <span class="nav-text">Spring的整体架构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第2章-IoC容器的实现"><span class="nav-number">2.</span> <span class="nav-text">第2章 IoC容器的实现</span></a></li></ol></div>
             
 
           </div>

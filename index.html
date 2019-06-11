@@ -261,6 +261,164 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/06/Spring学习记录(1)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Dai">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dai戴的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2019/06/06/Spring学习记录(1)/" itemprop="url">
+                  Spring学习记录(1)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-06T13:40:50+08:00">
+                2019-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Java Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          Spring：SE/EE 开发的一站式框架。
+
+WEB层：SpringMVC
+Service层：Spring的Bean管理，Spring声明式事务。
+DAO层：Spring的JDBC模板，Spring的ORM模块。
+
+IOCIOC：Inversion of Control(控制反转)，将对象的创建权交给Spring。
+Q：为什么要这样做呢？
+首先来看一个例子，比如现在有一个用户管理的DAO接口和对应的实现类：
+123456/** * 用户管理的业务层接口 */public interface U
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/06/06/Spring学习记录(1)/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/05/SpringMVC学习记录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -720,7 +878,7 @@ Artifacts 里面：选择刚刚打开的项目，再点 Apply。
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/Spring系列-1/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/《Spring技术内幕》读书笔记(1)/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Dai">
@@ -742,8 +900,8 @@ Artifacts 里面：选择刚刚打开的项目，再点 Apply。
             
               
                 
-                <a class="post-title-link" href="/2019/05/26/Spring系列-1/" itemprop="url">
-                  Spring系列(1)
+                <a class="post-title-link" href="/2019/05/26/《Spring技术内幕》读书笔记(1)/" itemprop="url">
+                  《Spring技术内幕》读书笔记
                 </a>
               
             
@@ -819,12 +977,15 @@ Artifacts 里面：选择刚刚打开的项目，再点 Apply。
       
         
           
-          从这篇文档起来复习一下Spring。
+          第1章 Spring的设计理念和整体架构Spring的设计理念：在Java EE的应用开发中，支持POJO和使用JavaBean的开发方式，使应用面向接口开发，充分支持OO的设计方法。
+我们可以把IoC容器和AOP模块看做Spring的Kernel，是平台实现的核心部分。
+Spring的整体架构
 
-          
+SpringIoC：在这个Spring的核心包中，不仅定义了IoC容器的最基本接口（BeanFactory），也提供了一系列这个接口的实现，如XmlBeanFactory就是一个最基本的BeanFac
+          ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2019/05/26/Spring系列-1/#more" rel="contents">
+            <a class="btn" href="/2019/05/26/《Spring技术内幕》读书笔记(1)/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1487,7 +1648,7 @@ M
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
