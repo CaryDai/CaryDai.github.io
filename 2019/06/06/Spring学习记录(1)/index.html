@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="Dai戴的博客">
 <meta property="og:description" content="Spring：SE/EE 开发的一站式框架。  WEB层：SpringMVC Service层：Spring的Bean管理，Spring声明式事务。 DAO层：Spring的JDBC模板，Spring的ORM模块。  IOCIOC：Inversion of Control(控制反转)，将对象的创建权交给Spring。 Q：为什么要这样做呢？ 首先来看一个例子，比如现在有一个用户管理的DAO接口和对">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-11T11:44:24.263Z">
+<meta property="og:updated_time" content="2019-06-13T09:05:26.938Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring学习记录(1)">
 <meta name="twitter:description" content="Spring：SE/EE 开发的一站式框架。  WEB层：SpringMVC Service层：Spring的Bean管理，Spring声明式事务。 DAO层：Spring的JDBC模板，Spring的ORM模块。  IOCIOC：Inversion of Control(控制反转)，将对象的创建权交给Spring。 Q：为什么要这样做呢？ 首先来看一个例子，比如现在有一个用户管理的DAO接口和对">
@@ -374,7 +374,9 @@
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 引入约束，spring用的是schema约束，不是dtd约束 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/beans/spring-beans.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Spring的入门配置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userDAO"</span> <span class="attr">class</span>=<span class="string">"hdu.dqj.spring.demo1.UserDaoImpl"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Spring在创建上面这个类的实例过程中，发现这个类里面有一个属性(依赖)，就通过下面的配置把属性设置进来 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"李东"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>此时，我们就能用Spring的方式进行接口的调用了。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Spring方式的调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建Spring的工厂</span></span><br><span class="line">        ApplicationContext applicationContext = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">"applicationContext.xml"</span>);</span><br><span class="line">        UserDao userDao = (UserDao) applicationContext.getBean(<span class="string">"userDAO"</span>);	<span class="comment">//和bean标签里的id相同</span></span><br><span class="line">        userDao.save();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h2><p>DI：依赖注入，前提必须有 IOC 的环境，Spring 管理这个类的时候，将类的依赖属性注入（设置）进来。如上面的<code>userDao</code>类，它的<code>name</code>属性就通过<code>&lt;property&gt;</code>标签进行注入，这里其实用的是<code>Set方法</code>注入。</p>
+<h2 id="DI"><a href="#DI" class="headerlink" title="DI"></a>DI</h2><p>DI：依赖注入，前提必须有 IOC 的环境，依赖注入包含在IOC下。Spring 管理这个类的时候，将类的依赖属性注入（设置）进来。如上面的<code>userDao</code>类，它的<code>name</code>属性就通过<code>&lt;property&gt;</code>标签进行注入，这里其实用的是<code>Set方法</code>注入。</p>
+<h3 id="什么是依赖注入？"><a href="#什么是依赖注入？" class="headerlink" title="什么是依赖注入？"></a>什么是依赖注入？</h3><p>对象的生成不再是通过显示的<code>new</code>，而是直接到Spring容器里去获取。对象的创建是使用“注入”这种方式。</p>
+<h3 id="为什么需要依赖注入？"><a href="#为什么需要依赖注入？" class="headerlink" title="为什么需要依赖注入？"></a>为什么需要依赖注入？</h3><p>主要是为了程序解耦。</p>
 <h2 id="Spring的工厂类"><a href="#Spring的工厂类" class="headerlink" title="Spring的工厂类"></a>Spring的工厂类</h2><ul>
 <li>BeanFactory：老版本的工厂类，调用<code>getBean</code>的时候，才会生成类的实例。</li>
 <li>ApplicationContext：新版本的工厂类，加载配置文件的时候，就会将<code>Spring</code>管理的类都实例化。它有两个实现类：<ul>
@@ -495,7 +497,7 @@
 <tbody>
 <tr>
 <td>Bean定义</td>
-<td><bean id="..." class="..."></bean></td>
+<td>使用<code>Bean</code>标签，定义<code>id</code>属性和<code>class</code>属性</td>
 <td>@Component  衍生类@Controller @Service @Repository</td>
 </tr>
 <tr>
@@ -577,6 +579,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/06/11/Spring学习记录-(2)/" rel="prev" title="Spring学习记录(2)">
+                Spring学习记录(2) <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -645,7 +651,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -702,7 +708,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC"><span class="nav-number">1.</span> <span class="nav-text">IOC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DI"><span class="nav-number">2.</span> <span class="nav-text">DI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring的工厂类"><span class="nav-number">3.</span> <span class="nav-text">Spring的工厂类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean管理"><span class="nav-number">4.</span> <span class="nav-text">Bean管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的生命周期的配置"><span class="nav-number">4.1.</span> <span class="nav-text">Bean的生命周期的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的作用范围的配置"><span class="nav-number">4.2.</span> <span class="nav-text">Bean的作用范围的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的实例化方式"><span class="nav-number">4.3.</span> <span class="nav-text">Bean的实例化方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring的属性注入"><span class="nav-number">4.4.</span> <span class="nav-text">Spring的属性注入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC-的注解开发"><span class="nav-number">5.</span> <span class="nav-text">IOC 的注解开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC的注解详解"><span class="nav-number">5.1.</span> <span class="nav-text">IOC的注解详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC-的-XML和注解开发的比较"><span class="nav-number">5.2.</span> <span class="nav-text">IOC 的 XML和注解开发的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XML-和注解整合开发"><span class="nav-number">5.3.</span> <span class="nav-text">XML 和注解整合开发</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC"><span class="nav-number">1.</span> <span class="nav-text">IOC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DI"><span class="nav-number">2.</span> <span class="nav-text">DI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是依赖注入？"><span class="nav-number">2.1.</span> <span class="nav-text">什么是依赖注入？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么需要依赖注入？"><span class="nav-number">2.2.</span> <span class="nav-text">为什么需要依赖注入？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring的工厂类"><span class="nav-number">3.</span> <span class="nav-text">Spring的工厂类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bean管理"><span class="nav-number">4.</span> <span class="nav-text">Bean管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的生命周期的配置"><span class="nav-number">4.1.</span> <span class="nav-text">Bean的生命周期的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的作用范围的配置"><span class="nav-number">4.2.</span> <span class="nav-text">Bean的作用范围的配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bean的实例化方式"><span class="nav-number">4.3.</span> <span class="nav-text">Bean的实例化方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring的属性注入"><span class="nav-number">4.4.</span> <span class="nav-text">Spring的属性注入</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IOC-的注解开发"><span class="nav-number">5.</span> <span class="nav-text">IOC 的注解开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC的注解详解"><span class="nav-number">5.1.</span> <span class="nav-text">IOC的注解详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IOC-的-XML和注解开发的比较"><span class="nav-number">5.2.</span> <span class="nav-text">IOC 的 XML和注解开发的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#XML-和注解整合开发"><span class="nav-number">5.3.</span> <span class="nav-text">XML 和注解整合开发</span></a></li></ol></li></ol></div>
             
 
           </div>

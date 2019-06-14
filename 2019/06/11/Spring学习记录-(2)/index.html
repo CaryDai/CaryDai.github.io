@@ -1,0 +1,892 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Spring,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="AOP开发XML方式的AOP开发在软件业，AOP为Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序">
+<meta name="keywords" content="Spring">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring学习记录(2)">
+<meta property="og:url" content="http://yoursite.com/2019/06/11/Spring学习记录-(2)/index.html">
+<meta property="og:site_name" content="Dai戴的博客">
+<meta property="og:description" content="AOP开发XML方式的AOP开发在软件业，AOP为Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005Mjp9lgy1g3zl63bfibj311y0lch41.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005Mjp9lly1g3zl9zgdomj30d8032mx5.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/005Mjp9lgy1g3zuflifaaj30q90bhabq.jpg">
+<meta property="og:updated_time" content="2019-06-13T14:23:16.287Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring学习记录(2)">
+<meta name="twitter:description" content="AOP开发XML方式的AOP开发在软件业，AOP为Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是OOP的延续，是软件开发中的一个热点，也是Spring框架中的一个重要内容，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序">
+<meta name="twitter:image" content="https://ws1.sinaimg.cn/large/005Mjp9lgy1g3zl63bfibj311y0lch41.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/06/11/Spring学习记录-(2)/">
+
+
+
+
+
+  <title> Spring学习记录(2) | Dai戴的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dai戴的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/06/11/Spring学习记录-(2)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Mr.Dai">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dai戴的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Spring学习记录(2)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-06-11T19:54:08+08:00">
+                2019-06-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Java-Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Java Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="AOP开发"><a href="#AOP开发" class="headerlink" title="AOP开发"></a>AOP开发</h2><h3 id="XML方式的AOP开发"><a href="#XML方式的AOP开发" class="headerlink" title="XML方式的AOP开发"></a>XML方式的AOP开发</h3><p>在软件业，AOP为Aspect Oriented Programming的缩写，意为：<a href="https://baike.baidu.com/item/%E9%9D%A2%E5%90%91%E5%88%87%E9%9D%A2%E7%BC%96%E7%A8%8B/6016335" target="_blank" rel="noopener">面向切面编程</a>，通过<a href="https://baike.baidu.com/item/%E9%A2%84%E7%BC%96%E8%AF%91/3191547" target="_blank" rel="noopener">预编译</a>方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是<a href="https://baike.baidu.com/item/OOP" target="_blank" rel="noopener">OOP</a>的延续，是软件开发中的一个热点，也是<a href="https://baike.baidu.com/item/Spring" target="_blank" rel="noopener">Spring</a>框架中的一个重要内容，是<a href="https://baike.baidu.com/item/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B/4035031" target="_blank" rel="noopener">函数式编程</a>的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的<a href="https://baike.baidu.com/item/%E8%80%A6%E5%90%88%E5%BA%A6/2603938" target="_blank" rel="noopener">耦合度</a>降低，提高程序的可重用性，同时提高了开发的效率。（来自百度百科）</p>
+<p>比如一开始是需要在数据保存到数据库前，对每一个dao都要进行权限的校验，此时可以生成一个代理，平时都用这个代理。到后来不需要权限校验了，那么就直接调用 UserDao 的save方法即可。</p>
+<h4 id="AOP底层实现原理"><a href="#AOP底层实现原理" class="headerlink" title="AOP底层实现原理"></a>AOP底层实现原理</h4><p>动态代理</p>
+<ul>
+<li>JDK 动态代理：只能对实现了接口的类产生代理。</li>
+<li>Cglib 动态代理（类似于 Javassist 第三方代理技术）：对没有实现接口的类产生代理对象。生成子类对象。</li>
+</ul>
+<h4 id="AOP-开发中相关术语"><a href="#AOP-开发中相关术语" class="headerlink" title="AOP 开发中相关术语"></a>AOP 开发中相关术语</h4><p><img src="https://ws1.sinaimg.cn/large/005Mjp9lgy1g3zl63bfibj311y0lch41.jpg" alt></p>
+<h4 id="AOP-的入门开发（AspectJ-的-XML-方式）"><a href="#AOP-的入门开发（AspectJ-的-XML-方式）" class="headerlink" title="AOP 的入门开发（AspectJ 的 XML 方式）"></a>AOP 的入门开发（AspectJ 的 XML 方式）</h4><p>AspectJ是一个面向切面的框架，它扩展了Java语言。AspectJ定义了AOP语法，它有一个专门的<a href="https://baike.baidu.com/item/编译器/8853067" target="_blank" rel="noopener">编译器</a>用来生成遵守Java字节编码规范的Class文件。</p>
+<ol>
+<li><p>首先需要引入aop开发相关的jar包，在<code>applicationContext.xml</code>中引入AOP约束：<br><img src="https://ws1.sinaimg.cn/large/005Mjp9lly1g3zl9zgdomj30d8032mx5.jpg" alt></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:aop</span>=<span class="string">"http://www.springframework.org/schema/aop"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></span></span><br><span class="line"><span class="tag"><span class="string">            http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">            http://www.springframework.org/schema/beans/spring-beans.xsd</span></span></span><br><span class="line"><span class="tag"><span class="string">            http://www.springframework.org/schema/aop</span></span></span><br><span class="line"><span class="tag"><span class="string">            http://www.springframework.org/schema/aop/spring-aop.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接着编写一个切面类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 切面类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAspectXML</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">chechPri</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"权限校验==========="</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将切面类交给Spring管理</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 将切面类交给Spring管理 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myAspect"</span> <span class="attr">class</span>=<span class="string">"hdu.dqj.spring.demo3.MyAspectXML"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>通过AOP的配置完成对目标类产生代理</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置切入点，表达式配置哪些类的哪些方法需要进行增强 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">"pointcut1"</span> <span class="attr">expression</span>=<span class="string">"execution(* hdu.dqj.spring.demo3.ProductDaoImpl.save(..))"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- 配置切面(通知和切入点的组合) --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">"myAspect"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">aop:before</span> <span class="attr">method</span>=<span class="string">"checkPri"</span> <span class="attr">pointcut-ref</span>=<span class="string">"pointcut1"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写测试类，Spring 整合 JUnit 单元测试，需要引入 spring-test-5.1.5.RELEASE.jar 包</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</span><br><span class="line"><span class="meta">@ContextConfiguration</span>(<span class="string">"classpath:applicationContext.xml"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringDemo3</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span>(name = <span class="string">"productDao"</span>)  <span class="comment">// 属性注入</span></span><br><span class="line">    <span class="keyword">private</span> ProductDao productDao;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        productDao.save();</span><br><span class="line">        productDao.update();</span><br><span class="line">        productDao.find();</span><br><span class="line">        productDao.delete();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当然，在<code>applicationContext.xml</code>中需要事先指明被增强的对象：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置目标对象：被增强的对象 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"productDao"</span> <span class="attr">class</span>=<span class="string">"hdu.dqj.spring.demo3.ProductDaoImpl"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="Spring中通知的类型"><a href="#Spring中通知的类型" class="headerlink" title="Spring中通知的类型"></a>Spring中通知的类型</h4><ul>
+<li><p>前置通知：在目标方法执行之前进行操作<br>可以获得切入点的信息。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置切面(通知和切入点的组合) --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:aspect</span> <span class="attr">ref</span>=<span class="string">"myAspect"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 前置通知======= --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:before</span> <span class="attr">method</span>=<span class="string">"checkPri"</span> <span class="attr">pointcut-ref</span>=<span class="string">"pointcut1"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:aspect</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后置通知：在目标方法执行之后进行操作<br>获得方法的返回值。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 后置通知======= --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- returning的值和writeLog传的参数值相同 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:after-returning</span> <span class="attr">method</span>=<span class="string">"writeLog"</span> <span class="attr">pointcut-ref</span>=<span class="string">"pointcut2"</span> <span class="attr">returning</span>=<span class="string">"result"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>环绕通知：在目标方法执行前后进行的操作</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 环绕通知======== --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:around</span> <span class="attr">method</span>=<span class="string">"around"</span> <span class="attr">pointcut-ref</span>=<span class="string">"pointcut3"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>异常抛出通知：在程序出现异常的时候，进行的操作</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 异常抛出通知====== --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:after-throwing</span> <span class="attr">method</span>=<span class="string">"afterThrowing"</span> <span class="attr">pointcut-ref</span>=<span class="string">"pointcut4"</span> <span class="attr">throwing</span>=<span class="string">"ex"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最终通知：无论代码是否有异常，总是会执行。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 最终通知 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:after</span> <span class="attr">method</span>=<span class="string">"after"</span> <span class="attr">pointcut-ref</span>=<span class="string">"pointcut4"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>修改后的切面类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> hdu.dqj.spring.demo3;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.JoinPoint;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 切面类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAspectXML</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 前置通知</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> joinPoint</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">checkPri</span><span class="params">(JoinPoint joinPoint)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"权限校验==========="</span> + joinPoint);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 后置通知</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeLog</span><span class="params">(Object result)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"日志记录==========="</span> + result);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 性能监控</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> joinPoint</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@throws</span> Throwable</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"环绕前通知============"</span>);</span><br><span class="line">        <span class="comment">// 这句话相当于执行目标程序。对照配置文件，可以发现就相当于执行了update()方法</span></span><br><span class="line">        Object obj = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">"环绕后通知============"</span>);</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 异常抛出通知</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterThrowing</span><span class="params">(Throwable ex)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"异常抛出通知========="</span> + ex.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 最终通知：相当于finally代码块中的内容</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"最终通知========="</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Spring的切入点表达式写法"><a href="#Spring的切入点表达式写法" class="headerlink" title="Spring的切入点表达式写法"></a>Spring的切入点表达式写法</h4><p>基于<code>execution</code>函数完成。语法：[访问修饰符] 方法返回值 包名.类名.方法名(参数)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">execution(public void hdu.dqj.spring.CustomerDao.save(..))       // ..  表示任意参数</span><br><span class="line">execution(* *.*.*.*Dao.save(..))	// *是通配符</span><br><span class="line">execution(* hdu.dqj.spring.CustomerDao+.save(..))	//CustomerDao+表示这个类和其子类</span><br><span class="line">execution(* hdu.dqj.spring..*.*(..))	// spring包的子包下的所有类的所有方法</span><br></pre></td></tr></table></figure>
+<h3 id="基于-AspectJ-注解开发的-AOP-开发方式"><a href="#基于-AspectJ-注解开发的-AOP-开发方式" class="headerlink" title="基于 AspectJ 注解开发的 AOP 开发方式"></a>基于 AspectJ 注解开发的 AOP 开发方式</h3><ol>
+<li><p>编写并配置目标类（被增强类）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 配置目标类 --&gt;</span><br><span class="line">&lt;bean id=<span class="string">"targetOrderDao"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"hdu.dqj.spring.demo1.OrderDao"</span> /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写并配置切面类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAspectAnno</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"前置增强============"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">  <span class="comment">&lt;!-- 配置切面类 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"myAspect"</span> <span class="attr">class</span>=<span class="string">"hdu.dqj.spring.demo1.MyAspectAnno"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol start="3">
+<li><p>使用注解的 AOP 对目标类进行增强<br>首先在配置文件中打开注解的 AOP 开发</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 在配置文件中开启注解的AOP开发 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:aspectj-autoproxy</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>接着在切面类上使用注解</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAspectAnno</span> </span>&#123;</span><br><span class="line">	<span class="meta">@Before</span>(value = <span class="string">"execution(* hdu.dqj.spring.demo1.OrderDao.save(..))"</span>)</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"前置增强============"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写测试类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Spring的AOP的注解开发</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="comment">// 下面两个注解是整合Spring和Junit测试</span></span><br><span class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</span><br><span class="line"><span class="meta">@ContextConfiguration</span>(<span class="string">"classpath:applicationContext.xml"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringDemo1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span>(name = <span class="string">"targetOrderDao"</span>)</span><br><span class="line">    <span class="keyword">private</span> OrderDao orderDao;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        orderDao.save();</span><br><span class="line">        orderDao.update();</span><br><span class="line">        orderDao.find();</span><br><span class="line">        orderDao.delete();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>至此，<code>save()</code>方法就被增强了。下面的代码展示了注解 AOP 的<strong>通知类型</strong>和<strong>切入点配置</strong>的写法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> hdu.dqj.spring.demo1;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.ProceedingJoinPoint;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.*;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 切面类：注解的切面类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAspectAnno</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before</span>(value = <span class="string">"execution(* hdu.dqj.spring.demo1.OrderDao.save(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"前置增强============"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 后置通知</span></span><br><span class="line">    <span class="meta">@AfterReturning</span>(value = <span class="string">"MyAspectAnno.pointcutDelete()"</span>, returning = <span class="string">"result"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterReturning</span><span class="params">(Object result)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"后置增强==========="</span> + result);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 环绕通知</span></span><br><span class="line">    <span class="meta">@Around</span>(value = <span class="string">"MyAspectAnno.pointcutUpdate()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">around</span><span class="params">(ProceedingJoinPoint joinPoint)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"环绕前增强========="</span>);</span><br><span class="line">        Object obj = joinPoint.proceed();</span><br><span class="line">        System.out.println(<span class="string">"环绕后增强========="</span>);</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 异常抛出通知</span></span><br><span class="line">    <span class="meta">@AfterThrowing</span>(value = <span class="string">"MyAspectAnno.pointcutFind()"</span>, throwing = <span class="string">"e"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">afterThrowing</span><span class="params">(Throwable e)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"异常抛出增强=========="</span> + e.getMessage());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 最终通知</span></span><br><span class="line">    <span class="meta">@After</span>(value = <span class="string">"MyAspectAnno.pointcutFind()"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"最终增强========="</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 切入点注解</span></span><br><span class="line">    <span class="meta">@Pointcut</span>(value = <span class="string">"execution(* hdu.dqj.spring.demo1.OrderDao.find(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">pointcutFind</span><span class="params">()</span></span>&#123;&#125;  <span class="comment">// 这个方法没有实际意义，只是给上面的表达式取名为pointcutFind</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pointcut</span>(value = <span class="string">"execution(* hdu.dqj.spring.demo1.OrderDao.save(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">pointcutSave</span><span class="params">()</span></span>&#123;&#125;  <span class="comment">// 这个方法没有实际意义，只是给上面的表达式取名为pointcutSave</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pointcut</span>(value = <span class="string">"execution(* hdu.dqj.spring.demo1.OrderDao.update(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">pointcutUpdate</span><span class="params">()</span></span>&#123;&#125;  <span class="comment">// 这个方法没有实际意义，只是给上面的表达式取名为pointcutUpdate</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">@Pointcut</span>(value = <span class="string">"execution(* hdu.dqj.spring.demo1.OrderDao.delete(..))"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">pointcutDelete</span><span class="params">()</span></span>&#123;&#125;  <span class="comment">// 这个方法没有实际意义，只是给上面的表达式取名为pointcutDelete</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Spring的JDBC模板的使用"><a href="#Spring的JDBC模板的使用" class="headerlink" title="Spring的JDBC模板的使用"></a>Spring的JDBC模板的使用</h2><h4 id="使用JDBC的模板"><a href="#使用JDBC的模板" class="headerlink" title="使用JDBC的模板"></a>使用JDBC的模板</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> hdu.dqj.spring.demo2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"><span class="keyword">import</span> org.springframework.jdbc.core.JdbcTemplate;</span><br><span class="line"><span class="keyword">import</span> org.springframework.jdbc.datasource.DriverManagerDataSource;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * JDBC模板的使用</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdbcDemo1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="comment">// jdbc模板的使用类似于Dbutils</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 创建连接池(DriverManagerDataSource是Spring内置的连接池)</span></span><br><span class="line">        DriverManagerDataSource dataSource = <span class="keyword">new</span> DriverManagerDataSource();</span><br><span class="line">        dataSource.setDriverClassName(<span class="string">"com.mysql.jdbc.Driver"</span>);</span><br><span class="line">        dataSource.setUrl(<span class="string">"jdbc:mysql:///spring5_day03"</span>);</span><br><span class="line">        dataSource.setUsername(<span class="string">"root"</span>);</span><br><span class="line">        dataSource.setPassword(<span class="string">"root"</span>);</span><br><span class="line">        <span class="comment">// 创建jdbc模板</span></span><br><span class="line">        JdbcTemplate jdbcTemplate = <span class="keyword">new</span> JdbcTemplate(dataSource);</span><br><span class="line">        jdbcTemplate.update(<span class="string">"insert into account values (null,?,?)"</span>, <span class="string">"小明"</span>, <span class="number">20000</span>d);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="将连接池和模板交给Spring管理"><a href="#将连接池和模板交给Spring管理" class="headerlink" title="将连接池和模板交给Spring管理"></a>将连接池和模板交给Spring管理</h4><p>在<code>applicationContext.xml</code>中进行配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置Spring内置的连接池 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DriverManagerDataSource"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 属性注入 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClassName"</span> <span class="attr">value</span>=<span class="string">"com.mysql.jdbc.Driver"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"url"</span> <span class="attr">value</span>=<span class="string">"jdbc:mysql:///spring5_day03"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">value</span>=<span class="string">"root"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"root"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置Spring的JDBC模板 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jdbcTemplate"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.core.JdbcTemplate"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用模板：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</span><br><span class="line"><span class="meta">@ContextConfiguration</span>(<span class="string">"classpath:applicationContext.xml"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JdbcDemo2</span> </span>&#123;</span><br><span class="line">    <span class="comment">//属性注入</span></span><br><span class="line">    <span class="meta">@Resource</span>(name = <span class="string">"jdbcTemplate"</span>)</span><br><span class="line">    <span class="keyword">private</span> JdbcTemplate jdbcTemplate;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="comment">// 保存操作</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        jdbcTemplate.update(<span class="string">"insert into account values (null,?,?)"</span>, <span class="string">"何菊花"</span>, <span class="number">10000</span>d);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="comment">// 修改操作</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        jdbcTemplate.update(<span class="string">"update account set name = ?, money = ? where id = ?"</span>, <span class="string">"何巨涛"</span>, <span class="number">20000</span>d, <span class="number">6</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="comment">// 删除操作</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo3</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        jdbcTemplate.update(<span class="string">"delete from account where id = ?"</span>, <span class="number">6</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="comment">// 查询操作</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo4</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 返回的是一个字符串，所以第二个参数写String.class</span></span><br><span class="line">        String name = jdbcTemplate.queryForObject(<span class="string">"select name from account where id = ?"</span>, String.class, <span class="number">5</span>);</span><br><span class="line">        System.out.println(name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用开源的数据库连接池"><a href="#使用开源的数据库连接池" class="headerlink" title="使用开源的数据库连接池"></a>使用开源的数据库连接池</h4><p>首先可以把连接信息抽取到一个文件<code>jdbc.properties</code>中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jdbc.driverClass=com.mysql.jdbc.Driver</span><br><span class="line">jdbc.url=jdbc:mysql:///spring5_day03</span><br><span class="line">jdbc.username=root</span><br><span class="line">jdbc.password=root</span><br></pre></td></tr></table></figure>
+<p>接着在<code>applicationContext.xml</code>中引入该文件：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 引入属性文件jdbc.properties --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 第一种方式：通过一个bean标签引入（很少使用） --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">class</span>=<span class="string">"org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"location"</span> <span class="attr">value</span>=<span class="string">"classpath:jdbc.properties"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 第二种方式：通过context标签引入 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">"classpath:jdbc.properties"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>引入C3P0连接池jar包，配置C3P0连接池：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置C3P0连接池 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"com.mchange.v2.c3p0.ComboPooledDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClass"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.driverClass&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jdbcUrl"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.url&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.username&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.password&#125;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置Spring的JDBC模板 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"jdbcTemplate"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.core.JdbcTemplate"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="Spring-的事务管理"><a href="#Spring-的事务管理" class="headerlink" title="Spring 的事务管理"></a>Spring 的事务管理</h2><h3 id="事务回顾"><a href="#事务回顾" class="headerlink" title="事务回顾"></a>事务回顾</h3><ul>
+<li>什么是事务？<br>事务：逻辑上的一组操作，组成这组操作的各个单元，要么全都成功，要么全都失败。</li>
+<li>事务的特性<ol>
+<li>原子性：事务不可分割。</li>
+<li>一致性：事务执行前后数据完整性保持一致。</li>
+<li>隔离性：一个事务的执行不应该受到其他事务的干扰。</li>
+<li>持久性：一旦事务结束，数据就持久化到数据库。</li>
+</ol>
+</li>
+<li>如果不考虑隔离性将引发的安全问题<ul>
+<li>读问题<ol>
+<li>脏读：一个事务读到另一个事务未提交的数据。</li>
+<li>不可重复读：一个事务读到另一个事务已经提交的update的数据，导致一个事务中多次查询结果不一致。</li>
+<li>虚读、幻读：一个事务读到另一个事务已经提交的insert的数据，导致一个事务中多次查询结果不一致。</li>
+</ol>
+</li>
+<li>写问题<ul>
+<li>丢失更新：事务T1读取了数据，并执行了一些操作，然后更新数据。事务T2也做相同的事，则T1和T2更新数据时可能会覆盖对方的更新，从而引起错误。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>解决读问题<ul>
+<li>设置事务的隔离级别<ol>
+<li>Read uncommitted  ：未提交读，任何读问题解决不了。</li>
+<li><strong>Read committed</strong>      ：已提交读，解决脏读，但是不可重复读和虚读有可能发生。</li>
+<li><strong>Repeatable read</strong>      ：重复读，解决脏读和不可重复读，但是虚读有可能发生。</li>
+<li>Serializable                ：解决所有读问题。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Spring事务管理的API"><a href="#Spring事务管理的API" class="headerlink" title="Spring事务管理的API"></a>Spring事务管理的API</h3><ul>
+<li><strong>PlatformTransactionManager</strong>：平台事务管理器<br>是Spring管理事务的真正的对象。</li>
+<li><strong>TransactionDefinition</strong>：事务定义信息<br>用于定义事务的相关信息，隔离级别、超时信息、<strong>传播行为</strong>、是否只读。</li>
+<li><strong>TransactionStatus</strong>：事务的状态<br>用于记录在事务管理过程中，事务的状态的对象。</li>
+</ul>
+<p><img src="https://ws1.sinaimg.cn/large/005Mjp9lgy1g3zuflifaaj30q90bhabq.jpg" alt></p>
+<p>Spring进行事务管理的时候，首先<strong>平台事务管理器</strong>根据<strong>事务定义信息</strong>进行事务的管理，在事务管理过程中，产生各种状态，将这些状态的信息记录到<strong>事务状态</strong>的对象中。</p>
+<h3 id="Spring事务的传播行为"><a href="#Spring事务的传播行为" class="headerlink" title="Spring事务的传播行为"></a>Spring事务的传播行为</h3><p>Spring提供了七种事务的传播行为：</p>
+<ul>
+<li>保证多个操作在同一个事务中<ul>
+<li><strong>PROPAGATION_REQUIRED</strong>：默认值，如果A中有事务，使用A中的事务；如果A没有，创建一个新的事务，将操作包含进来。</li>
+<li>PROPAGATION_SUPPORTS：支持事务，如果A中有事务，使用A中的事务；如果A没有事务，不使用事务。</li>
+<li>PROPAGATION_MANDATORY：如果A中有事务，使用A中的事务；如果A没有事务，抛出异常。</li>
+</ul>
+</li>
+<li>保证多个操作不在同一个事务中<ul>
+<li><strong>PROPAGATION_REQUIRES_NEW</strong>：如果A中有事务，将A的事务挂起（暂停），创建新事务，只包含自身操作；如果A中没有事务，创建一个新事务，包含自身操作。</li>
+<li>PROPAGATION_NOT_SUPPORTED：如果A中有事务，将A的事务挂起。不使用事务管理。</li>
+<li>PROPAGATION_NEVER：如果A中有事务，报异常。</li>
+</ul>
+</li>
+<li>嵌套式事务<ul>
+<li><strong>PROPAGATION_NESTED</strong>：嵌套事务，如果A中有事务，按照A的事务执行，执行完成后，设置一个保存点，执行B中的操作，如果没有异常，执行通过，如果有异常，可以选择回滚到最初始位置，也可以回滚到保存点。</li>
+</ul>
+</li>
+</ul>
+<h3 id="事务管理环境搭建"><a href="#事务管理环境搭建" class="headerlink" title="事务管理环境搭建"></a>事务管理环境搭建</h3><ol>
+<li><p>创建DAO接口和实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转账的DAO接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AccountDao</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">outMoney</span><span class="params">(String from, Double money)</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">inMoney</span><span class="params">(String to, Double money)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountDaoImpl</span> <span class="keyword">extends</span> <span class="title">JdbcDaoSupport</span> <span class="keyword">implements</span> <span class="title">AccountDao</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">outMoney</span><span class="params">(String from, Double money)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">this</span>.getJdbcTemplate().update(<span class="string">"update account set money = money - ? where name = ?"</span>, money, from);</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="meta">@Override</span></span><br><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">inMoney</span><span class="params">(String to, Double money)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">this</span>.getJdbcTemplate().update(<span class="string">"update account set money = money + ? where name = ?"</span>, money, to);</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>创建Service接口和实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转账的业务层的接口</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AccountService</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">transfer</span><span class="params">(String from, String to, Double money)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountServiceImpl</span> <span class="keyword">implements</span> <span class="title">AccountService</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 注入DAO</span></span><br><span class="line">    <span class="keyword">private</span> AccountDao accountDao;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAccountDao</span><span class="params">(AccountDao accountDao)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.accountDao = accountDao;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * from:转出的账号</span></span><br><span class="line"><span class="comment">     * to:转入的账号</span></span><br><span class="line"><span class="comment">     * money:转账的金额</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(String from, String to, Double money)</span> </span>&#123;</span><br><span class="line">        accountDao.outMoney(from, money);</span><br><span class="line">        accountDao.inMoney(to, money);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置数据库连接池和JDBC模板</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置连接池和JDBC模板 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">context:property-placeholder</span> <span class="attr">location</span>=<span class="string">"classpath:jdbc.properties"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置C3P0连接池 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"dataSource"</span> <span class="attr">class</span>=<span class="string">"com.mchange.v2.c3p0.ComboPooledDataSource"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"driverClass"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.driverClass&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"jdbcUrl"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.url&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"user"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.username&#125;"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"password"</span> <span class="attr">value</span>=<span class="string">"$&#123;jdbc.password&#125;"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置Service和DAO：交给Spring管理</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置Service --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"accountService"</span> <span class="attr">class</span>=<span class="string">"hdu.dqj.spring.tx.AccountServiceImpl"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 注入accountDao --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"accountDao"</span> <span class="attr">ref</span>=<span class="string">"accountDao"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 配置DAO --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"accountDao"</span> <span class="attr">class</span>=<span class="string">"hdu.dqj.spring.tx.AccountDaoImpl"</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 在DAO中注入JDBC模板 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="第一类：编程式事务管理（不常用）"><a href="#第一类：编程式事务管理（不常用）" class="headerlink" title="第一类：编程式事务管理（不常用）"></a>第一类：编程式事务管理（不常用）</h3><ol>
+<li><p>配置平台事务管理器</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置平台事务管理器。管理器需要事务，事务从Connection获得，连接从连接池DataSource获得 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionManager"</span> <span class="attr">class</span>=<span class="string">"org.springframework.jdbc.datasource.DataSourceTransactionManager"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"dataSource"</span> <span class="attr">ref</span>=<span class="string">"dataSource"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置事务管理模板</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置事务管理的模板 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"transactionTemplate"</span> <span class="attr">class</span>=<span class="string">"org.springframework.transaction.support.TransactionTemplate"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"transactionManager"</span> <span class="attr">ref</span>=<span class="string">"transactionManager"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在业务层注入事务管理模板</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置Service --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"accountService"</span> <span class="attr">class</span>=<span class="string">"hdu.dqj.spring.tx.AccountServiceImpl"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"accountDao"</span> <span class="attr">ref</span>=<span class="string">"accountDao"</span> /&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 注入事务管理的模板 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"transactionTemplate"</span> <span class="attr">ref</span>=<span class="string">"transactionTemplate"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>编写事务管理的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(String from, String to, Double money)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    transactionTemplate.execute(<span class="keyword">new</span> TransactionCallbackWithoutResult() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doInTransactionWithoutResult</span><span class="params">(TransactionStatus transactionStatus)</span> </span>&#123;</span><br><span class="line">            accountDao.outMoney(from, money);</span><br><span class="line">            <span class="keyword">int</span> d = <span class="number">1</span>/<span class="number">0</span>;</span><br><span class="line">            accountDao.inMoney(to, money);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 测试转账的环境</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@RunWith</span>(SpringJUnit4ClassRunner.class)</span><br><span class="line"><span class="meta">@ContextConfiguration</span>(<span class="string">"classpath:tx.xml"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringDemo1</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Resource</span>(name = <span class="string">"accountService"</span>)</span><br><span class="line">    <span class="keyword">private</span> AccountService accountService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        accountService.transfer(<span class="string">"赵冠希"</span>, <span class="string">"王宝强"</span>, <span class="number">1000</span>d);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="第二类：声明式事务管理（AOP方式）"><a href="#第二类：声明式事务管理（AOP方式）" class="headerlink" title="第二类：声明式事务管理（AOP方式）"></a>第二类：声明式事务管理（AOP方式）</h3><h4 id="XML方式"><a href="#XML方式" class="headerlink" title="XML方式"></a>XML方式</h4><p>同样需要配置事务管理器。</p>
+<p>接着配置事务的增强和AOP的配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 配置事务的增强 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:advice</span> <span class="attr">id</span>=<span class="string">"txAdvice"</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- 事务管理的规则 --&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--propagation 传播行为, REQUIRED：必须；REQUIRES_NEW:必须是新的--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--&lt;tx:method name="save*" propagation="REQUIRED" isolation="DEFAULT" /&gt;--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--&lt;tx:method name="update*" propagation="REQUIRED" /&gt;--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--&lt;tx:method name="delete*" propagation="REQUIRED" /&gt;--&gt;</span></span><br><span class="line">        <span class="comment">&lt;!--&lt;tx:method name="find*" read-only="true" /&gt;--&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tx:method</span> <span class="attr">name</span>=<span class="string">"*"</span> <span class="attr">propagation</span>=<span class="string">"REQUIRED"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">tx:attributes</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tx:advice</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- aop的配置。利用切入点表达式从目标类方法中确定增强的连接器，从而获得切入点 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">aop:config</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:pointcut</span> <span class="attr">id</span>=<span class="string">"pointcut1"</span> <span class="attr">expression</span>=<span class="string">"execution(* hdu.dqj.spring.tx2.AccountServiceImpl.*(..))"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">aop:advisor</span> <span class="attr">advice-ref</span>=<span class="string">"txAdvice"</span> <span class="attr">pointcut-ref</span>=<span class="string">"pointcut1"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">aop:config</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="注解方式的声明式事务管理"><a href="#注解方式的声明式事务管理" class="headerlink" title="注解方式的声明式事务管理"></a>注解方式的声明式事务管理</h4><p>同样先配置平台事务管理器。</p>
+<p>接着开启注解事务：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 开启注解事务 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- transaction-manager 配置事务管理器；proxy-target-class="true"：底层强制使用cglib 代理 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">tx:annotation-driven</span> <span class="attr">transaction-manager</span>=<span class="string">"transactionManager"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>最后在业务层添加注释：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 转账的业务层实现类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Transactional</span>(isolation = Isolation.DEFAULT, propagation = Propagation.REQUIRED)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AccountServiceImpl</span> <span class="keyword">implements</span> <span class="title">AccountService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 注入DAO</span></span><br><span class="line">    <span class="keyword">private</span> AccountDao accountDao;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAccountDao</span><span class="params">(AccountDao accountDao)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.accountDao = accountDao;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * from:转出的账号</span></span><br><span class="line"><span class="comment">     * to:转入的账号</span></span><br><span class="line"><span class="comment">     * money:转账的金额</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transfer</span><span class="params">(String from, String to, Double money)</span> </span>&#123;</span><br><span class="line">        accountDao.outMoney(from, money);</span><br><span class="line">        <span class="keyword">int</span> d = <span class="number">1</span> / <span class="number">0</span>;</span><br><span class="line">        accountDao.inMoney(to, money);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring/" rel="tag"># Spring</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/06/Spring学习记录(1)/" rel="next" title="Spring学习记录(1)">
+                <i class="fa fa-chevron-left"></i> Spring学习记录(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="Mr.Dai">
+          <p class="site-author-name" itemprop="name">Mr.Dai</p>
+           
+              <p class="site-description motion-element" itemprop="description">每个最好最坏时代，都是你的华丽舞台。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#AOP开发"><span class="nav-number">1.</span> <span class="nav-text">AOP开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#XML方式的AOP开发"><span class="nav-number">1.1.</span> <span class="nav-text">XML方式的AOP开发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AOP底层实现原理"><span class="nav-number">1.1.1.</span> <span class="nav-text">AOP底层实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AOP-开发中相关术语"><span class="nav-number">1.1.2.</span> <span class="nav-text">AOP 开发中相关术语</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#AOP-的入门开发（AspectJ-的-XML-方式）"><span class="nav-number">1.1.3.</span> <span class="nav-text">AOP 的入门开发（AspectJ 的 XML 方式）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring中通知的类型"><span class="nav-number">1.1.4.</span> <span class="nav-text">Spring中通知的类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Spring的切入点表达式写法"><span class="nav-number">1.1.5.</span> <span class="nav-text">Spring的切入点表达式写法</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于-AspectJ-注解开发的-AOP-开发方式"><span class="nav-number">1.2.</span> <span class="nav-text">基于 AspectJ 注解开发的 AOP 开发方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring的JDBC模板的使用"><span class="nav-number">2.</span> <span class="nav-text">Spring的JDBC模板的使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用JDBC的模板"><span class="nav-number">2.0.1.</span> <span class="nav-text">使用JDBC的模板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将连接池和模板交给Spring管理"><span class="nav-number">2.0.2.</span> <span class="nav-text">将连接池和模板交给Spring管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用开源的数据库连接池"><span class="nav-number">2.0.3.</span> <span class="nav-text">使用开源的数据库连接池</span></a></li></ol></li></ol><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-的事务管理"><span class="nav-number">3.</span> <span class="nav-text">Spring 的事务管理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#事务回顾"><span class="nav-number">3.1.</span> <span class="nav-text">事务回顾</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring事务管理的API"><span class="nav-number">3.2.</span> <span class="nav-text">Spring事务管理的API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Spring事务的传播行为"><span class="nav-number">3.3.</span> <span class="nav-text">Spring事务的传播行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事务管理环境搭建"><span class="nav-number">3.4.</span> <span class="nav-text">事务管理环境搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一类：编程式事务管理（不常用）"><span class="nav-number">3.5.</span> <span class="nav-text">第一类：编程式事务管理（不常用）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二类：声明式事务管理（AOP方式）"><span class="nav-number">3.6.</span> <span class="nav-text">第二类：声明式事务管理（AOP方式）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#XML方式"><span class="nav-number">3.6.1.</span> <span class="nav-text">XML方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注解方式的声明式事务管理"><span class="nav-number">3.6.2.</span> <span class="nav-text">注解方式的声明式事务管理</span></a></li></ol></li></ol></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Mr.Dai</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
