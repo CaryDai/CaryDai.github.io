@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="Dai戴的博客">
 <meta property="og:description" content="JSP简介JSP全名为Java Server Pages，中文名叫java服务器页面。它是一种动态页面技术，主要目的是将表示逻辑从 Servlet 中分离出来。 在 idea 中新建一个.jsp页面时，在注释信息的下面有一行标签： 1&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&amp;gt; 这行指令标签定义了页面">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-05T14:24:55.636Z">
+<meta property="og:updated_time" content="2019-06-18T08:42:52.968Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jsp知识记录">
 <meta name="twitter:description" content="JSP简介JSP全名为Java Server Pages，中文名叫java服务器页面。它是一种动态页面技术，主要目的是将表示逻辑从 Servlet 中分离出来。 在 idea 中新建一个.jsp页面时，在注释信息的下面有一行标签： 1&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&amp;gt; 这行指令标签定义了页面">
@@ -370,6 +370,10 @@
 <figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- uri属性确定标签库的位置，prefix属性指定标签库的前缀 --&gt;</span><br><span class="line">&lt;%@ taglib uri=<span class="string">"uri"</span> prefix=<span class="string">"prefixOfTag"</span> %&gt;</span><br><span class="line">如：</span><br><span class="line">&lt;!-- 引用核心标签库 --&gt;</span><br><span class="line">&lt;%@ taglib uri=<span class="string">"http://java.sun.com/jsp/jstl/core"</span> prefix=<span class="string">"c"</span> %&gt;</span><br><span class="line">&lt;!-- 引用格式化库。JSTL格式化标签用来格式化并输出文本、日期、时间、数字。 --&gt;</span><br><span class="line">&lt;%@ taglib uri=<span class="string">"http://java.sun.com/jsp/jstl/fmt"</span>  prefix=<span class="string">"fmt"</span>%&gt;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<h2 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h2><p>EL表达式允许我们指定一个表达式来表示属性值：<code>${expr}</code>。在JSP EL中通用的操作符是<code>.</code>和 <code>{}</code> 。这两个操作符允许您通过内嵌的JSP对象访问各种各样的JavaBean属性。</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--想要停用对EL表达式的评估的话，需要使用page指令将isELIgnored属性值设为<span class="keyword">true</span>.这样，EL表达式就会被忽略。若设为<span class="keyword">false</span>，则容器将会计算EL表达式。--%&gt;</span><br><span class="line">&lt;%@ page isELIgnored=<span class="string">"false"</span> %&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="JSP-EL隐含对象"><a href="#JSP-EL隐含对象" class="headerlink" title="JSP EL隐含对象"></a>JSP EL隐含对象</h3><h4 id="pageContext对象"><a href="#pageContext对象" class="headerlink" title="pageContext对象"></a>pageContext对象</h4><p>pageContext对象是JSP中pageContext对象的引用。通过pageContext对象，可以访问request对象。</p>
+<figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">"$&#123;pageContext.request.contextPath &#125;/queryItem.action"</span> method=<span class="string">"post"</span>&gt;</span><br></pre></td></tr></table></figure>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li>JSP百度百科(<a href="https://baike.baidu.com/item/JSP/141543?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/JSP/141543?fr=aladdin</a>)</li>
 <li>JSP菜鸟教程(<a href="https://www.runoob.com/jsp/jsp-directives.html" target="_blank" rel="noopener">https://www.runoob.com/jsp/jsp-directives.html</a>)</li>
@@ -426,8 +430,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/06/05/SpringMVC学习记录/" rel="prev" title="SpringMVC学习记录">
-                SpringMVC学习记录 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/06/05/SpringMVC学习记录(1)/" rel="prev" title="SpringMVC学习记录(1)">
+                SpringMVC学习记录(1) <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -498,7 +502,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-count">10</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -555,7 +559,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP简介"><span class="nav-number">1.</span> <span class="nav-text">JSP简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSTL"><span class="nav-number">2.</span> <span class="nav-text">JSTL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP指令"><span class="nav-number">3.</span> <span class="nav-text">JSP指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">4.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP简介"><span class="nav-number">1.</span> <span class="nav-text">JSP简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSTL"><span class="nav-number">2.</span> <span class="nav-text">JSTL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP指令"><span class="nav-number">3.</span> <span class="nav-text">JSP指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EL表达式"><span class="nav-number">4.</span> <span class="nav-text">EL表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP-EL隐含对象"><span class="nav-number">4.1.</span> <span class="nav-text">JSP EL隐含对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pageContext对象"><span class="nav-number">4.1.1.</span> <span class="nav-text">pageContext对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
