@@ -95,10 +95,12 @@
 <meta property="og:site_name" content="Dai戴的博客">
 <meta property="og:description" content="Spring：SE/EE 开发的一站式框架。  WEB层：SpringMVC Service层：Spring的Bean管理，Spring声明式事务。 DAO层：Spring的JDBC模板，Spring的ORM模块。  IOCIOC：Inversion of Control(控制反转)，将对象的创建权交给Spring。 Q：为什么要这样做呢？ 首先来看一个例子，比如现在有一个用户管理的DAO接口和对">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-13T09:05:26.938Z">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/%E5%9B%BE%E4%B8%80%20SpringIOC%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0.bmp">
+<meta property="og:updated_time" content="2019-06-26T08:00:33.234Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Spring学习记录(1)">
 <meta name="twitter:description" content="Spring：SE/EE 开发的一站式框架。  WEB层：SpringMVC Service层：Spring的Bean管理，Spring声明式事务。 DAO层：Spring的JDBC模板，Spring的ORM模块。  IOCIOC：Inversion of Control(控制反转)，将对象的创建权交给Spring。 Q：为什么要这样做呢？ 首先来看一个例子，比如现在有一个用户管理的DAO接口和对">
+<meta name="twitter:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/%E5%9B%BE%E4%B8%80%20SpringIOC%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0.bmp">
 
 
 
@@ -369,6 +371,7 @@
 <p>在使用这个接口时，代码这样写：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.junit.Test;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringDemo1</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 传统方式的调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">demo1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        UserDaoImpl userDao = <span class="keyword">new</span> UserDaoImpl();</span><br><span class="line">        userDao.setName(<span class="string">"王东"</span>);</span><br><span class="line">        userDao.save();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可是如果底层的实现切换了，就需要修改源码，比如接口换了，那得写另一份使用代码。能不能在不修改源代码的情况下对程序进行扩展呢？这时就可以用IOC了。</p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/%E5%9B%BE%E4%B8%80%20SpringIOC%E7%9A%84%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0.bmp" alt></p>
 <p>通过<code>工厂模式+反射+配置文件</code>的方式，实现了程序解耦合。</p>
 <p>将实现类交给Spring管理，需要编写Spring配置文件<code>applicationContext.xml</code>：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 引入约束，spring用的是schema约束，不是dtd约束 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span></span><br><span class="line"><span class="tag">       <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://www.springframework.org/schema/beans</span></span></span><br><span class="line"><span class="tag"><span class="string">        http://www.springframework.org/schema/beans/spring-beans.xsd"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">&lt;!-- Spring的入门配置 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">"userDAO"</span> <span class="attr">class</span>=<span class="string">"hdu.dqj.spring.demo1.UserDaoImpl"</span>&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- Spring在创建上面这个类的实例过程中，发现这个类里面有一个属性(依赖)，就通过下面的配置把属性设置进来 --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">value</span>=<span class="string">"李东"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -651,7 +654,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -662,7 +665,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="Dai戴的博客">
 <meta property="og:description" content="JSP简介JSP全名为Java Server Pages，中文名叫java服务器页面。它是一种动态页面技术，主要目的是将表示逻辑从 Servlet 中分离出来。 在 idea 中新建一个.jsp页面时，在注释信息的下面有一行标签： 1&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&amp;gt; 这行指令标签定义了页面">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-06-18T08:42:52.968Z">
+<meta property="og:updated_time" content="2019-06-26T03:08:11.950Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jsp知识记录">
 <meta name="twitter:description" content="JSP简介JSP全名为Java Server Pages，中文名叫java服务器页面。它是一种动态页面技术，主要目的是将表示逻辑从 Servlet 中分离出来。 在 idea 中新建一个.jsp页面时，在注释信息的下面有一行标签： 1&amp;lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&amp;gt; 这行指令标签定义了页面">
@@ -372,11 +372,16 @@
 </ul>
 <h2 id="EL表达式"><a href="#EL表达式" class="headerlink" title="EL表达式"></a>EL表达式</h2><p>EL表达式允许我们指定一个表达式来表示属性值：<code>${expr}</code>。在JSP EL中通用的操作符是<code>.</code>和 <code>{}</code> 。这两个操作符允许您通过内嵌的JSP对象访问各种各样的JavaBean属性。</p>
 <figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;%--想要停用对EL表达式的评估的话，需要使用page指令将isELIgnored属性值设为<span class="keyword">true</span>.这样，EL表达式就会被忽略。若设为<span class="keyword">false</span>，则容器将会计算EL表达式。--%&gt;</span><br><span class="line">&lt;%@ page isELIgnored=<span class="string">"false"</span> %&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="JSP-EL隐含对象"><a href="#JSP-EL隐含对象" class="headerlink" title="JSP EL隐含对象"></a>JSP EL隐含对象</h3><h4 id="pageContext对象"><a href="#pageContext对象" class="headerlink" title="pageContext对象"></a>pageContext对象</h4><p>pageContext对象是JSP中pageContext对象的引用。通过pageContext对象，可以访问request对象。</p>
+<h3 id="JSP-EL隐含对象"><a href="#JSP-EL隐含对象" class="headerlink" title="JSP EL隐含对象"></a>JSP EL隐含对象</h3><h4 id="pageContext对象"><a href="#pageContext对象" class="headerlink" title="pageContext对象"></a>pageContext对象</h4><p>这个对象代表着页面上下文，也就是当前页面所在的环境。<code>pageContext</code>对象是<code>javax.servlet.jsp.PageContext</code>类实例，我们可以通过这个对象来访问page、request、session和application作用域下的变量。</p>
 <figure class="highlight jsp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=<span class="string">"$&#123;pageContext.request.contextPath &#125;/queryItem.action"</span> method=<span class="string">"post"</span>&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<p><code>${pageContext.request.contextPath}</code>是JSP取得<strong>绝对路径</strong>的方法，等价于<code>&lt;%=request.getContextPath()%&gt;</code>。也就是取出部署的应用程序名或者是当前的项目名称。比如我的项目名称是<code>springmvcmybatis</code>，在浏览器输入<code>http://localhost:8082/springmvcmybatis/queryItem.action</code>，<code>${pageContext.request.contextPath}</code>取出来的就是<code>/springmvcmybatis</code>，而<code>/</code>代表的就是<code>http://localhost:8082</code>。</p>
+<h2 id="JSP中的四大作用域"><a href="#JSP中的四大作用域" class="headerlink" title="JSP中的四大作用域"></a>JSP中的四大作用域</h2><p>这四个作用域的作用范围，由上到下是一个比一个大。</p>
+<h3 id="page作用域"><a href="#page作用域" class="headerlink" title="page作用域"></a>page作用域</h3><p>page直译就是页面的意思，page作用域表示只在当前页面有效。当程序运行跑出了当前的页面，你就无法在其它的页面访问当前页面设置的属性值。</p>
+<h3 id="request作用域"><a href="#request作用域" class="headerlink" title="request作用域"></a>request作用域</h3><h3 id="session作用域"><a href="#session作用域" class="headerlink" title="session作用域"></a>session作用域</h3><h3 id="application作用域"><a href="#application作用域" class="headerlink" title="application作用域"></a>application作用域</h3><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
 <li>JSP百度百科(<a href="https://baike.baidu.com/item/JSP/141543?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/JSP/141543?fr=aladdin</a>)</li>
 <li>JSP菜鸟教程(<a href="https://www.runoob.com/jsp/jsp-directives.html" target="_blank" rel="noopener">https://www.runoob.com/jsp/jsp-directives.html</a>)</li>
+<li>关于${pageContext.request.contextPath}的理解(<a href="https://www.cnblogs.com/hy1988/p/5811445.html" target="_blank" rel="noopener">https://www.cnblogs.com/hy1988/p/5811445.html</a>)</li>
+<li>JSP中的四大作用域(<a href="https://www.jellythink.com/archives/216" target="_blank" rel="noopener">https://www.jellythink.com/archives/216</a>)</li>
 </ol>
 
       
@@ -502,7 +507,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -513,7 +518,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -559,7 +564,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP简介"><span class="nav-number">1.</span> <span class="nav-text">JSP简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSTL"><span class="nav-number">2.</span> <span class="nav-text">JSTL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP指令"><span class="nav-number">3.</span> <span class="nav-text">JSP指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EL表达式"><span class="nav-number">4.</span> <span class="nav-text">EL表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP-EL隐含对象"><span class="nav-number">4.1.</span> <span class="nav-text">JSP EL隐含对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pageContext对象"><span class="nav-number">4.1.1.</span> <span class="nav-text">pageContext对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP简介"><span class="nav-number">1.</span> <span class="nav-text">JSP简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSTL"><span class="nav-number">2.</span> <span class="nav-text">JSTL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP指令"><span class="nav-number">3.</span> <span class="nav-text">JSP指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EL表达式"><span class="nav-number">4.</span> <span class="nav-text">EL表达式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JSP-EL隐含对象"><span class="nav-number">4.1.</span> <span class="nav-text">JSP EL隐含对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#pageContext对象"><span class="nav-number">4.1.1.</span> <span class="nav-text">pageContext对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSP中的四大作用域"><span class="nav-number">5.</span> <span class="nav-text">JSP中的四大作用域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#page作用域"><span class="nav-number">5.1.</span> <span class="nav-text">page作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#request作用域"><span class="nav-number">5.2.</span> <span class="nav-text">request作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#session作用域"><span class="nav-number">5.3.</span> <span class="nav-text">session作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#application作用域"><span class="nav-number">5.4.</span> <span class="nav-text">application作用域</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
             
 
           </div>
