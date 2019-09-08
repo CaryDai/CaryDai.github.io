@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="IDE常用技巧,idea,">
+  <meta name="keywords" content="Redis,">
 
 
 
@@ -87,21 +87,31 @@
 
 
 
-<meta name="description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
-<meta name="keywords" content="IDE常用技巧,idea">
+<meta name="description" content="主从简介配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。 目的：  读写分离提高Redis 性能； 避免单点故障，容灾快速恢复。  原理：每次从机联通后，都会给主机发送sync指令，主机立刻进行存盘操作，发送RDB 文件给从机。从机收到RDB文件">
+<meta name="keywords" content="Redis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="idea常用技巧">
-<meta property="og:url" content="http://yoursite.com/2019/05/26/idea常用技巧/index.html">
+<meta property="og:title" content="Redis主从复制">
+<meta property="og:url" content="http://yoursite.com/2019/09/02/redis主从复制/index.html">
 <meta property="og:site_name" content="Dai戴的博客">
-<meta property="og:description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
+<meta property="og:description" content="主从简介配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。 目的：  读写分离提高Redis 性能； 避免单点故障，容灾快速恢复。  原理：每次从机联通后，都会给主机发送sync指令，主机立刻进行存盘操作，发送RDB 文件给从机。从机收到RDB文件">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/%E8%A7%A3%E5%86%B3%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98.png">
-<meta property="og:updated_time" content="2019-07-23T06:10:42.170Z">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/46.%E4%B8%BB%E6%9C%BA%E4%B8%8E%E4%BB%8E%E6%9C%BA.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/47.%E4%B8%BB%E4%BB%8E%E6%9C%BA.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/48.79%E7%9A%84info.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/49.80%E7%9A%84info.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/50.%E4%B8%BB%E6%9C%BA%E5%AE%95%E6%9C%BA%E6%97%B6.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/51.%E4%B8%BB%E6%9C%BA%E6%B4%BB%E4%BA%86.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/52.%E4%BB%8E%E6%9C%BA%E6%AD%BB%E4%BA%86.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/53.%E8%96%AA%E7%81%AB%E7%9B%B8%E4%BC%A0.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F1.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F2.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F3.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F4.png">
+<meta property="og:updated_time" content="2019-09-08T05:57:13.334Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="idea常用技巧">
-<meta name="twitter:description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg">
+<meta name="twitter:title" content="Redis主从复制">
+<meta name="twitter:description" content="主从简介配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。 目的：  读写分离提高Redis 性能； 避免单点故障，容灾快速恢复。  原理：每次从机联通后，都会给主机发送sync指令，主机立刻进行存盘操作，发送RDB 文件给从机。从机收到RDB文件">
+<meta name="twitter:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/46.%E4%B8%BB%E6%9C%BA%E4%B8%8E%E4%BB%8E%E6%9C%BA.png">
 
 
 
@@ -129,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/05/26/idea常用技巧/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/02/redis主从复制/">
 
 
 
 
 
-  <title> idea常用技巧 | Dai戴的博客 </title>
+  <title> Redis主从复制 | Dai戴的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -264,7 +274,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/idea常用技巧/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/redis主从复制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Mr.Dai">
@@ -285,7 +295,7 @@
             
             
               
-                idea常用技巧
+                Redis主从复制
               
             
           </h1>
@@ -300,8 +310,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-26T17:30:58+08:00">
-                2019-05-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T21:39:12+08:00">
+                2019-09-02
               </time>
             
 
@@ -323,8 +333,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/IDE/" itemprop="url" rel="index">
-                    <span itemprop="name">IDE</span>
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
                   </a>
                 </span>
 
@@ -358,13 +368,42 @@
       
 
       
-        <h2 id="idea-中复制一个-Maven-工程"><a href="#idea-中复制一个-Maven-工程" class="headerlink" title="idea 中复制一个 Maven 工程"></a>idea 中复制一个 Maven 工程</h2><ol>
-<li>将原工程整个文件夹复制，重新命名，<strong>并删除掉里面的 .idea 文件夹</strong>；</li>
-<li>用 idea 打开刚才重命名的文件夹，在 Project Structure ——&gt; Project Settings ——&gt; Project 和 Modules 里重新选择 Project SDK。</li>
-<li>Artifacts 里面：<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg" alt><br>选择刚刚打开的项目，再点 Apply。</li>
-<li>配置 Tomcat<br>Run ——&gt; Edit Configurations，点左侧绿色的 + 号，选择本地 tomcat，并自己命名。<br>选择 Deployment，点 + 号，选择“Artifact”，再点 Apply，OK。启动项目即可打开网页。</li>
+        <h2 id="主从简介"><a href="#主从简介" class="headerlink" title="主从简介"></a>主从简介</h2><p>配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的<br>master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。</p>
+<p>目的：</p>
+<ul>
+<li>读写分离提高Redis 性能；</li>
+<li>避免单点故障，容灾快速恢复。</li>
+</ul>
+<p>原理：每次从机联通后，都会给主机发送<code>sync</code>指令，主机立刻进行存盘操作，发送<code>RDB</code> 文件给从机。从机收到<code>RDB</code>文件后，进行全盘加载。之后每次主机的写操作，都会立刻发送给从机，从机执行相同的命令。</p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/46.%E4%B8%BB%E6%9C%BA%E4%B8%8E%E4%BB%8E%E6%9C%BA.png" alt></p>
+<h3 id="一主二仆"><a href="#一主二仆" class="headerlink" title="一主二仆"></a>一主二仆</h3><ol>
+<li>首先拷贝多份配置文件并分别命名为<code>redis6379.conf</code>、<code>redis6380.conf</code>、<code>redis6381.conf</code>。修改各自的端口号为 6379、6380、6381。并修改相关日志文件和<code>dbfilename</code>。</li>
+<li>打开三个终端，使用命令<code>title 端口号</code>将三个终端的名字分别改为79/80/81。</li>
+<li>以<code>79</code>作为主机，<code>80</code>、<code>81</code>作为从机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/47.%E4%B8%BB%E4%BB%8E%E6%9C%BA.png" alt><br>可以看到从机可以把主机的所有值都备份过去。</li>
+<li>此时使用<code>info replication</code>命令查看：<br><code>79</code>的信息：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/48.79%E7%9A%84info.png" alt><br><code>80</code>的信息：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/49.80%E7%9A%84info.png" alt></li>
+<li>当主机关停后，两台从机的状态还是<code>slave</code>，并不会有一台变成主机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/50.%E4%B8%BB%E6%9C%BA%E5%AE%95%E6%9C%BA%E6%97%B6.png" alt></li>
+<li>当主机重新启动后，设置了一个新值，从机还是能正常取得新的值：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/51.%E4%B8%BB%E6%9C%BA%E6%B4%BB%E4%BA%86.png" alt></li>
+<li>当从机宕机后，如果重新开启，则它的角色又是一台主机（每次与master断开之后，都需要重新连接，除非你配置进<code>redis.conf</code>文件）：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/52.%E4%BB%8E%E6%9C%BA%E6%AD%BB%E4%BA%86.png" alt></li>
 </ol>
-<h2 id="解决Tomcat控制台乱码问题"><a href="#解决Tomcat控制台乱码问题" class="headerlink" title="解决Tomcat控制台乱码问题"></a>解决Tomcat控制台乱码问题</h2><p>在<code>Run/Edit Configurations...</code>里面输入下图红框中的内容：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/%E8%A7%A3%E5%86%B3%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98.png" alt></p>
+<h3 id="薪火相传"><a href="#薪火相传" class="headerlink" title="薪火相传"></a>薪火相传</h3><p>上一个 Slave 可以是下一个 Slave 的 Master，Slave 同样可以接收其它 salves 的连接和同步请求，那么该 slave 作为了链条中下一个的 master，可以有效减轻 master 的写压力。</p>
+<p>中途变更转向，会清楚之前的数据，重新建立拷贝最新的。</p>
+<p>把<code>81</code>变成<code>80</code>的从机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/53.%E8%96%AA%E7%81%AB%E7%9B%B8%E4%BC%A0.png" alt></p>
+<p>可以看到<code>80</code>的身份还是从机，但是它又连着1个从机。</p>
+<h3 id="反客为主"><a href="#反客为主" class="headerlink" title="反客为主"></a>反客为主</h3><p><code>SLAVEOF no one</code>：使当前数据库停止与其它数据库的同步，转成主数据库。在<code>80</code>中执行这个命令，它就会成为一个新的主机。</p>
+<h2 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h2><p>简单讲，哨兵模式就是“反客为主”的自动版。能够从后台监控主机是否故障，如果出故障了<strong>根据投票数自动将从库转换为主库</strong>。</p>
+<ol>
+<li><p>首先在<code>/home/dqj/myredis</code>下编写哨兵的配置文件<code>sentinel.conf</code>，内容为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor host6379 127.0.0.1 6379 1</span><br></pre></td></tr></table></figure>
+<p>哨兵监控6379这台主机。最后这个1表示主机宕机后，投票数大于1的从机将会成为主机。</p>
+</li>
+<li><p>cd到<code>/usr/local/bin</code>目录下，执行<code>redis-sentinel /home/dqj/myredis/sentinel.conf</code>命令启动哨兵：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F1.png" alt></p>
+</li>
+<li><p>此时关停79主机，过一会儿可以看到哨兵进行了新的主机选择。这里选了81作为新的主机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F2.png" alt></p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F3.png" alt></p>
+</li>
+<li><p>这个时候再重新启动79这台机子，发现哨兵会将它分配到80主机下，作为80的从机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F4.png" alt></p>
+</li>
+</ol>
 
       
     </div>
@@ -394,9 +433,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/IDE常用技巧/" rel="tag"># IDE常用技巧</a>
-          
-            <a href="/tags/idea/" rel="tag"># idea</a>
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
           
         </div>
       
@@ -409,8 +446,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/25/MyBatis学习记录/" rel="next" title="MyBatis学习记录">
-                <i class="fa fa-chevron-left"></i> MyBatis学习记录
+              <a href="/2019/08/28/redis事务/" rel="next" title="Redis事务">
+                <i class="fa fa-chevron-left"></i> Redis事务
               </a>
             
           </div>
@@ -418,10 +455,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/05/jsp知识记录/" rel="prev" title="jsp知识记录">
-                jsp知识记录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -548,7 +581,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-中复制一个-Maven-工程"><span class="nav-number">1.</span> <span class="nav-text">idea 中复制一个 Maven 工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决Tomcat控制台乱码问题"><span class="nav-number">2.</span> <span class="nav-text">解决Tomcat控制台乱码问题</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主从简介"><span class="nav-number">1.</span> <span class="nav-text">主从简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一主二仆"><span class="nav-number">1.1.</span> <span class="nav-text">一主二仆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#薪火相传"><span class="nav-number">1.2.</span> <span class="nav-text">薪火相传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反客为主"><span class="nav-number">1.3.</span> <span class="nav-text">反客为主</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵模式"><span class="nav-number">2.</span> <span class="nav-text">哨兵模式</span></a></li></ol></div>
             
 
           </div>
