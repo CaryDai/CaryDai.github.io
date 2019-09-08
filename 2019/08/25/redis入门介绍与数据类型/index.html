@@ -95,10 +95,10 @@
 <meta property="og:site_name" content="Dai戴的博客">
 <meta property="og:description" content="NoSQL入门和概述NoSQL数据类型简介以一个电商客户、订单、订购、地址模型来对比下关系型数据库和非关系型数据库。 对于关系型数据库，我们至少需要客户表customer，订单表order_detail/order_item，订购信息表order_payment，收获地址表order_address。甚至可能需要库存表（相当于购物车）。客户表和订单表、地址表之间的关系是一对多。随着功能的增加，表的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2019/08/25/redis入门介绍与数据类型/D:/Learning/Redis/截图/6.CAP.png">
-<meta property="og:image" content="http://yoursite.com/2019/08/25/redis入门介绍与数据类型/D:/Learning/Redis/截图/7.redis服务端的启动.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g6s2pqsd9sj30in0g2myg.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g6s2q60r31j30k20cnq49.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/08/25/redis入门介绍与数据类型/D:/Learning/Redis/截图/8.启动redis客户端进行测试.png">
-<meta property="og:image" content="http://yoursite.com/2019/08/25/redis入门介绍与数据类型/D:/Learning/Redis/截图/9.修改为默认启动成后台进程.png">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g6s2r02pg2j30jz032dfw.jpg">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/11.key%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/10.%E6%BC%94%E7%A4%BAmove%E6%8C%87%E4%BB%A4.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/12.string%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png">
@@ -106,11 +106,11 @@
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/14.Set%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/15.Hash%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/16.Zset%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png">
-<meta property="og:updated_time" content="2019-09-08T05:53:47.268Z">
+<meta property="og:updated_time" content="2019-09-08T06:05:59.364Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Redis入门介绍与数据类型">
 <meta name="twitter:description" content="NoSQL入门和概述NoSQL数据类型简介以一个电商客户、订单、订购、地址模型来对比下关系型数据库和非关系型数据库。 对于关系型数据库，我们至少需要客户表customer，订单表order_detail/order_item，订购信息表order_payment，收获地址表order_address。甚至可能需要库存表（相当于购物车）。客户表和订单表、地址表之间的关系是一对多。随着功能的增加，表的">
-<meta name="twitter:image" content="http://yoursite.com/2019/08/25/redis入门介绍与数据类型/D:/Learning/Redis/截图/6.CAP.png">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g6s2pqsd9sj30in0g2myg.jpg">
 
 
 
@@ -400,7 +400,7 @@
 <li>CP - 满足一致性，分区容错性的系统，通常性能不是特别高。<code>Redis</code>、<code>MongoDB</code></li>
 <li><strong>AP</strong> - 满足可用性，分区容错性的系统，通常可能对一致性要求低一些。<strong>大多数网站架构的选择。</strong></li>
 </ul>
-<p><img src="/2019/08/25/redis入门介绍与数据类型/D:/Learning\Redis\截图\6.CAP.png" alt></p>
+<p><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g6s2pqsd9sj30in0g2myg.jpg" alt="6.CAP.png"></p>
 <p>由于当前网络硬件肯定会出现延迟丢包等问题，所以<strong>分区容忍性(P)</strong>是我们必须要实现的。<br>对于<code>A(高可用性)</code>和<code>C(强一致性)</code>的选择可以看这样一个例子：比如双11的时候有一款LV的包热卖，那么我们需要在这款包上面展示<em>浏览数、收藏数、评价数</em>等信息，而且当时的浏览量肯定很大，高并发的环境。这时就需要高可用性了，网站不能崩；而那些<em>浏览数、收藏数</em>等信息的精确程度对用户来说不是特别关键，只需保证若一致性即可。</p>
 <p><strong>数据库事务一致性需求</strong>：很多web实时系统并不要求严格的数据库事务，对一致性的要求很低，有些场合对写一致性要求并不高。允许实现最终一致性。</p>
 <p><strong>数据库的写实时性和读实时性需求</strong>：对关系数据库来说，插入一条数据后立刻查询，是肯定可以读出来这条数据的；但是对于很多web应用来说，并不要求这么高的实时性。比方说发一条消息之后，过几秒乃至十几秒之后，我的订阅者才看得到这条消息是完全可以接受的。</p>
@@ -436,13 +436,13 @@
 <li>定时器、计数器。</li>
 </ul>
 <h4 id="下载与安装"><a href="#下载与安装" class="headerlink" title="下载与安装"></a>下载与安装</h4><p>Redis的下载与安装可以看中文版的官网：<a href="https://www.redis.net.cn/download/" target="_blank" rel="noopener">https://www.redis.net.cn/download/</a></p>
-<p>安装完成后其实在<code>/usr/local/bin</code>下，<code>cd</code>到这个目录后，可以使用命令<code>ls -l</code>进行查看。为启动 Redis 服务器，可以在<code>bin</code>目录下直接敲<code>redis-server</code>，默认的端口是<strong>6379</strong>；同时启动另一个终端，<code>cd</code>到相同的目录下，输入<code>redis-cli</code>即可完成客户端的启动。<br><img src="/2019/08/25/redis入门介绍与数据类型/D:/Learning\Redis\截图\7.redis服务端的启动.png" alt></p>
+<p>安装完成后其实在<code>/usr/local/bin</code>下，<code>cd</code>到这个目录后，可以使用命令<code>ls -l</code>进行查看。为启动 Redis 服务器，可以在<code>bin</code>目录下直接敲<code>redis-server</code>，默认的端口是<strong>6379</strong>；同时启动另一个终端，<code>cd</code>到相同的目录下，输入<code>redis-cli</code>即可完成客户端的启动。<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g6s2q60r31j30k20cnq49.jpg" alt="7.redis服务端的启动.png"></p>
 <p><img src="/2019/08/25/redis入门介绍与数据类型/D:/Learning\Redis\截图\8.启动redis客户端进行测试.png" alt></p>
 <p>当然上述的启动操作也可以在<code>/opt/redis-5.0.4/src</code>（这是我的安装目录）下进行。<br>用命令查看后台的Redis服务有没有起来，可以用以下命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps -ef|grep redis</span><br></pre></td></tr></table></figure>
 <p>默认情况下，Redis 并不会以一个守护进程的方式在后台运行，可以通过修改配置文件的方式更改其默认的行为。但是首先需要备份一份配置文件。根据课程的做法，我在<code>/home/dqj</code>下创建一个新的文件夹<code>myredis</code>用来存放<code>redis</code>的备份文件。随后用<code>vim</code>工具进行修改：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:/usr/<span class="built_in">local</span>/bin<span class="comment"># mkdir /home/dqj/myredis</span></span><br><span class="line">root@ubuntu:/usr/<span class="built_in">local</span>/bin<span class="comment"># cd /opt/redis-5.0.4/</span></span><br><span class="line">root@ubuntu:/opt/redis-5.0.4<span class="comment"># ls -l</span></span><br><span class="line">total 260</span><br><span class="line">-rw-rw-r--  1 root root 99445 Mar 18 09:21 00-RELEASENOTES</span><br><span class="line">-rw-rw-r--  1 root root    53 Mar 18 09:21 BUGS</span><br><span class="line">-rw-rw-r--  1 root root  1894 Mar 18 09:21 CONTRIBUTING</span><br><span class="line">-rw-rw-r--  1 root root  1487 Mar 18 09:21 COPYING</span><br><span class="line">drwxrwxr-x  6 root root  4096 Jul 16 07:09 deps</span><br><span class="line">-rw-r--r--  1 root root    92 Jul 16 07:20 dump.rdb</span><br><span class="line">-rw-rw-r--  1 root root    11 Mar 18 09:21 INSTALL</span><br><span class="line">-rw-rw-r--  1 root root   151 Mar 18 09:21 Makefile</span><br><span class="line">-rw-rw-r--  1 root root  4223 Mar 18 09:21 MANIFESTO</span><br><span class="line">-rw-rw-r--  1 root root 20555 Mar 18 09:21 README.md</span><br><span class="line">-rw-rw-r--  1 root root 62155 Mar 18 09:21 redis.conf</span><br><span class="line">-rwxrwxr-x  1 root root   275 Mar 18 09:21 runtest</span><br><span class="line">-rwxrwxr-x  1 root root   280 Mar 18 09:21 runtest-cluster</span><br><span class="line">-rwxrwxr-x  1 root root   281 Mar 18 09:21 runtest-sentinel</span><br><span class="line">-rw-rw-r--  1 root root  9710 Mar 18 09:21 sentinel.conf</span><br><span class="line">drwxrwxr-x  3 root root  4096 Jul 16 07:18 src</span><br><span class="line">drwxrwxr-x 10 root root  4096 Mar 18 09:21 tests</span><br><span class="line">drwxrwxr-x  8 root root  4096 Mar 18 09:21 utils</span><br><span class="line">root@ubuntu:/opt/redis-5.0.4<span class="comment"># cp redis.conf /home/dqj/myredis/</span></span><br><span class="line">root@ubuntu:/opt/redis-5.0.4<span class="comment"># vim /home/dqj/myredis/redis.conf</span></span><br></pre></td></tr></table></figure>
-<p><img src="/2019/08/25/redis入门介绍与数据类型/D:/Learning\Redis\截图\9.修改为默认启动成后台进程.png" alt></p>
+<p><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g6s2r02pg2j30jz032dfw.jpg" alt="9.修改为默认启动成后台进程.png"></p>
 <p>如果想按照这个配置文件的方式启动，则需要这样写（注意在<code>/usr/local/bin</code>目录下）：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:/usr/<span class="built_in">local</span>/bin<span class="comment"># redis-server /home/dqj/myredis/redis.conf</span></span><br></pre></td></tr></table></figure>
 <p>这时可以不需要启动另一个终端来启动客户端，可以直接在当前终端下写，因为Redis服务已经在后台启动了：</p>
