@@ -97,7 +97,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/%E8%A7%A3%E5%86%B3%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98.png">
-<meta property="og:updated_time" content="2019-12-12T05:55:03.399Z">
+<meta property="og:image" content="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=33f9d77f55df8db1bc7b74623913f16c/d439b6003af33a8786c9d6fdcd5c10385243b5b5.jpg">
+<meta property="og:updated_time" content="2020-01-10T02:08:20.600Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="idea常用技巧">
 <meta name="twitter:description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
@@ -364,9 +365,16 @@
 <li>Artifacts 里面：<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg" alt><br>选择刚刚打开的项目，再点 Apply。</li>
 <li>配置 Tomcat<br>Run ——&gt; Edit Configurations，点左侧绿色的 + 号，选择本地 tomcat，并自己命名。<br>选择 Deployment，点 + 号，选择“Artifact”，再点 Apply，OK。启动项目即可打开网页。</li>
 </ol>
+<h2 id="idea中复制一个普通工程"><a href="#idea中复制一个普通工程" class="headerlink" title="idea中复制一个普通工程"></a>idea中复制一个普通工程</h2><p><a href="https://www.cnblogs.com/kaiwen/p/10232908.html" target="_blank" rel="noopener">https://www.cnblogs.com/kaiwen/p/10232908.html</a></p>
+<p>在上面的基础上，还需要在<code>Project Structure</code>—<code>Project Settings</code>—<code>Project</code>里面制定输出的文件夹路径，如：<code>G:\JavaWorkspace\RPC\RPC_V2\out</code>。</p>
+<h2 id="导入项目后右键无法运行Main方法"><a href="#导入项目后右键无法运行Main方法" class="headerlink" title="导入项目后右键无法运行Main方法"></a>导入项目后右键无法运行Main方法</h2><p><a href="https://blog.csdn.net/yyj108317/article/details/89182332" target="_blank" rel="noopener">https://blog.csdn.net/yyj108317/article/details/89182332</a></p>
 <h2 id="解决Tomcat控制台乱码问题"><a href="#解决Tomcat控制台乱码问题" class="headerlink" title="解决Tomcat控制台乱码问题"></a>解决Tomcat控制台乱码问题</h2><p>在<code>Run/Edit Configurations...</code>里面输入下图红框中的内容：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/%E8%A7%A3%E5%86%B3%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98.png" alt></p>
 <h2 id="idea-运行单个程序"><a href="#idea-运行单个程序" class="headerlink" title="idea 运行单个程序"></a>idea 运行单个程序</h2><p>有的时候只想运行某份代码，不想编译其它的代码，这是需要设置一下：</p>
 <p>Run - Edit Configuration - Before launch 里面，把 <strong>Build</strong> 换成<strong>Build, no error check</strong>，Apply 之后就行了。当然，前提是这个文件中 main 函数所依赖的所有 class 文件都没有错误。</p>
+<h2 id="解除Git关联"><a href="#解除Git关联" class="headerlink" title="解除Git关联"></a>解除Git关联</h2><p>由<a href="https://blog.csdn.net/Alex_81D/article/details/80392935" target="_blank" rel="noopener">这篇博客</a>可知：</p>
+<p>file -&gt;settings-&gt;version control 选中这一栏,右边有个</p>
+<p><a href="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d439b6003af33a8786c9d6fdcd5c10385243b5b5.jpg" target="_blank" rel="noopener"><img src="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=33f9d77f55df8db1bc7b74623913f16c/d439b6003af33a8786c9d6fdcd5c10385243b5b5.jpg" alt="img"></a></p>
+<p>点红色减号,就解除了,然后去项目目录下删除.git这个文件夹,你可以不删除,为了以后继续关联。</p>
 
       
     </div>
@@ -493,7 +501,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">26</span>
+                <span class="site-state-item-count">27</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -538,7 +546,7 @@
               </span>
             
               <span class="links-of-author-item">
-                <a href="879020663@qq.com" target="_blank" title="Email">
+                <a href="mailtto:879020663@qq.com" target="_blank" title="Email">
                   
                     <i class="fa fa-fw fa-globe"></i>
                   
@@ -570,7 +578,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-中复制一个-Maven-工程"><span class="nav-number">1.</span> <span class="nav-text">idea 中复制一个 Maven 工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决Tomcat控制台乱码问题"><span class="nav-number">2.</span> <span class="nav-text">解决Tomcat控制台乱码问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-运行单个程序"><span class="nav-number">3.</span> <span class="nav-text">idea 运行单个程序</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-中复制一个-Maven-工程"><span class="nav-number">1.</span> <span class="nav-text">idea 中复制一个 Maven 工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#idea中复制一个普通工程"><span class="nav-number">2.</span> <span class="nav-text">idea中复制一个普通工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入项目后右键无法运行Main方法"><span class="nav-number">3.</span> <span class="nav-text">导入项目后右键无法运行Main方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决Tomcat控制台乱码问题"><span class="nav-number">4.</span> <span class="nav-text">解决Tomcat控制台乱码问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-运行单个程序"><span class="nav-number">5.</span> <span class="nav-text">idea 运行单个程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解除Git关联"><span class="nav-number">6.</span> <span class="nav-text">解除Git关联</span></a></li></ol></div>
             
 
           </div>
