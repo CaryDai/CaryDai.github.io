@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v3%E5%9F%BA%E4%BA%8EZookeeper%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v3%E8%8A%82%E7%82%B9%E6%B3%A8%E5%86%8C%E6%88%90%E5%8A%9F.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v3%E5%8A%A0%E5%85%A5ZooKeeper%E5%90%8E%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F.png">
-<meta property="og:updated_time" content="2020-01-17T15:27:05.743Z">
+<meta property="og:updated_time" content="2020-01-17T15:55:23.075Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现自己的RPC框架（三）">
 <meta name="twitter:description" content="第三版RPC，在第二版基础上加了在服务端用线程池来处理多个请求。此外，以Zookeeper作为服务注册中心。">
@@ -424,7 +424,7 @@
 <li>在创建节点时，一开始我把参数<code>createMode</code>写成<code>PERSISTENT_SEQUENTIAL</code>，这样会报错：<code>KeeperErrorCode = NoNode for rpcservers</code>，意思是没法找到<code>rpcservers</code>节点。是因为加了<code>_SEQUENTIAL</code>，就会在节点后自动加上序列数，如<code>rpcservers0000000001   rpcservers0000000002   rpcservers0000000000</code>等，所以为了避免错误，这里可以使用序列的形式。我想序列的形式应该是在提供有很多服务器都同一种服务时，用于区分这些服务器的。</li>
 <li>当有多台服务器都提供某种服务时，肯定会涉及到负载均衡策略，我这里写的比较简单。还可以使用轮询、哈希等方式。</li>
 </ol>
-<p>代码我传到 <a href>github</a> 上了。</p>
+<p>代码我传到 <a href="https://github.com/CaryDai/RPC_V3" target="_blank" rel="noopener">github</a> 上了。</p>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
 <li><a href="http://zookeeper.apache.org/doc/r3.4.8/api/index.html" target="_blank" rel="noopener">zookeeper api文档</a></li>
 <li><a href="http://ifeve.com/zookeeper-access-control-using-acls/" target="_blank" rel="noopener">《ZooKeeper官方指南》ZooKeeper 使用 ACL 进行访问控制</a></li>
