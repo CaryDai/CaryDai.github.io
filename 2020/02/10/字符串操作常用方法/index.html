@@ -95,7 +95,7 @@
 <meta property="og:site_name" content="Dai戴的博客">
 <meta property="og:description" content="字符串的操作太常用到了，而一些基本的处理方法自己有时候会忘掉，常用的方法还是有必要记一下。 Java中char和String的转换首先要明确一点：Java中char是一个基本类型，而String是一个引用类型。  String 转换为 char / char型数组 123456使用String.charAt(index)（返回值为char）可以得到String中某一指定位置的char。使用Stri">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-10T13:17:21.952Z">
+<meta property="og:updated_time" content="2020-02-10T13:24:46.469Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="字符串操作常用方法">
 <meta name="twitter:description" content="字符串的操作太常用到了，而一些基本的处理方法自己有时候会忘掉，常用的方法还是有必要记一下。 Java中char和String的转换首先要明确一点：Java中char是一个基本类型，而String是一个引用类型。  String 转换为 char / char型数组 123456使用String.charAt(index)（返回值为char）可以得到String中某一指定位置的char。使用Stri">
@@ -382,12 +382,20 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">方式一：利用构造函数</span><br><span class="line">String str=“Hello World.”;</span><br><span class="line">StringBuffer buffer = <span class="keyword">new</span> StringBuffer(str);</span><br><span class="line"></span><br><span class="line">方式二：调用append函数</span><br><span class="line">String str=“Hello World.”;       </span><br><span class="line">StringBuffer buffer2 = <span class="keyword">new</span> StringBuffer();</span><br><span class="line">buffer2.append(str);</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<h2 id="Integer和String的转换"><a href="#Integer和String的转换" class="headerlink" title="Integer和String的转换"></a>Integer和String的转换</h2><ol>
+<h2 id="String和Integer的转换"><a href="#String和Integer的转换" class="headerlink" title="String和Integer的转换"></a>String和Integer的转换</h2><ol>
 <li><p>Integer 转 String</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方法一:Integer类的静态方法toString()</span></span><br><span class="line">Integer a = <span class="number">2</span>;</span><br><span class="line">String str = Integer.toString(a)</span><br><span class="line"></span><br><span class="line"><span class="comment">//方法二:Integer类的成员方法toString()</span></span><br><span class="line">Integer a = <span class="number">2</span>;</span><br><span class="line">String str = a.toString();</span><br><span class="line"></span><br><span class="line"><span class="comment">//方法三:String类的静态方法valueOf()</span></span><br><span class="line">Integer a = <span class="number">2</span>;</span><br><span class="line">String str = String.valueOf(a);</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>String 转 Integer<br>当我们要把String转化为Integer时，一定要对String进行非空判断，否则很可能报空指针异常。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">"..."</span>;</span><br><span class="line">Integer i = <span class="keyword">null</span>;</span><br><span class="line"><span class="keyword">if</span>(str!=<span class="keyword">null</span>)&#123;</span><br><span class="line">     i = Integer.valueOf(str);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="String和int转换"><a href="#String和int转换" class="headerlink" title="String和int转换"></a>String和int转换</h2><ol>
+<li><p>int 转 String</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> num = <span class="number">123456789</span>;</span><br><span class="line">String str1 = num + <span class="string">""</span>;</span><br><span class="line">String str2 = String.valueOf(num);	<span class="comment">// 推荐使用这种</span></span><br><span class="line">String str3 = Integer.toString(num);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>String 转 int</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String s = <span class="string">"123456789"</span>;</span><br><span class="line"><span class="keyword">int</span> n1 = Integer.parseInt(s);	<span class="comment">// 推荐使用这种</span></span><br><span class="line"><span class="keyword">int</span> n2 = Integer.valueOf(s).intValue();</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h2 id="Comparator接口的比较器"><a href="#Comparator接口的比较器" class="headerlink" title="Comparator接口的比较器"></a>Comparator接口的比较器</h2><p>今天做到一道题，它的比较器写法是这样的：</p>
@@ -449,6 +457,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/13/实现自己的RPC框架（四）/" rel="prev" title="实现自己的RPC框架（四）">
+                实现自己的RPC框架（四） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -518,7 +530,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-count">29</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -595,7 +607,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中char和String的转换"><span class="nav-number">1.</span> <span class="nav-text">Java中char和String的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#valueOf-方法"><span class="nav-number">2.</span> <span class="nav-text">valueOf()方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringBuffer与String的相互转换"><span class="nav-number">3.</span> <span class="nav-text">StringBuffer与String的相互转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Integer和String的转换"><span class="nav-number">4.</span> <span class="nav-text">Integer和String的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparator接口的比较器"><span class="nav-number">5.</span> <span class="nav-text">Comparator接口的比较器</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Java中char和String的转换"><span class="nav-number">1.</span> <span class="nav-text">Java中char和String的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#valueOf-方法"><span class="nav-number">2.</span> <span class="nav-text">valueOf()方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringBuffer与String的相互转换"><span class="nav-number">3.</span> <span class="nav-text">StringBuffer与String的相互转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String和Integer的转换"><span class="nav-number">4.</span> <span class="nav-text">String和Integer的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String和int转换"><span class="nav-number">5.</span> <span class="nav-text">String和int转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Comparator接口的比较器"><span class="nav-number">6.</span> <span class="nav-text">Comparator接口的比较器</span></a></li></ol></div>
             
 
           </div>

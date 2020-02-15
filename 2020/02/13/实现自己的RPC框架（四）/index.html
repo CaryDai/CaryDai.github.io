@@ -1,0 +1,777 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="RPC,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="使用Netty替代传统的BIO，增强系统的并发量和性能。">
+<meta name="keywords" content="RPC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实现自己的RPC框架（四）">
+<meta property="og:url" content="http://yoursite.com/2020/02/13/实现自己的RPC框架（四）/index.html">
+<meta property="og:site_name" content="Dai戴的博客">
+<meta property="og:description" content="使用Netty替代传统的BIO，增强系统的并发量和性能。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://atts.w3cschool.cn/attachments/image/20170808/1502158706351902.jpg">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1089449-9eebe781fba495fd.png?imageMogr2/auto-orient/strip|imageView2/2/w/572/format/webp">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4%E6%A1%86%E6%9E%B6.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4Server%E5%8F%91%E9%80%81%E5%B9%B6%E6%8E%A5%E6%94%B6%E6%B6%88%E6%81%AF.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4Client%E5%8F%91%E9%80%81%E5%B9%B6%E6%8E%A5%E6%94%B6%E6%B6%88%E6%81%AF.png">
+<meta property="og:updated_time" content="2020-02-15T14:28:43.509Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实现自己的RPC框架（四）">
+<meta name="twitter:description" content="使用Netty替代传统的BIO，增强系统的并发量和性能。">
+<meta name="twitter:image" content="https://atts.w3cschool.cn/attachments/image/20170808/1502158706351902.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/02/13/实现自己的RPC框架（四）/">
+
+
+
+
+
+  <title> 实现自己的RPC框架（四） | Dai戴的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dai戴的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/02/13/实现自己的RPC框架（四）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DQJ">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dai戴的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                实现自己的RPC框架（四）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-02-13T14:18:02+08:00">
+                2020-02-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/微服务/" itemprop="url" rel="index">
+                    <span itemprop="name">微服务</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  使用Netty替代传统的BIO，增强系统的并发量和性能。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><h3 id="从BIO到NIO"><a href="#从BIO到NIO" class="headerlink" title="从BIO到NIO"></a>从BIO到NIO</h3><p>BIO模型：</p>
+<p><img src="https://atts.w3cschool.cn/attachments/image/20170808/1502158706351902.jpg" alt></p>
+<p>之前的版本都是使用传统的 BIO（Blocking I/O）进行客户端与服务端的交互。然而这种方式中，服务端等待客户端发数据的这个过程是阻塞的——即服务端每次都需要有一个线程去监听客户端的连接请求（通常称作 “Acceptor 线程”），收到客户端的请求后，又要去建立一个新的线程来处理这个请求：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 服务端监听请求</span></span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">    Socket socket = listener.accept();	<span class="comment">// 阻塞</span></span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        ...</span><br><span class="line">        read(data);	<span class="comment">// 阻塞</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这个线程会调用<code>read()</code>去读取客户端的数据，那么在读取到数据前，这个线程会被阻塞，在此期间它只能等着，直到其读到数据。</p>
+<p>虽然上个版本中，在服务端引入了线程池来管理这些线程，但是线程池只是保证资源占用是可控的——无论有多少个客户端并发访问，都不会导致资源的耗尽和宕机。然而其本质上还是同步阻塞的 BIO 方式，在大量并发的情况下，多余的请求只能一直等待。所以考虑使用 NIO 来解决线程阻塞的问题。</p>
+<p>NIO是一种同步非阻塞的I/O模型，它支持面向缓冲的，基于通道的I/O操作方法。NIO 使用 Selector 解决了线程的阻塞问题。服务端监测到新的连接之后，不再创建一个新的线程，而是将这个请求交给Selector，Selector会不断地去遍历所有的Socket，一旦有一个Socket建立完成，他会通知Thread，然后Thread处理完数据再返回给客户端 Socket ——<strong>这个过程是不阻塞的</strong>，这样就能让一个Thread处理更多的请求了。（比如我这个线程刚处理完 Socket2 的连接请求，现在 Selector 通知我可以去处理 Socket1 的读数据请求了。这样，线程不会傻瓜式地等在那里，浪费资源。）</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/1089449-9eebe781fba495fd.png?imageMogr2/auto-orient/strip|imageView2/2/w/572/format/webp" alt></p>
+<h3 id="从NIO到Netty"><a href="#从NIO到Netty" class="headerlink" title="从NIO到Netty"></a>从NIO到Netty</h3><p>Java 原生的 NIO 代码比较复杂，而 Netty 是一款基于 NIO 开发的网络通信框架，使用它可以高效地使用 NIO 的特性，并且可以减轻编码压力，所以我选择直接使用 Netty 来替代原先的 BIO 通信方式。</p>
+<p>Netty 的学习内容其实并不少，在W3Cschool上可以找到<a href="https://www.w3cschool.cn/essential_netty_in_action/essential_netty_in_action-ofey289e.html" target="_blank" rel="noopener">《Netty 实战精髓》</a>的电子书。它里面有一个例子：实现一个 echo 服务器，看懂了这个例子，再在自己的 RPC 中加入 Netty 就简单了。</p>
+<p>首先需要理清整个过程的思路，先画个图看下：</p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4%E6%A1%86%E6%9E%B6.png" alt></p>
+<p>项目结构：</p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png" alt></p>
+<h2 id="Netty服务端"><a href="#Netty服务端" class="headerlink" title="Netty服务端"></a>Netty服务端</h2><p>服务端主要由两个文件构成：<code>NettyServer.java</code>和<code>ServerHandler.java</code>。前者主要用来与客户端建立连接并传输数据，后者用于处理数据。下面来看下这两个文件的主要内容：</p>
+<p><strong>NettyServer.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">start</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    ...    <span class="comment">// 将Server服务注册到zookeeper</span></span><br><span class="line">        </span><br><span class="line">    NioEventLoopGroup group = <span class="keyword">new</span> NioEventLoopGroup(); <span class="comment">// 创建 EventLoopGroup，每个Channel都必须有</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        ServerBootstrap b = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">        b.group(group)   	<span class="comment">// 设置 EventLoopGroup 用于处理所有的 Channel 的事件（Netty 限制每个Channel 都由一个 Thread 处理）</span></span><br><span class="line">            .channel(NioServerSocketChannel.class)        <span class="comment">// 使用指定的 NIO 传输 Channel</span></span><br><span class="line">            .localAddress(<span class="keyword">new</span> InetSocketAddress(port))    <span class="comment">// 设置 socket 地址使用所选的端口</span></span><br><span class="line">            .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123; <span class="comment">// 添加 ServerHandler 到 Channel 的 ChannelPipeline</span></span><br><span class="line">                <span class="meta">@Override</span></span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel ch)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                    <span class="comment">// 解码。设置对象序列化最大长度为1M</span></span><br><span class="line">                    <span class="comment">// 设置线程安全的WeakReferenceMap对类加载器进行缓存</span></span><br><span class="line">                    ch.pipeline().addLast(<span class="keyword">new</span> ObjectDecoder(<span class="number">1024</span>*<span class="number">1024</span>,</span><br><span class="line">                                                            ClassResolvers.weakCachingConcurrentResolver(<span class="keyword">this</span>.getClass().getClassLoader())));</span><br><span class="line">                    <span class="comment">// 添加对象编码器</span></span><br><span class="line">                    ch.pipeline().addLast(<span class="keyword">new</span> ObjectEncoder());</span><br><span class="line">                    ch.pipeline().addLast(<span class="keyword">new</span> ServerHandler());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">        ChannelFuture f = b.bind().sync();            <span class="comment">// 绑定的服务器;sync 等待服务器关闭</span></span><br><span class="line">        f.channel().closeFuture().sync();            <span class="comment">// 等到服务端监听端口关闭</span></span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">        group.shutdownGracefully().sync();            <span class="comment">// 优雅地释放线程资源</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码框架参考了“echo服务器”的例子。整体思路是：首先创建一个 BootStrap 对象，它的作用是用于将各个组件组装起来：</p>
+<ul>
+<li>其中 EventLoopGroup 可以装载一个或多个 EventLoop，而 EventLoop 本身只由一个线程驱动，它保证一个 Thread 对应一个 Channel。这也就意味着这个 Channel 里的所有 ChannelHandler 都由一个线程执行，这也体现了“非阻塞”特性。</li>
+<li>channel() 函数指定特定的 Channel。</li>
+<li>childHandler() 设置添加到 ChannelPipeline 中的 ChannelHandler。</li>
+<li>bind() 将通道绑定并返回一个 ChannelFuture，用于在绑定操作完成后通知。</li>
+</ul>
+<p>这里序列化使用了 JDK 原生的序列化方式，Netty也提供了其它的序列化方式，比如Protobuf。</p>
+<p><strong>ServerHandler.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServerHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 获取客户端发来的数据信息</span></span><br><span class="line">        RequestObject requestObject = (RequestObject) msg;</span><br><span class="line">        System.out.println(<span class="string">"Server接受到客户端的信息 :"</span> + requestObject.toString());</span><br><span class="line"></span><br><span class="line">        String methodName = requestObject.getMethodName();</span><br><span class="line">        String className = requestObject.getClassName();</span><br><span class="line">        Class&lt;?&gt;[] parameterTypes = requestObject.getParameterTypes();</span><br><span class="line">        Object[] params = requestObject.getParams();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 根据上述收到的信息，调用相应类中的方法并返回结果。</span></span><br><span class="line">        Class serverClass = ServerServices.remoteServices.get(className);</span><br><span class="line">        Method method = serverClass.getMethod(methodName, parameterTypes);</span><br><span class="line">        Object result = method.invoke(serverClass.newInstance(), params);</span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"服务端处理完毕，发送结果给客户端："</span> + result);</span><br><span class="line">        ctx.writeAndFlush(result);  <span class="comment">// 将运行结果返回给客户端。</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> </span>&#123;</span><br><span class="line">        cause.printStackTrace();                <span class="comment">//5</span></span><br><span class="line">        ctx.close();                            <span class="comment">//6</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ServerHandler 根据收到的方法信息，调用本地方法，最后将结果发送回客户端。</p>
+<h2 id="Netty客户端"><a href="#Netty客户端" class="headerlink" title="Netty客户端"></a>Netty客户端</h2><p>客户端的代码和服务端类似，主要由<code>NettyClient.java</code>和<code>ClientHandler.java</code>构成。这里只放一下 ClientHandler 的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ClientHandler</span> <span class="keyword">extends</span> <span class="title">ChannelInboundHandlerAdapter</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RequestObject requestObject;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ClientHandler</span><span class="params">(RequestObject requestObject)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.requestObject = requestObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 客户端连上服务端的时候触发</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"客户端准备发消息给服务器..."</span>);</span><br><span class="line">        ctx.writeAndFlush(requestObject);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 接收服务端的数据</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext ctx, Object msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Object res = msg;</span><br><span class="line">            System.out.println(<span class="string">"Client收到消息！"</span>);</span><br><span class="line">            System.out.println(res);</span><br><span class="line">        &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">            ReferenceCountUtil.release(msg);</span><br><span class="line">            ctx.close();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exceptionCaught</span><span class="params">(ChannelHandlerContext ctx, Throwable cause)</span> </span>&#123;</span><br><span class="line">        cause.printStackTrace();</span><br><span class="line">        ctx.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最终，启动服务器，启动客户端，一样可以得到正常结果：</p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4Server%E5%8F%91%E9%80%81%E5%B9%B6%E6%8E%A5%E6%94%B6%E6%B6%88%E6%81%AF.png" alt></p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4Client%E5%8F%91%E9%80%81%E5%B9%B6%E6%8E%A5%E6%94%B6%E6%B6%88%E6%81%AF.png" alt></p>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ol>
+<li>一开始运行成功后，发现客户端没有关闭。后来发现是<code>f.channel().closeFuture().sync();</code>这一句的问题。这句话是阻塞的，也就是说当客户端不再与服务器连接时才会关闭，除非链路断了，否则不会终止，所有的 Channel 仍是连接状态。解决方法是在<code>ClientHandler</code>中手动关闭：<code>ctx.close();</code></li>
+<li>因为最终是在<code>NettyClient</code>中把客户端要调用的方法信息序列化后发送给服务端的，所以在自定义的代理类的事件处理器<code>MyInvocationHandler</code>中需要做两件事：1）从 Zookeeper 注册中心得到服务的ip地址与端口；2）将服务的ip地址、端口号和调用的方法信息传递给<code>NettyClient</code>。</li>
+</ol>
+<p>代码传到 <a href="https://github.com/CaryDai/RPC_V4" target="_blank" rel="noopener">github</a> 上了，欢迎 star。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/RPC/" rel="tag"># RPC</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/10/字符串操作常用方法/" rel="next" title="字符串操作常用方法">
+                <i class="fa fa-chevron-left"></i> 字符串操作常用方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="DQJ">
+          <p class="site-author-name" itemprop="name">DQJ</p>
+           
+              <p class="site-description motion-element" itemprop="description">路漫漫其修远兮。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaryDai" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailtto:879020663@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#思路"><span class="nav-number">1.</span> <span class="nav-text">思路</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#从BIO到NIO"><span class="nav-number">1.1.</span> <span class="nav-text">从BIO到NIO</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从NIO到Netty"><span class="nav-number">1.2.</span> <span class="nav-text">从NIO到Netty</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty服务端"><span class="nav-number">2.</span> <span class="nav-text">Netty服务端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Netty客户端"><span class="nav-number">3.</span> <span class="nav-text">Netty客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意点"><span class="nav-number">4.</span> <span class="nav-text">注意点</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DQJ</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
