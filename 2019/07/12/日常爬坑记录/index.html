@@ -87,18 +87,18 @@
 
 
 
-<meta name="description" content="这篇博客用来记录平常遇到的坑。  从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。 最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在这篇贴吧上找到了跟我同样问">
+<meta name="description" content="这篇博客用来记录平常遇到的坑。  从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。  最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在这篇贴吧上找到了跟我同样">
 <meta name="keywords" content="idea">
 <meta property="og:type" content="article">
 <meta property="og:title" content="日常爬坑记录">
 <meta property="og:url" content="http://yoursite.com/2019/07/12/日常爬坑记录/index.html">
 <meta property="og:site_name" content="Dai戴的博客">
-<meta property="og:description" content="这篇博客用来记录平常遇到的坑。  从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。 最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在这篇贴吧上找到了跟我同样问">
+<meta property="og:description" content="这篇博客用来记录平常遇到的坑。  从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。  最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在这篇贴吧上找到了跟我同样">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-07-18T03:11:27.210Z">
+<meta property="og:updated_time" content="2020-02-15T15:03:10.092Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="日常爬坑记录">
-<meta name="twitter:description" content="这篇博客用来记录平常遇到的坑。  从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。 最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在这篇贴吧上找到了跟我同样问">
+<meta name="twitter:description" content="这篇博客用来记录平常遇到的坑。  从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。  最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在这篇贴吧上找到了跟我同样">
 
 
 
@@ -357,8 +357,14 @@
       
         <p>这篇博客用来记录平常遇到的坑。</p>
 <ul>
-<li>从<code>github</code>克隆到本地的代码，在用<code>idea</code>打开时，在拉取下来后，不要用<code>import</code>导入，选择<code>open</code>打开。</li>
-<li>最近在<code>ubuntu</code>上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去<code>ubuntu</code>的桌面了，只显示<code>ubuntu</code>的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在<a href="http://tieba.baidu.com/p/6168733787" target="_blank" rel="noopener">这篇贴吧</a>上找到了跟我同样问题的人。之前其实根据<a href="https://jingyan.baidu.com/article/5225f26b9bceefe6fb090843.html" target="_blank" rel="noopener">这篇经验</a>是可以进入到桌面的，但是它里面说的解决方案对我不适用。<br>其实之前我的<code>ubuntu18.04</code>虚拟机默认使用的是一个叫做<code>gdm3</code>的桌面管理环境，估计在更新的时候出现了问题。于是根据那篇贴吧，我使用<code>lightdm</code>作为我的桌面管理环境，在终端输入<code>sudo apt-get install lightdm</code>即可完成<code>lightdm</code>的下载安装，在安装过程中它会让你选择默认的桌面管理环境，只需选择<code>lightdm</code>就行了。</li>
+<li><p>从<code>github</code>克隆到本地的代码，在用<code>idea</code>打开时，在拉取下来后，不要用<code>import</code>导入，选择<code>open</code>打开。</p>
+</li>
+<li><p>最近在<code>ubuntu</code>上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去<code>ubuntu</code>的桌面了，只显示<code>ubuntu</code>的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在<a href="http://tieba.baidu.com/p/6168733787" target="_blank" rel="noopener">这篇贴吧</a>上找到了跟我同样问题的人。之前其实根据<a href="https://jingyan.baidu.com/article/5225f26b9bceefe6fb090843.html" target="_blank" rel="noopener">这篇经验</a>是可以进入到桌面的，但是它里面说的解决方案对我不适用。<br>其实之前我的<code>ubuntu18.04</code>虚拟机默认使用的是一个叫做<code>gdm3</code>的桌面管理环境，估计在更新的时候出现了问题。于是根据那篇贴吧，我使用<code>lightdm</code>作为我的桌面管理环境，在终端输入<code>sudo apt-get install lightdm</code>即可完成<code>lightdm</code>的下载安装，在安装过程中它会让你选择默认的桌面管理环境，只需选择<code>lightdm</code>就行了。</p>
+</li>
+<li><p>今天提交博客的时候莫名出现了以下问题：<br><code>ssh: connect to host github.com port 22: Connection timed out fatal: Could not read from remote repository.</code><br>解决方法是在存放公钥私钥(id_rsa和id_rsa.pub)的文件里，新建config文本，内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">Hostname ssh.github.com</span><br><span class="line">Port 443</span><br></pre></td></tr></table></figure>
+<p>再次执行<code>ssh -T git@github.com</code>，验证就可以通过。</p>
+</li>
 </ul>
 
       
