@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v3%E5%9F%BA%E4%BA%8EZookeeper%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v3%E8%8A%82%E7%82%B9%E6%B3%A8%E5%86%8C%E6%88%90%E5%8A%9F.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v3%E5%8A%A0%E5%85%A5ZooKeeper%E5%90%8E%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F.png">
-<meta property="og:updated_time" content="2020-02-15T08:55:00.694Z">
+<meta property="og:updated_time" content="2020-02-19T13:53:04.802Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现自己的RPC框架（三）">
 <meta name="twitter:description" content="第三版RPC，在第二版基础上加了在服务端用线程池来处理多个请求。此外，以Zookeeper作为服务注册中心。">
@@ -412,7 +412,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dqj@ubuntu:/$ whereis zookeeper</span><br><span class="line">zookeeper: /usr/<span class="built_in">local</span>/zookeeper</span><br></pre></td></tr></table></figure>
 <p>如果发现 zookeeper 启动了，但是查看状态时却出错：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:/usr/<span class="built_in">local</span>/zookeeper/zookeeper-3.4.14<span class="comment"># bin/zkServer.sh start</span></span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /usr/<span class="built_in">local</span>/zookeeper/zookeeper-3.4.14/bin/../conf/zoo.cfg</span><br><span class="line">Starting zookeeper ... STARTED</span><br><span class="line">root@ubuntu:/usr/<span class="built_in">local</span>/zookeeper/zookeeper-3.4.14<span class="comment"># bin/zkServer.sh status</span></span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /usr/<span class="built_in">local</span>/zookeeper/zookeeper-3.4.14/bin/../conf/zoo.cfg</span><br><span class="line">Error contacting service. It is probably not running.</span><br></pre></td></tr></table></figure>
-<p>由[这篇博客][<a href="https://www.iteye.com/blog/flyer0126-2230958]可知，此时需要修改`zkServer.sh文件`，在文件开头添加如下内容：" target="_blank" rel="noopener">https://www.iteye.com/blog/flyer0126-2230958]可知，此时需要修改`zkServer.sh文件`，在文件开头添加如下内容：</a></p>
+<p>此时需要修改<code>zkServer.sh文件</code>，在文件开头添加如下内容：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> JAVA_HOME=/opt/jdk/jdk1.8.0_211</span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$JAVA_HOME</span>/bin:<span class="variable">$PATH</span></span><br></pre></td></tr></table></figure>
 <p>然后重新启动 zookeeper，这样就能看到进程信息了：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntu:/usr/<span class="built_in">local</span>/zookeeper/zookeeper-3.4.14<span class="comment"># bin/zkServer.sh status</span></span><br><span class="line">ZooKeeper JMX enabled by default</span><br><span class="line">Using config: /usr/<span class="built_in">local</span>/zookeeper/zookeeper-3.4.14/bin/../conf/zoo.cfg</span><br><span class="line">Mode: standalone</span><br></pre></td></tr></table></figure>
@@ -440,6 +440,7 @@
 <li><a href="http://zookeeper.apache.org/doc/r3.4.8/api/index.html" target="_blank" rel="noopener">zookeeper api文档</a></li>
 <li><a href="http://ifeve.com/zookeeper-access-control-using-acls/" target="_blank" rel="noopener">《ZooKeeper官方指南》ZooKeeper 使用 ACL 进行访问控制</a></li>
 </ul>
+<p>[<a href="https://www.iteye.com/blog/flyer0126-2230958]" target="_blank" rel="noopener">https://www.iteye.com/blog/flyer0126-2230958]</a>: </p>
 
       
     </div>
@@ -564,7 +565,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -575,7 +576,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -586,7 +587,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">18</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
