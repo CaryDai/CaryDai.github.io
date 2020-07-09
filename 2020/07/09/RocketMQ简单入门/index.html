@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="IDE常用技巧,idea,">
+  <meta name="keywords" content="RocketMQ,">
 
 
 
@@ -87,22 +87,20 @@
 
 
 
-<meta name="description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
-<meta name="keywords" content="IDE常用技巧,idea">
+<meta name="description" content="简单介绍RocketMQ相关概念并构建源码阅读环境。">
+<meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="idea常用技巧">
-<meta property="og:url" content="http://yoursite.com/2019/05/26/idea常用技巧/index.html">
+<meta property="og:title" content="RocketMQ简单入门">
+<meta property="og:url" content="http://yoursite.com/2020/07/09/RocketMQ简单入门/index.html">
 <meta property="og:site_name" content="Dai戴的博客">
-<meta property="og:description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
+<meta property="og:description" content="简单介绍RocketMQ相关概念并构建源码阅读环境。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/%E8%A7%A3%E5%86%B3%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98.png">
-<meta property="og:image" content="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=33f9d77f55df8db1bc7b74623913f16c/d439b6003af33a8786c9d6fdcd5c10385243b5b5.jpg">
-<meta property="og:updated_time" content="2020-02-15T14:34:44.566Z">
+<meta property="og:image" content="https://github.com/apache/rocketmq/raw/master/docs/cn/image/rocketmq_architecture_1.png">
+<meta property="og:updated_time" content="2020-07-09T06:08:06.429Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="idea常用技巧">
-<meta name="twitter:description" content="idea 中复制一个 Maven 工程 将原工程整个文件夹复制，重新命名，并删除掉里面的 .idea 文件夹； 用 idea 打开刚才重命名的文件夹，在 Project Structure ——&amp;gt; Project Settings ——&amp;gt; Project 和 Modules 里重新选择 Project SDK。 Artifacts 里面：选择刚刚打开的项目，再点 Apply。 配置 T">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg">
+<meta name="twitter:title" content="RocketMQ简单入门">
+<meta name="twitter:description" content="简单介绍RocketMQ相关概念并构建源码阅读环境。">
+<meta name="twitter:image" content="https://github.com/apache/rocketmq/raw/master/docs/cn/image/rocketmq_architecture_1.png">
 
 
 
@@ -130,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/05/26/idea常用技巧/">
+  <link rel="canonical" href="http://yoursite.com/2020/07/09/RocketMQ简单入门/">
 
 
 
 
 
-  <title> idea常用技巧 | Dai戴的博客 </title>
+  <title> RocketMQ简单入门 | Dai戴的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -265,7 +263,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/26/idea常用技巧/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/RocketMQ简单入门/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DQJ">
@@ -286,7 +284,7 @@
             
             
               
-                idea常用技巧
+                RocketMQ简单入门
               
             
           </h1>
@@ -301,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-26T17:30:58+08:00">
-                2019-05-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-09T10:37:03+08:00">
+                2020-07-09
               </time>
             
 
@@ -324,8 +322,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/IDE/" itemprop="url" rel="index">
-                    <span itemprop="name">IDE</span>
+                  <a href="/categories/RocketMQ/" itemprop="url" rel="index">
+                    <span itemprop="name">RocketMQ</span>
                   </a>
                 </span>
 
@@ -347,6 +345,10 @@
           
 
           
+              <div class="post-description">
+                  简单介绍RocketMQ相关概念并构建源码阅读环境。
+              </div>
+          
 
         </div>
       </header>
@@ -359,23 +361,40 @@
       
 
       
-        <h2 id="idea-中复制一个-Maven-工程"><a href="#idea-中复制一个-Maven-工程" class="headerlink" title="idea 中复制一个 Maven 工程"></a>idea 中复制一个 Maven 工程</h2><ol>
-<li>将原工程整个文件夹复制，重新命名，<strong>并删除掉里面的 .idea 文件夹</strong>；</li>
-<li>用 idea 打开刚才重命名的文件夹，在 Project Structure ——&gt; Project Settings ——&gt; Project 和 Modules 里重新选择 Project SDK。</li>
-<li>Artifacts 里面：<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1g3euu3su7mj30sj0kdmxw.jpg" alt><br>选择刚刚打开的项目，再点 Apply。</li>
-<li>配置 Tomcat<br>Run ——&gt; Edit Configurations，点左侧绿色的 + 号，选择本地 tomcat，并自己命名。<br>选择 Deployment，点 + 号，选择“Artifact”，再点 Apply，OK。启动项目即可打开网页。</li>
+        <h2 id="消息队列简介"><a href="#消息队列简介" class="headerlink" title="消息队列简介"></a>消息队列简介</h2><p>消息队列是一种应用于分布式应用的各个系统之间，作为消息的中转站，具备<strong>异步削峰</strong>和<strong>解耦</strong>等特性的消息中间件系统。</p>
+<ul>
+<li>异步削峰体现在消息队列能将用户的请求立即返回，同时把这些请求存储起来让服务消费端从消息队列中取，而不是将大量请求直接发到应用服务器或数据库上；</li>
+<li>解耦体现在消息队列提供的“主题订阅”机制。如果没有消息队列，那么每增加一个新的业务，都需要在服务生产系统中编写相应的调用接口。而有了消息队列，服务生产者可以将生产出来的消息添加到消息队列中，服务消费者只需要订阅它想要的主题消息就可以了。</li>
+</ul>
+<p>当然，在系统中引入消息队列也会使得系统可用性降低、复杂性提高。常见问题有：</p>
+<ul>
+<li>如何保证消息队列的高可用</li>
+<li>如何保证消息没有被重复消费</li>
+<li>如何保证消息是被顺序消费的</li>
+<li>消息丢失了怎么办</li>
+<li>……</li>
+</ul>
+<p>常用的消息队列有：RocketMQ、Kafka、RabbitMQ、ActiveMQ等：</p>
+<ol>
+<li>前两者是百万级的吞吐量，后两者是万级的吞吐量；</li>
+<li>前两者基于分布式架构，后两者基于主从架构；</li>
+<li>Kafka 一般用于大数据领域的实时计算以及日志采集；</li>
+<li>RabbitMQ 基于 erlang 开发，性能极好。</li>
 </ol>
-<h2 id="idea中复制一个普通工程"><a href="#idea中复制一个普通工程" class="headerlink" title="idea中复制一个普通工程"></a>idea中复制一个普通工程</h2><p><a href="https://www.cnblogs.com/kaiwen/p/10232908.html" target="_blank" rel="noopener">https://www.cnblogs.com/kaiwen/p/10232908.html</a></p>
-<p>在上面的基础上，还需要在<code>Project Structure</code>—<code>Project Settings</code>—<code>Project</code>里面制定输出的文件夹路径，如：<code>G:\JavaWorkspace\RPC\RPC_V2\out</code>。</p>
-<h2 id="导入项目后右键无法运行Main方法"><a href="#导入项目后右键无法运行Main方法" class="headerlink" title="导入项目后右键无法运行Main方法"></a>导入项目后右键无法运行Main方法</h2><p><a href="https://blog.csdn.net/yyj108317/article/details/89182332" target="_blank" rel="noopener">https://blog.csdn.net/yyj108317/article/details/89182332</a></p>
-<h2 id="解决Tomcat控制台乱码问题"><a href="#解决Tomcat控制台乱码问题" class="headerlink" title="解决Tomcat控制台乱码问题"></a>解决Tomcat控制台乱码问题</h2><p>在<code>Run/Edit Configurations...</code>里面输入下图红框中的内容：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/%E8%A7%A3%E5%86%B3%E6%8E%A7%E5%88%B6%E5%8F%B0%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98.png" alt></p>
-<h2 id="idea-运行单个程序"><a href="#idea-运行单个程序" class="headerlink" title="idea 运行单个程序"></a>idea 运行单个程序</h2><p>有的时候只想运行某份代码，不想编译其它的代码，这是需要设置一下：</p>
-<p>Run - Edit Configuration - Before launch 里面，把 <strong>Build</strong> 换成<strong>Build, no error check</strong>，Apply 之后就行了。当然，前提是这个文件中 main 函数所依赖的所有 class 文件都没有错误。</p>
-<h2 id="解除Git关联"><a href="#解除Git关联" class="headerlink" title="解除Git关联"></a>解除Git关联</h2><p>由<a href="https://blog.csdn.net/Alex_81D/article/details/80392935" target="_blank" rel="noopener">这篇博客</a>可知：</p>
-<p>file -&gt;settings-&gt;version control 选中这一栏,右边有个</p>
-<p><a href="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/d439b6003af33a8786c9d6fdcd5c10385243b5b5.jpg" target="_blank" rel="noopener"><img src="https://gss0.baidu.com/7Po3dSag_xI4khGko9WTAnF6hhy/zhidao/wh%3D600%2C800/sign=33f9d77f55df8db1bc7b74623913f16c/d439b6003af33a8786c9d6fdcd5c10385243b5b5.jpg" alt="img"></a></p>
-<p>点红色减号,就解除了,然后去项目目录下删除.git这个文件夹,你可以不删除,为了以后继续关联。</p>
-<p>提交到远程仓库的时候，需要在 Settings-&gt;Version Control 里检查是否是“Unregistered roots”，若是的话，就需要选中该路径，如<code>G:\JavaWorkspace\RPC\RPC_V4</code>，点击左上角的“+”号即可，然后Apply。</p>
+<h2 id="RocketMQ-架构"><a href="#RocketMQ-架构" class="headerlink" title="RocketMQ 架构"></a>RocketMQ 架构</h2><p><a href="https://github.com/apache/rocketmq" target="_blank" rel="noopener">RocketMQ 源码包</a>中有个 doc 文件夹，里面有中英文说明文档，为了后面的源码阅读，可以<code>git clone</code>下来。下图来自官方文档。</p>
+<p><img src="https://github.com/apache/rocketmq/raw/master/docs/cn/image/rocketmq_architecture_1.png" alt></p>
+<p>从<a href="https://github.com/apache/rocketmq/blob/master/docs/cn/architecture.md" target="_blank" rel="noopener">官方文档</a>中可以得知，RocketMQ 在架构上主要分为四部分：</p>
+<ul>
+<li><strong>Producer</strong>：消息发布者。Producer 通过 MQ 的负载均衡模块选择相应的 Broker 集群队列进行消息投递，投递的过程支持快速失败并且低延迟。</li>
+<li><strong>Consumer</strong>：消息消费者。支持以 push 推，pull 拉两种模式对消息进行消费。同时也支持集群方式和广播方式的消费，它提供实时消息订阅机制，可以满足大多数用户的需求。</li>
+<li><strong>NameServer</strong>：Topic 路由注册中心。其角色类似 Dubbo 中的 zookeeper，支持 Broker 的动态注册与发现。主要包括两个功能：1. Broker 管理，NameServer 接受 Broker 集群的注册信息并且保存下来作为路由信息的基本数据。然后提供心跳检测机制，检查 Broker 是否还存活；2. 路由信息管理，每个 NameServer 将保存关于 Broker集群的整个路由信息和用于客户端查询的队列信息。然后 Producer 和 Consumer 通过 NameServer 就可以知道整个 Broker 集群的路由信息，从而进行消息的投递和消费。NameServer通常也是集群的方式部署，各实例间相互不进行信息通讯。Broker 是向每一台 NameServer 注册自己的路由信息，所以每一个 NameServer 实例上面都保存一份完整的路由信息。当某个 NameServer 因某种原因下线了，Broker 仍然可以向其它 NameServer 同步其路由信息，Producer,Consumer 仍然可以动态感知 Broker 的路由的信息。</li>
+<li><strong>Broker</strong>：Broker 主要负责消息的存储、投递和查询以及服务高可用保证。</li>
+</ul>
+<h2 id="源码构建"><a href="#源码构建" class="headerlink" title="源码构建"></a>源码构建</h2><p>RocketMQ 的部署和使用直接看<a href="http://rocketmq.apache.org/docs/quick-start/" target="_blank" rel="noopener">官网介绍</a>就行。</p>
+<p>RocketMQ 的源码构建过程比较简单（相比 Spring），这里不过多介绍，《RocketMQ技术内幕》中写得挺详细。尽量不要选择最新的版本，因为可能会出现意想不到的问题。</p>
+<p>可以通过<code>git show</code>查看当前分支的版本号，<code>git tag</code>查看所有版本号，为了检出特定版本，可以执行<code>git checkout 版本号</code>命令。</p>
+<p>构建完成后先运行一个 demo。<code>example</code>包下有一个<code>quickstart</code>包，里面有<code>Consumer</code>和<code>Producer</code>的简单示例。因为在本地运行，所以把这两个文件下的<code>setNamesrvAddr</code>地址改为本地地址。随后运行<code>NamesrvStartup.main()</code>和<code>BrokerStartup.main()</code>启动<code>NameServer</code>和<code>Broker</code>，<code>Broker</code>启动时没有出现任何信息说明启动正常，如果出现异常，可以查看日志文件找出异常原因。</p>
+<p>下一篇开始进行源码分析，先分析<code>NameServer</code>。</p>
 
       
     </div>
@@ -405,9 +424,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/IDE常用技巧/" rel="tag"># IDE常用技巧</a>
-          
-            <a href="/tags/idea/" rel="tag"># idea</a>
+            <a href="/tags/RocketMQ/" rel="tag"># RocketMQ</a>
           
         </div>
       
@@ -420,8 +437,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/05/25/MyBatis学习记录/" rel="next" title="MyBatis学习记录">
-                <i class="fa fa-chevron-left"></i> MyBatis学习记录
+              <a href="/2020/02/13/实现自己的RPC框架（四）/" rel="next" title="实现自己的RPC框架（四）">
+                <i class="fa fa-chevron-left"></i> 实现自己的RPC框架（四）
               </a>
             
           </div>
@@ -429,10 +446,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/06/05/jsp知识记录/" rel="prev" title="jsp知识记录">
-                jsp知识记录 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -579,7 +592,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-中复制一个-Maven-工程"><span class="nav-number">1.</span> <span class="nav-text">idea 中复制一个 Maven 工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#idea中复制一个普通工程"><span class="nav-number">2.</span> <span class="nav-text">idea中复制一个普通工程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#导入项目后右键无法运行Main方法"><span class="nav-number">3.</span> <span class="nav-text">导入项目后右键无法运行Main方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决Tomcat控制台乱码问题"><span class="nav-number">4.</span> <span class="nav-text">解决Tomcat控制台乱码问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#idea-运行单个程序"><span class="nav-number">5.</span> <span class="nav-text">idea 运行单个程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解除Git关联"><span class="nav-number">6.</span> <span class="nav-text">解除Git关联</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#消息队列简介"><span class="nav-number">1.</span> <span class="nav-text">消息队列简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RocketMQ-架构"><span class="nav-number">2.</span> <span class="nav-text">RocketMQ 架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码构建"><span class="nav-number">3.</span> <span class="nav-text">源码构建</span></a></li></ol></div>
             
 
           </div>

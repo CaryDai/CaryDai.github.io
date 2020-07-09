@@ -99,7 +99,7 @@
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v3%E5%9F%BA%E4%BA%8EZookeeper%E7%9A%84%E6%9C%8D%E5%8A%A1%E6%B3%A8%E5%86%8C%E4%B8%8E%E5%8F%91%E7%8E%B0.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v3%E8%8A%82%E7%82%B9%E6%B3%A8%E5%86%8C%E6%88%90%E5%8A%9F.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v3%E5%8A%A0%E5%85%A5ZooKeeper%E5%90%8E%E8%BF%90%E8%A1%8C%E6%88%90%E5%8A%9F.png">
-<meta property="og:updated_time" content="2020-02-26T06:56:20.308Z">
+<meta property="og:updated_time" content="2020-03-13T06:20:29.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现自己的RPC框架（三）">
 <meta name="twitter:description" content="第三版RPC，在第二版基础上加了在服务端用线程池来处理多个客户端请求。此外，以ZooKeeper作为服务注册中心。">
@@ -364,7 +364,7 @@
       
 
       
-        <h2 id="增加线程池"><a href="#增加线程池" class="headerlink" title="增加线程池"></a>增加线程池</h2><p>首先在服务端加入线程池以替代原来的单线程处理的方式。为了代码逻辑更加清晰，我先把Server端的服务缓存模块单独抽离出来：</p>
+        <h2 id="增加线程池"><a href="#增加线程池" class="headerlink" title="增加线程池"></a>增加线程池</h2><p>首先在服务端加入线程池以更好地管理线程资源。为了代码逻辑更加清晰，我先把Server端的服务缓存模块单独抽离出来：</p>
 <p><code>ServerServices</code>的代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> dqj</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 2020/1/10</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> Server端的缓存。</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ServerServices</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 用来存放Server端对象的缓存</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> HashMap&lt;String, Class&gt; remoteServices = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 把一个Server端对象放到缓存中</span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">register</span><span class="params">(Class className, Class remoteImpl)</span> </span>&#123;</span><br><span class="line">        remoteServices.put(className.getName(), remoteImpl);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 将Server端的的服务都缓存进来</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">registerServices</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.register(HelloService.class, HelloServiceImpl.class);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>接着在服务端的启动类中写线程池的代码，使用<code>ThreadPoolExecutor</code>类，调用它的构造函数来构造出一个线程池。接着在与客户端建立连接后，不断监听客户端的请求，若收到了客户端的请求，则启动一个线程来处理该请求。</p>
@@ -386,7 +386,7 @@
 <li><p>构造函数——用于创建一个 ZooKeeper 客户端对象</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZooKeeper(String connectString, <span class="keyword">int</span> sessionTimeout, Watcher watcher)</span><br></pre></td></tr></table></figure>
 <ul>
-<li><code>connectString</code>是<code>host:port</code>形式，表示 Zookeeper 服务器的 IP 地址和端口号，默认的用于给 client 提供服务的端口是<code>2181</code>；</li>
+<li><code>connectString</code>是<code>host:port</code>形式，表示 ZooKeeper 服务器的 IP 地址和端口号，默认的用于给 client 提供服务的端口是<code>2181</code>；</li>
 <li><code>sessionTimeout</code>表示会话的超时时间；</li>
 <li><code>Watcher</code>是服务消费方用于监听服务变动的，它将会处理对应的触发事件。</li>
 </ul>
@@ -396,7 +396,7 @@
 <ul>
 <li><code>path</code>表示生成的节点的路径；</li>
 <li><code>data</code>表示节点的初始值；</li>
-<li><code>acl</code>表示节点的访问权限，对于Zookeeper客户端来说，有3种标准的 ACL：<ul>
+<li><code>acl</code>表示节点的访问权限，对于ZooKeeper客户端来说，有3种标准的 ACL：<ul>
 <li>OPEN_ACL_UNSAFE：使所有ACL都“开放”了：任何应用程序在节点上可进行任何操作，能创建、列出和删除它的子节点。</li>
 <li>READ_ACL_UNSAFE：对任何应用程序都是只读的。</li>
 <li>CREATOR_ALL_ACL：赋予了节点的创建者所有的权限，在创建者采用此ACL创建节点之前，已经被服务器所认证（例如，采用 “ <em>digest</em>”方案）。</li>
@@ -565,7 +565,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -576,7 +576,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -587,7 +587,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

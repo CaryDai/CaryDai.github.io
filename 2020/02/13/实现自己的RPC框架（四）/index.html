@@ -102,7 +102,7 @@
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/Netty_EventLoopGroup.jpg">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4Server%E5%8F%91%E9%80%81%E5%B9%B6%E6%8E%A5%E6%94%B6%E6%B6%88%E6%81%AF.png">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/v4Client%E5%8F%91%E9%80%81%E5%B9%B6%E6%8E%A5%E6%94%B6%E6%B6%88%E6%81%AF.png">
-<meta property="og:updated_time" content="2020-02-26T12:35:10.665Z">
+<meta property="og:updated_time" content="2020-03-13T10:43:16.857Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="实现自己的RPC框架（四）">
 <meta name="twitter:description" content="使用Netty替代传统的BIO，增强系统的并发量和性能。">
@@ -373,7 +373,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 服务端监听请求</span></span><br><span class="line"><span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">    Socket socket = listener.accept();	<span class="comment">// 阻塞</span></span><br><span class="line">    <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">        ...</span><br><span class="line">        read(data);	<span class="comment">// 阻塞</span></span><br><span class="line">        ...</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>这个线程会调用<code>read()</code>去读取客户端的数据，那么在读取到数据前，这个线程会被阻塞，在此期间它只能等着，直到其读到数据。</p>
 <p>虽然上个版本中，在服务端引入了线程池来管理这些线程，但是线程池只是保证资源占用是可控的——无论有多少个客户端并发访问，都不会导致资源的耗尽和宕机。然而其本质上还是同步阻塞的 BIO 方式，在高并发的情况下，多余的请求只能一直等待。所以考虑使用 NIO 来解决线程阻塞的问题。</p>
-<p>NIO是一种同步非阻塞的I/O模型，它支持面向缓冲的，基于通道的I/O操作方法。NIO 使用 Selector 解决了线程的阻塞问题。服务端监测到新的连接之后，不再创建一个新的线程，而是将这个请求交给Selector，Selector会不断地去遍历所有的Socket，一旦有一个Socket建立完成，他会通知Thread，然后Thread处理完数据再返回给客户端 Socket ——<strong>这个过程是不阻塞的</strong>，这样就能让一个Thread处理更多的请求了。（比如我这个线程刚处理完 Socket2 的连接请求，现在 Selector 通知我可以去处理 Socket1 的读数据请求了。这样，线程不会傻瓜式地等在那里，浪费资源。）</p>
+<p>NIO是一种同步非阻塞的I/O模型，它支持面向缓冲的，基于通道的I/O操作方法。NIO 使用 Selector 解决了线程的阻塞问题。服务端监测到新的连接之后，不再创建一个新的线程，而是将这个请求交给Selector，Selector会不断地去遍历所有的Socket，一旦有一个Socket建立完成，他会通知Thread，然后Thread处理完数据再返回给客户端 Socket ——<strong>这个过程是不阻塞的</strong>，这样就能让一个Thread处理更多的请求了。（比如我这个线程刚处理完 Socket2 的连接请求，现在 Selector 通知我可以去处理 Socket1 的读数据请求了。这样，一个线程可以处理多个客户端的请求，节省了线程资源开销。）</p>
 <p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RPC/NIO%E6%A8%A1%E5%9E%8B.webp" alt></p>
 <h3 id="从NIO到Netty"><a href="#从NIO到Netty" class="headerlink" title="从NIO到Netty"></a>从NIO到Netty</h3><p>Java 原生的 NIO 代码比较复杂，而 Netty 是一款基于 NIO 开发的网络通信框架，使用它可以高效地使用 NIO 的特性，并且可以减轻编码压力，所以我选择直接使用 Netty 来替代原先的 BIO 通信方式。</p>
 <p>Netty 的内容其实并不少，在W3Cschool上可以找到<a href="https://www.w3cschool.cn/essential_netty_in_action/essential_netty_in_action-ofey289e.html" target="_blank" rel="noopener">《Netty 实战精髓》</a>的电子书。它里面有一个例子：实现一个 echo 服务器，看懂了这个例子，再在自己的 RPC 中加入 Netty 就相对容易了。</p>
@@ -471,6 +471,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/07/09/RocketMQ简单入门/" rel="prev" title="RocketMQ简单入门">
+                RocketMQ简单入门 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -539,7 +543,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -550,7 +554,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -561,7 +565,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

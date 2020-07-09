@@ -87,18 +87,20 @@
 
 
 
-<meta name="description" content="这篇博客用来记录平常遇到的坑。  从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。  最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在这篇贴吧上找到了跟我同样">
+<meta name="description" content="这篇博客用来记录平常遇到的坑。 idea文件导入从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。 Ubuntu进不了桌面最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问">
 <meta name="keywords" content="idea">
 <meta property="og:type" content="article">
 <meta property="og:title" content="日常爬坑记录">
 <meta property="og:url" content="http://yoursite.com/2019/07/12/日常爬坑记录/index.html">
 <meta property="og:site_name" content="Dai戴的博客">
-<meta property="og:description" content="这篇博客用来记录平常遇到的坑。  从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。  最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在这篇贴吧上找到了跟我同样">
+<meta property="og:description" content="这篇博客用来记录平常遇到的坑。 idea文件导入从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。 Ubuntu进不了桌面最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-02-15T15:03:10.092Z">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1gdi3zpbbo6j30ix0e774g.jpg">
+<meta property="og:updated_time" content="2020-04-04T14:35:37.157Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="日常爬坑记录">
-<meta name="twitter:description" content="这篇博客用来记录平常遇到的坑。  从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。  最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在这篇贴吧上找到了跟我同样">
+<meta name="twitter:description" content="这篇博客用来记录平常遇到的坑。 idea文件导入从github克隆到本地的代码，在用idea打开时，在拉取下来后，不要用import导入，选择open打开。 Ubuntu进不了桌面最近在ubuntu上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去ubuntu的桌面了，只显示ubuntu的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/005Mjp9lly1gdi3zpbbo6j30ix0e774g.jpg">
 
 
 
@@ -356,16 +358,22 @@
 
       
         <p>这篇博客用来记录平常遇到的坑。</p>
-<ul>
-<li><p>从<code>github</code>克隆到本地的代码，在用<code>idea</code>打开时，在拉取下来后，不要用<code>import</code>导入，选择<code>open</code>打开。</p>
-</li>
-<li><p>最近在<code>ubuntu</code>上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去<code>ubuntu</code>的桌面了，只显示<code>ubuntu</code>的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在<a href="http://tieba.baidu.com/p/6168733787" target="_blank" rel="noopener">这篇贴吧</a>上找到了跟我同样问题的人。之前其实根据<a href="https://jingyan.baidu.com/article/5225f26b9bceefe6fb090843.html" target="_blank" rel="noopener">这篇经验</a>是可以进入到桌面的，但是它里面说的解决方案对我不适用。<br>其实之前我的<code>ubuntu18.04</code>虚拟机默认使用的是一个叫做<code>gdm3</code>的桌面管理环境，估计在更新的时候出现了问题。于是根据那篇贴吧，我使用<code>lightdm</code>作为我的桌面管理环境，在终端输入<code>sudo apt-get install lightdm</code>即可完成<code>lightdm</code>的下载安装，在安装过程中它会让你选择默认的桌面管理环境，只需选择<code>lightdm</code>就行了。</p>
-</li>
-<li><p>今天提交博客的时候莫名出现了以下问题：<br><code>ssh: connect to host github.com port 22: Connection timed out fatal: Could not read from remote repository.</code><br>解决方法是在存放公钥私钥(id_rsa和id_rsa.pub)的文件里，新建config文本，内容如下：</p>
+<h2 id="idea文件导入"><a href="#idea文件导入" class="headerlink" title="idea文件导入"></a>idea文件导入</h2><p>从<code>github</code>克隆到本地的代码，在用<code>idea</code>打开时，在拉取下来后，不要用<code>import</code>导入，选择<code>open</code>打开。</p>
+<h2 id="Ubuntu进不了桌面"><a href="#Ubuntu进不了桌面" class="headerlink" title="Ubuntu进不了桌面"></a>Ubuntu进不了桌面</h2><p>最近在<code>ubuntu</code>上装环境时跳出来说有部分软件需要更新，于是我点了更新，但是提示我更新失败。之后再打开虚拟机时发现进不去<code>ubuntu</code>的桌面了，只显示<code>ubuntu</code>的图标，没有登录密码的输入框，即卡在登录页面之前。找了好久问题，后来在<a href="http://tieba.baidu.com/p/6168733787" target="_blank" rel="noopener">这篇贴吧</a>上找到了跟我同样问题的人。之前其实根据<a href="https://jingyan.baidu.com/article/5225f26b9bceefe6fb090843.html" target="_blank" rel="noopener">这篇经验</a>是可以进入到桌面的，但是它里面说的解决方案对我不适用。<br>其实之前我的<code>ubuntu18.04</code>虚拟机默认使用的是一个叫做<code>gdm3</code>的桌面管理环境，估计在更新的时候出现了问题。于是根据那篇贴吧，我使用<code>lightdm</code>作为我的桌面管理环境，在终端输入<code>sudo apt-get install lightdm</code>即可完成<code>lightdm</code>的下载安装，在安装过程中它会让你选择默认的桌面管理环境，只需选择<code>lightdm</code>就行了。</p>
+<h2 id="git提交代码报错"><a href="#git提交代码报错" class="headerlink" title="git提交代码报错"></a>git提交代码报错</h2><p>今天提交博客的时候莫名出现了以下问题：<br><code>ssh: connect to host github.com port 22: Connection timed out fatal: Could not read from remote repository.</code><br>解决方法是在存放公钥私钥(id_rsa和id_rsa.pub)的文件里，新建config文本，内容如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Host github.com</span><br><span class="line">Hostname ssh.github.com</span><br><span class="line">Port 443</span><br></pre></td></tr></table></figure>
 <p>再次执行<code>ssh -T git@github.com</code>，验证就可以通过。</p>
+<h2 id="MySQL文件导入问题"><a href="#MySQL文件导入问题" class="headerlink" title="MySQL文件导入问题"></a>MySQL文件导入问题</h2><p>今天在把实验数据导入时，折腾了好一会儿。</p>
+<ol>
+<li><p>在导入数据时，会有一个“选择分隔符”的选项，如果是tab分隔的话，要选择“其它分隔符”，然后在后面的输入框中输入tab分隔符，这个tab分隔符可以去txt文件中直接复制过来。</p>
 </li>
-</ul>
+<li><p>一开始爬下来的数据的第一行是没有统一的列名的，直接是数据，这时如果要导入的话，按照下面的图填表：<br><img src="http://ww1.sinaimg.cn/large/005Mjp9lly1gdi3zpbbo6j30ix0e774g.jpg" alt="1.导入数据行选择.png"></p>
+</li>
+<li><p>上面那种方式在后面的操作中需要手动去指定“源字段”和“目标字段”，如果有多个文件需要导入的话，无疑会增加很大的工作量。所以可以在每个文件的第一行，根据数据库的列名，加入对应的列名，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PATENT_ID	name	patent_abstract</span><br></pre></td></tr></table></figure>
+<p>这样在导入数据时，上面那张图的“字段名行”和“第一个数据行”根据默认值就行了，分别是1和2。</p>
+</li>
+</ol>
 
       
     </div>
@@ -467,8 +475,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="DQJ">
           <p class="site-author-name" itemprop="name">DQJ</p>
@@ -481,7 +498,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">30</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -492,7 +509,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -503,7 +520,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -548,6 +565,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#idea文件导入"><span class="nav-number">1.</span> <span class="nav-text">idea文件导入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu进不了桌面"><span class="nav-number">2.</span> <span class="nav-text">Ubuntu进不了桌面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#git提交代码报错"><span class="nav-number">3.</span> <span class="nav-text">git提交代码报错</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MySQL文件导入问题"><span class="nav-number">4.</span> <span class="nav-text">MySQL文件导入问题</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
