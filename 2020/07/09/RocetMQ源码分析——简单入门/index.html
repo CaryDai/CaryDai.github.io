@@ -71,7 +71,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
 
 
-  <meta name="keywords" content="Redis,">
+  <meta name="keywords" content="RocketMQ,">
 
 
 
@@ -87,31 +87,20 @@
 
 
 
-<meta name="description" content="主从简介配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。 目的：  读写分离提高Redis 性能； 避免单点故障，容灾快速恢复。  原理：每次从机联通后，都会给主机发送sync指令，主机立刻进行存盘操作，发送RDB 文件给从机。从机收到RDB文件">
-<meta name="keywords" content="Redis">
+<meta name="description" content="简单介绍RocketMQ相关概念并构建源码阅读环境。">
+<meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis主从复制">
-<meta property="og:url" content="http://yoursite.com/2019/09/02/redis主从复制/index.html">
+<meta property="og:title" content="RocketMQ简单入门">
+<meta property="og:url" content="http://yoursite.com/2020/07/09/RocetMQ源码分析——简单入门/index.html">
 <meta property="og:site_name" content="Dai戴的博客">
-<meta property="og:description" content="主从简介配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。 目的：  读写分离提高Redis 性能； 避免单点故障，容灾快速恢复。  原理：每次从机联通后，都会给主机发送sync指令，主机立刻进行存盘操作，发送RDB 文件给从机。从机收到RDB文件">
+<meta property="og:description" content="简单介绍RocketMQ相关概念并构建源码阅读环境。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/46.%E4%B8%BB%E6%9C%BA%E4%B8%8E%E4%BB%8E%E6%9C%BA.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/47.%E4%B8%BB%E4%BB%8E%E6%9C%BA.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/48.79%E7%9A%84info.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/49.80%E7%9A%84info.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/50.%E4%B8%BB%E6%9C%BA%E5%AE%95%E6%9C%BA%E6%97%B6.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/51.%E4%B8%BB%E6%9C%BA%E6%B4%BB%E4%BA%86.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/52.%E4%BB%8E%E6%9C%BA%E6%AD%BB%E4%BA%86.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/53.%E8%96%AA%E7%81%AB%E7%9B%B8%E4%BC%A0.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F1.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F2.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F3.png">
-<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F4.png">
-<meta property="og:updated_time" content="2019-09-08T05:57:13.334Z">
+<meta property="og:image" content="https://github.com/apache/rocketmq/raw/master/docs/cn/image/rocketmq_architecture_1.png">
+<meta property="og:updated_time" content="2020-07-09T06:08:06.429Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Redis主从复制">
-<meta name="twitter:description" content="主从简介配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。 目的：  读写分离提高Redis 性能； 避免单点故障，容灾快速恢复。  原理：每次从机联通后，都会给主机发送sync指令，主机立刻进行存盘操作，发送RDB 文件给从机。从机收到RDB文件">
-<meta name="twitter:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/46.%E4%B8%BB%E6%9C%BA%E4%B8%8E%E4%BB%8E%E6%9C%BA.png">
+<meta name="twitter:title" content="RocketMQ简单入门">
+<meta name="twitter:description" content="简单介绍RocketMQ相关概念并构建源码阅读环境。">
+<meta name="twitter:image" content="https://github.com/apache/rocketmq/raw/master/docs/cn/image/rocketmq_architecture_1.png">
 
 
 
@@ -139,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/02/redis主从复制/">
+  <link rel="canonical" href="http://yoursite.com/2020/07/09/RocetMQ源码分析——简单入门/">
 
 
 
 
 
-  <title> Redis主从复制 | Dai戴的博客 </title>
+  <title> RocketMQ简单入门 | Dai戴的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -274,7 +263,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/redis主从复制/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/RocetMQ源码分析——简单入门/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="DQJ">
@@ -295,7 +284,7 @@
             
             
               
-                Redis主从复制
+                RocketMQ简单入门
               
             
           </h1>
@@ -310,8 +299,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T21:39:12+08:00">
-                2019-09-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-07-09T10:37:03+08:00">
+                2020-07-09
               </time>
             
 
@@ -333,8 +322,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Redis/" itemprop="url" rel="index">
-                    <span itemprop="name">Redis</span>
+                  <a href="/categories/RocketMQ/" itemprop="url" rel="index">
+                    <span itemprop="name">RocketMQ</span>
                   </a>
                 </span>
 
@@ -356,6 +345,10 @@
           
 
           
+              <div class="post-description">
+                  简单介绍RocketMQ相关概念并构建源码阅读环境。
+              </div>
+          
 
         </div>
       </header>
@@ -368,42 +361,40 @@
       
 
       
-        <h2 id="主从简介"><a href="#主从简介" class="headerlink" title="主从简介"></a>主从简介</h2><p>配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的<br>master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。</p>
-<p>目的：</p>
+        <h2 id="消息队列简介"><a href="#消息队列简介" class="headerlink" title="消息队列简介"></a>消息队列简介</h2><p>消息队列是一种应用于分布式应用的各个系统之间，作为消息的中转站，具备<strong>异步削峰</strong>和<strong>解耦</strong>等特性的消息中间件系统。</p>
 <ul>
-<li>读写分离提高Redis 性能；</li>
-<li>避免单点故障，容灾快速恢复。</li>
+<li>异步削峰体现在消息队列能将用户的请求立即返回，同时把这些请求存储起来让服务消费端从消息队列中取，而不是将大量请求直接发到应用服务器或数据库上；</li>
+<li>解耦体现在消息队列提供的“主题订阅”机制。如果没有消息队列，那么每增加一个新的业务，都需要在服务生产系统中编写相应的调用接口。而有了消息队列，服务生产者可以将生产出来的消息添加到消息队列中，服务消费者只需要订阅它想要的主题消息就可以了。</li>
 </ul>
-<p>原理：每次从机联通后，都会给主机发送<code>sync</code>指令，主机立刻进行存盘操作，发送<code>RDB</code> 文件给从机。从机收到<code>RDB</code>文件后，进行全盘加载。之后每次主机的写操作，都会立刻发送给从机，从机执行相同的命令。</p>
-<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/46.%E4%B8%BB%E6%9C%BA%E4%B8%8E%E4%BB%8E%E6%9C%BA.png" alt></p>
-<h3 id="一主二仆"><a href="#一主二仆" class="headerlink" title="一主二仆"></a>一主二仆</h3><ol>
-<li>首先拷贝多份配置文件并分别命名为<code>redis6379.conf</code>、<code>redis6380.conf</code>、<code>redis6381.conf</code>。修改各自的端口号为 6379、6380、6381。并修改相关日志文件和<code>dbfilename</code>。</li>
-<li>打开三个终端，使用命令<code>title 端口号</code>将三个终端的名字分别改为79/80/81。</li>
-<li>以<code>79</code>作为主机，<code>80</code>、<code>81</code>作为从机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/47.%E4%B8%BB%E4%BB%8E%E6%9C%BA.png" alt><br>可以看到从机可以把主机的所有值都备份过去。</li>
-<li>此时使用<code>info replication</code>命令查看：<br><code>79</code>的信息：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/48.79%E7%9A%84info.png" alt><br><code>80</code>的信息：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/49.80%E7%9A%84info.png" alt></li>
-<li>当主机关停后，两台从机的状态还是<code>slave</code>，并不会有一台变成主机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/50.%E4%B8%BB%E6%9C%BA%E5%AE%95%E6%9C%BA%E6%97%B6.png" alt></li>
-<li>当主机重新启动后，设置了一个新值，从机还是能正常取得新的值：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/51.%E4%B8%BB%E6%9C%BA%E6%B4%BB%E4%BA%86.png" alt></li>
-<li>当从机宕机后，如果重新开启，则它的角色又是一台主机（每次与master断开之后，都需要重新连接，除非你配置进<code>redis.conf</code>文件）：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/52.%E4%BB%8E%E6%9C%BA%E6%AD%BB%E4%BA%86.png" alt></li>
-</ol>
-<h3 id="薪火相传"><a href="#薪火相传" class="headerlink" title="薪火相传"></a>薪火相传</h3><p>上一个 Slave 可以是下一个 Slave 的 Master，Slave 同样可以接收其它 salves 的连接和同步请求，那么该 slave 作为了链条中下一个的 master，可以有效减轻 master 的写压力。</p>
-<p>中途变更转向，会清楚之前的数据，重新建立拷贝最新的。</p>
-<p>把<code>81</code>变成<code>80</code>的从机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/53.%E8%96%AA%E7%81%AB%E7%9B%B8%E4%BC%A0.png" alt></p>
-<p>可以看到<code>80</code>的身份还是从机，但是它又连着1个从机。</p>
-<h3 id="反客为主"><a href="#反客为主" class="headerlink" title="反客为主"></a>反客为主</h3><p><code>SLAVEOF no one</code>：使当前数据库停止与其它数据库的同步，转成主数据库。在<code>80</code>中执行这个命令，它就会成为一个新的主机。</p>
-<h2 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h2><p>简单讲，哨兵模式就是“反客为主”的自动版。能够从后台监控主机是否故障，如果出故障了<strong>根据投票数自动将从库转换为主库</strong>。</p>
+<p>当然，在系统中引入消息队列也会使得系统可用性降低、复杂性提高。常见问题有：</p>
+<ul>
+<li>如何保证消息队列的高可用</li>
+<li>如何保证消息没有被重复消费</li>
+<li>如何保证消息是被顺序消费的</li>
+<li>消息丢失了怎么办</li>
+<li>……</li>
+</ul>
+<p>常用的消息队列有：RocketMQ、Kafka、RabbitMQ、ActiveMQ等：</p>
 <ol>
-<li><p>首先在<code>/home/dqj/myredis</code>下编写哨兵的配置文件<code>sentinel.conf</code>，内容为：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor host6379 127.0.0.1 6379 1</span><br></pre></td></tr></table></figure>
-<p>哨兵监控6379这台主机。最后这个1表示主机宕机后，投票数大于1的从机将会成为主机。</p>
-</li>
-<li><p>cd到<code>/usr/local/bin</code>目录下，执行<code>redis-sentinel /home/dqj/myredis/sentinel.conf</code>命令启动哨兵：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F1.png" alt></p>
-</li>
-<li><p>此时关停79主机，过一会儿可以看到哨兵进行了新的主机选择。这里选了81作为新的主机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F2.png" alt></p>
-<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F3.png" alt></p>
-</li>
-<li><p>这个时候再重新启动79这台机子，发现哨兵会将它分配到80主机下，作为80的从机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F4.png" alt></p>
-</li>
+<li>前两者是百万级的吞吐量，后两者是万级的吞吐量；</li>
+<li>前两者基于分布式架构，后两者基于主从架构；</li>
+<li>Kafka 一般用于大数据领域的实时计算以及日志采集；</li>
+<li>RabbitMQ 基于 erlang 开发，性能极好。</li>
 </ol>
+<h2 id="RocketMQ-架构"><a href="#RocketMQ-架构" class="headerlink" title="RocketMQ 架构"></a>RocketMQ 架构</h2><p><a href="https://github.com/apache/rocketmq" target="_blank" rel="noopener">RocketMQ 源码包</a>中有个 doc 文件夹，里面有中英文说明文档，为了后面的源码阅读，可以<code>git clone</code>下来。下图来自官方文档。</p>
+<p><img src="https://github.com/apache/rocketmq/raw/master/docs/cn/image/rocketmq_architecture_1.png" alt></p>
+<p>从<a href="https://github.com/apache/rocketmq/blob/master/docs/cn/architecture.md" target="_blank" rel="noopener">官方文档</a>中可以得知，RocketMQ 在架构上主要分为四部分：</p>
+<ul>
+<li><strong>Producer</strong>：消息发布者。Producer 通过 MQ 的负载均衡模块选择相应的 Broker 集群队列进行消息投递，投递的过程支持快速失败并且低延迟。</li>
+<li><strong>Consumer</strong>：消息消费者。支持以 push 推，pull 拉两种模式对消息进行消费。同时也支持集群方式和广播方式的消费，它提供实时消息订阅机制，可以满足大多数用户的需求。</li>
+<li><strong>NameServer</strong>：Topic 路由注册中心。其角色类似 Dubbo 中的 zookeeper，支持 Broker 的动态注册与发现。主要包括两个功能：1. Broker 管理，NameServer 接受 Broker 集群的注册信息并且保存下来作为路由信息的基本数据。然后提供心跳检测机制，检查 Broker 是否还存活；2. 路由信息管理，每个 NameServer 将保存关于 Broker集群的整个路由信息和用于客户端查询的队列信息。然后 Producer 和 Consumer 通过 NameServer 就可以知道整个 Broker 集群的路由信息，从而进行消息的投递和消费。NameServer通常也是集群的方式部署，各实例间相互不进行信息通讯。Broker 是向每一台 NameServer 注册自己的路由信息，所以每一个 NameServer 实例上面都保存一份完整的路由信息。当某个 NameServer 因某种原因下线了，Broker 仍然可以向其它 NameServer 同步其路由信息，Producer,Consumer 仍然可以动态感知 Broker 的路由的信息。</li>
+<li><strong>Broker</strong>：Broker 主要负责消息的存储、投递和查询以及服务高可用保证。</li>
+</ul>
+<h2 id="源码构建"><a href="#源码构建" class="headerlink" title="源码构建"></a>源码构建</h2><p>RocketMQ 的部署和使用直接看<a href="http://rocketmq.apache.org/docs/quick-start/" target="_blank" rel="noopener">官网介绍</a>就行。</p>
+<p>RocketMQ 的源码构建过程比较简单（相比 Spring），这里不过多介绍，《RocketMQ技术内幕》中写得挺详细。尽量不要选择最新的版本，因为可能会出现意想不到的问题。</p>
+<p>可以通过<code>git show</code>查看当前分支的版本号，<code>git tag</code>查看所有版本号，为了检出特定版本，可以执行<code>git checkout 版本号</code>命令。</p>
+<p>构建完成后先运行一个 demo。<code>example</code>包下有一个<code>quickstart</code>包，里面有<code>Consumer</code>和<code>Producer</code>的简单示例。因为在本地运行，所以把这两个文件下的<code>setNamesrvAddr</code>地址改为本地地址。随后运行<code>NamesrvStartup.main()</code>和<code>BrokerStartup.main()</code>启动<code>NameServer</code>和<code>Broker</code>，<code>Broker</code>启动时没有出现任何信息说明启动正常，如果出现异常，可以查看日志文件找出异常原因。</p>
+<p>下一篇开始进行源码分析，先分析<code>NameServer</code>。</p>
 
       
     </div>
@@ -433,7 +424,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Redis/" rel="tag"># Redis</a>
+            <a href="/tags/RocketMQ/" rel="tag"># RocketMQ</a>
           
         </div>
       
@@ -446,8 +437,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/08/28/redis事务/" rel="next" title="Redis事务">
-                <i class="fa fa-chevron-left"></i> Redis事务
+              <a href="/2020/02/13/实现自己的RPC框架（四）/" rel="next" title="实现自己的RPC框架（四）">
+                <i class="fa fa-chevron-left"></i> 实现自己的RPC框架（四）
               </a>
             
           </div>
@@ -456,8 +447,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/09/16/SpringDI和AOP/" rel="prev" title="Spring DI和AOP">
-                Spring DI和AOP <i class="fa fa-chevron-right"></i>
+              <a href="/2020/07/10/RocetMQ源码分析——NameServer启动流程/" rel="prev" title="NameServer启动流程">
+                NameServer启动流程 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -605,7 +596,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主从简介"><span class="nav-number">1.</span> <span class="nav-text">主从简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一主二仆"><span class="nav-number">1.1.</span> <span class="nav-text">一主二仆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#薪火相传"><span class="nav-number">1.2.</span> <span class="nav-text">薪火相传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反客为主"><span class="nav-number">1.3.</span> <span class="nav-text">反客为主</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵模式"><span class="nav-number">2.</span> <span class="nav-text">哨兵模式</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#消息队列简介"><span class="nav-number">1.</span> <span class="nav-text">消息队列简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RocketMQ-架构"><span class="nav-number">2.</span> <span class="nav-text">RocketMQ 架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码构建"><span class="nav-number">3.</span> <span class="nav-text">源码构建</span></a></li></ol></div>
             
 
           </div>
