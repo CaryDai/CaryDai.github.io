@@ -97,7 +97,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RocketMQ/2.Broker%E5%92%8CTopic.jpg">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RocketMQ/3.NameServer%E8%B7%AF%E7%94%B1%E6%B3%A8%E5%86%8C%E3%80%81%E5%88%A0%E9%99%A4%E6%9C%BA%E5%88%B6.png">
-<meta property="og:updated_time" content="2020-07-10T03:10:34.814Z">
+<meta property="og:updated_time" content="2020-07-11T05:50:39.650Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NameServer路由注册与故障剔除">
 <meta name="twitter:description" content="NameServer的路由注册与故障剔除源码分析">
@@ -365,7 +365,7 @@
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在介绍路由注册与剔除前，首先需要熟悉几个相关类。</p>
 <h3 id="RouteInfoManager"><a href="#RouteInfoManager" class="headerlink" title="RouteInfoManager"></a>RouteInfoManager</h3><p><code>org\apache\rocketmq\namesrv\routeinfo\RouteInfoManager</code>是<code>NameServer</code>路由信息管理类，主要存储了以下信息：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Topic消息队列路由信息，消息发送时根据路由表进行负载均衡</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> HashMap&lt;String<span class="comment">/* topic */</span>, List&lt;QueueData&gt;&gt; topicQueueTable;</span><br><span class="line"><span class="comment">// Broker基础信息，包含brokerName、所属集群名称、主备Broker地址</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> HashMap&lt;String<span class="comment">/* brokerName */</span>, BrokerData&gt; brokerAddrTable;</span><br><span class="line"><span class="comment">// Broker集群信息，存储集群中所有Broker名称</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> HashMap&lt;String<span class="comment">/* clusterName */</span>, Set&lt;String<span class="comment">/* brokerName */</span>&gt;&gt; clusterAddrTable;</span><br><span class="line"><span class="comment">// Broker状态信息。NameServer每次收到心跳包时会替换该信息</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> HashMap&lt;String<span class="comment">/* brokerAddr */</span>, BrokerLiveInfo&gt; brokerLiveTable;</span><br><span class="line"><span class="comment">// Broker上的FilterServer列表，用于类模式消息过滤</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> HashMap&lt;String<span class="comment">/* brokerAddr */</span>, List&lt;String&gt;<span class="comment">/* Filter Server */</span>&gt; filterServerTable;</span><br></pre></td></tr></table></figure>
-<p>这里要先简单介绍一下 Broker 了。看下面这张图（来自网络）：</p>
+<p>这里要先简单介绍一下 Broker 。看下面这张图（来自网络）：</p>
 <p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RocketMQ/2.Broker%E5%92%8CTopic.jpg" style="zoom:80%;"></p>
 <p>一个 Topic 部署在多台 Broker 上，每台 Broker 可以存储多个 Topic 信息。</p>
 <p>RocketMQ 基于订阅发布机制，一个Topic 拥有多个消息队列，一个 Broker 为每一 Topic 默认创建4个读队列4个写队列。多个Broker 组成一个集群， BrokerName 由相同的多台Broker组成 Master-Slave 架构， brokerId 为0代表 Master ， 大于0表示Slave 。</p>
@@ -466,6 +466,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2020/07/11/RocketMQ源码分析——消息介绍与生产者启动流程/" rel="prev" title="RocketMQ源码分析——生产者启动流程">
+                RocketMQ源码分析——生产者启动流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -534,7 +538,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
