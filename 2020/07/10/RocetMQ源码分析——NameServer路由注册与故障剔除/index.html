@@ -90,16 +90,16 @@
 <meta name="description" content="NameServer的路由注册与故障剔除源码分析">
 <meta name="keywords" content="RocketMQ">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NameServer路由注册与故障剔除">
+<meta property="og:title" content="RocketMQ源码分析——NameServer路由注册与故障剔除">
 <meta property="og:url" content="http://yoursite.com/2020/07/10/RocetMQ源码分析——NameServer路由注册与故障剔除/index.html">
 <meta property="og:site_name" content="Dai戴的博客">
 <meta property="og:description" content="NameServer的路由注册与故障剔除源码分析">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RocketMQ/2.Broker%E5%92%8CTopic.jpg">
 <meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RocketMQ/3.NameServer%E8%B7%AF%E7%94%B1%E6%B3%A8%E5%86%8C%E3%80%81%E5%88%A0%E9%99%A4%E6%9C%BA%E5%88%B6.png">
-<meta property="og:updated_time" content="2020-07-11T05:50:39.650Z">
+<meta property="og:updated_time" content="2020-07-18T08:21:46.682Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="NameServer路由注册与故障剔除">
+<meta name="twitter:title" content="RocketMQ源码分析——NameServer路由注册与故障剔除">
 <meta name="twitter:description" content="NameServer的路由注册与故障剔除源码分析">
 <meta name="twitter:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RocketMQ/2.Broker%E5%92%8CTopic.jpg">
 
@@ -135,7 +135,7 @@
 
 
 
-  <title> NameServer路由注册与故障剔除 | Dai戴的博客 </title>
+  <title> RocketMQ源码分析——NameServer路由注册与故障剔除 | Dai戴的博客 </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -285,7 +285,7 @@
             
             
               
-                NameServer路由注册与故障剔除
+                RocketMQ源码分析——NameServer路由注册与故障剔除
               
             
           </h1>
@@ -368,7 +368,7 @@
 <p>这里要先简单介绍一下 Broker 。看下面这张图（来自网络）：</p>
 <p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/RocketMQ/2.Broker%E5%92%8CTopic.jpg" style="zoom:80%;"></p>
 <p>一个 Topic 部署在多台 Broker 上，每台 Broker 可以存储多个 Topic 信息。</p>
-<p>RocketMQ 基于订阅发布机制，一个Topic 拥有多个消息队列，一个 Broker 为每一 Topic 默认创建4个读队列4个写队列。多个Broker 组成一个集群， BrokerName 由相同的多台Broker组成 Master-Slave 架构， brokerId 为0代表 Master ， 大于0表示Slave 。</p>
+<p>RocketMQ 基于订阅发布机制，一个Topic 拥有多个消息队列，一个 Broker 为每一 Topic 默认创建4个读队列4个写队列。多个Broker 组成一个集群， BrokerName 由相同的多台Broker组成 Master-Slave 架构， brokerId 为0代表 Master ， 大于0表示 Slave 。</p>
 <h3 id="QueueData"><a href="#QueueData" class="headerlink" title="QueueData"></a>QueueData</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">QueueData</span> <span class="keyword">implements</span> <span class="title">Comparable</span>&lt;<span class="title">QueueData</span>&gt; </span>&#123;</span><br><span class="line">    <span class="comment">// Queue所属的Broker名字</span></span><br><span class="line">    <span class="keyword">private</span> String brokerName;</span><br><span class="line">    <span class="comment">// 该Broker上，针对该Topic，配置的读队列个数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> readQueueNums;</span><br><span class="line">    <span class="comment">// 该Broker上，针对该Topic，配置的写队列个数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> writeQueueNums;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> perm;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> topicSynFlag;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>结合上面的图其实挺容易理解，<code>RouteInfoManager</code>中的<code>topicQueueTable</code>消息队列表中指明了一个<code>topic</code>对应多个<code>QueueData</code>，所以<code>QueueData</code>就是该主题当前所属 Broker 消息队列，分读队列和写队列。</p>
 <h3 id="BrokerLiveInfo"><a href="#BrokerLiveInfo" class="headerlink" title="BrokerLiveInfo"></a>BrokerLiveInfo</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">BrokerLiveInfo</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 上次收到 Broker 心跳包的时间</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> lastUpdateTimestamp;</span><br><span class="line">    <span class="keyword">private</span> DataVersion dataVersion;</span><br><span class="line">    <span class="keyword">private</span> Channel channel;</span><br><span class="line">    <span class="keyword">private</span> String haServerAddr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -391,7 +391,7 @@
 <p>Broker 每隔 30s 会向 NameServer 集群中的所有 NameServer 发送心跳包，NameServer 收到心跳包后，使用读写锁的写锁加锁并更新当前 Broker 的基础信息、集群信息、状态信息、Topic消息队列路由信息以及<code>FilterServer</code>列表。</p>
 <h2 id="路由删除"><a href="#路由删除" class="headerlink" title="路由删除"></a>路由删除</h2><p>前面提到，Broker 会每隔 30s 向所有 NameServer 发送心跳包，但是如果 Broker 宕机，NameServer 将无法收到心跳包，此时就需要路由删除。《RocketMQ 中提到》：</p>
 <blockquote>
-<p>NameServer 会每隔10s扫描 brokerLiveTable 状态表，如果 BrokerLiveInfo 的 lastUpdateTimestamp 的时间戳距当前时间超过 120s ，则认为 Broker 失效，移除该 Broker，关闭与 Broker 连接，同时更新 topicQueueTable、brokerAddrTable、brokerLiveTable、filterServerTable</p>
+<p>NameServer 会每隔10s 扫描 brokerLiveTable 状态表，如果 BrokerLiveInfo 的 lastUpdateTimestamp 的时间戳距当前时间超过 120s ，则认为 Broker 失效，移除该 Broker，关闭与 Broker 连接，同时更新 topicQueueTable、brokerAddrTable、brokerLiveTable、filterServerTable</p>
 </blockquote>
 <h3 id="触发路由删除"><a href="#触发路由删除" class="headerlink" title="触发路由删除"></a>触发路由删除</h3><p>RocketMQ 有两个触发点来触发路由删除：</p>
 <ol>
@@ -456,8 +456,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/07/10/RocetMQ源码分析——NameServer启动流程/" rel="next" title="NameServer启动流程">
-                <i class="fa fa-chevron-left"></i> NameServer启动流程
+              <a href="/2020/07/10/RocetMQ源码分析——NameServer启动流程/" rel="next" title="RocketMQ源码分析——NameServer启动流程">
+                <i class="fa fa-chevron-left"></i> RocketMQ源码分析——NameServer启动流程
               </a>
             
           </div>
