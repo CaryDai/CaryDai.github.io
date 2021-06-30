@@ -1,0 +1,908 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Redis,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="解析配置文件redis.conf它在哪？默认是在下面的目录： 但是我把它拷贝了一份到/home/dqj/myredis/下。在Linux下开发，出厂默认的配置文件不要去改，拷贝出来一份后再进行修改。 Units单位  配置文件开头定义了一些基本的度量单位，只支持bytes，不支持bit。 对大小写不敏感。  常见配置redis.conf介绍 Redis默认不是以守护进程的方式运行，可以通过把dae">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis持久化">
+<meta property="og:url" content="http://yoursite.com/2019/08/27/redis持久化/index.html">
+<meta property="og:site_name" content="Dai戴的博客">
+<meta property="og:description" content="解析配置文件redis.conf它在哪？默认是在下面的目录： 但是我把它拷贝了一份到/home/dqj/myredis/下。在Linux下开发，出厂默认的配置文件不要去改，拷贝出来一份后再进行修改。 Units单位  配置文件开头定义了一些基本的度量单位，只支持bytes，不支持bit。 对大小写不敏感。  常见配置redis.conf介绍 Redis默认不是以守护进程的方式运行，可以通过把dae">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/17.%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%8D%E7%BD%AE.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/18.redis%E5%8D%95%E4%BD%8D.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/20.snapshotting.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/21.2%E5%88%86%E9%92%9F%E5%86%8510%E6%AC%A1%E6%93%8D%E4%BD%9C.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/22.%E6%96%B0%E7%94%9F%E6%88%90%E4%BA%86dump.rdb%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/23.%E6%8B%B7%E8%B4%9D%E4%B8%80%E4%BB%BDdump.rdb%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/24.%E6%89%A7%E8%A1%8CFLUSHALL%E6%93%8D%E4%BD%9C%E5%B9%B6%E5%85%B3%E9%97%ADredis.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/25.%E5%85%B3%E9%97%AD%E5%90%8E%E6%96%B0%E7%94%9F%E6%88%90%E7%9A%84dum.rdb%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/26.%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8redis%E5%8F%91%E7%8E%B0%E9%87%8C%E9%9D%A2%E7%9A%84%E9%94%AE%E5%AF%B9%E4%B8%8D%E8%A7%81%E4%BA%86.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/27.%E7%94%A8%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E9%87%8D%E6%96%B0%E7%94%9F%E6%88%90%E5%8E%9F%E6%9D%A5%E7%9A%84dump.rdb%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/28.%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8redis%E5%8F%91%E7%8E%B0key%E5%80%BC%E9%83%BD%E5%9B%9E%E6%9D%A5%E4%BA%86.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/29.%E5%90%AF%E5%8A%A8appendonly.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/30.%E6%9F%A5%E7%9C%8Bappendonly.aof%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/31.%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E5%8F%91%E7%8E%B0%E6%B2%A1%E6%9C%89key%E5%80%BC.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/32.%E6%8D%9F%E5%9D%8Fappendonly.aof.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/33.%E4%B8%A4%E4%B8%AA%E6%96%87%E4%BB%B6.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/34.%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E5%90%AF%E5%8A%A8.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/35.%E4%BF%AE%E5%A4%8Dappendonly.aof.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/36.%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E5%8F%91%E7%8E%B0key%E5%80%BC%E9%83%BD%E5%87%BA%E7%8E%B0%E4%BA%86.png">
+<meta property="og:updated_time" content="2021-06-30T01:48:44.074Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis持久化">
+<meta name="twitter:description" content="解析配置文件redis.conf它在哪？默认是在下面的目录： 但是我把它拷贝了一份到/home/dqj/myredis/下。在Linux下开发，出厂默认的配置文件不要去改，拷贝出来一份后再进行修改。 Units单位  配置文件开头定义了一些基本的度量单位，只支持bytes，不支持bit。 对大小写不敏感。  常见配置redis.conf介绍 Redis默认不是以守护进程的方式运行，可以通过把dae">
+<meta name="twitter:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/17.%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%8D%E7%BD%AE.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/08/27/redis持久化/">
+
+
+
+
+
+  <title> Redis持久化 | Dai戴的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dai戴的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/08/27/redis持久化/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DQJ">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dai戴的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redis持久化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-08-27T20:15:24+08:00">
+                2019-08-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="解析配置文件redis-conf"><a href="#解析配置文件redis-conf" class="headerlink" title="解析配置文件redis.conf"></a>解析配置文件redis.conf</h2><h3 id="它在哪？"><a href="#它在哪？" class="headerlink" title="它在哪？"></a>它在哪？</h3><p>默认是在下面的目录：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/17.%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E7%9A%84%E4%BD%8D%E7%BD%AE.png" alt></p>
+<p>但是我把它拷贝了一份到<code>/home/dqj/myredis/</code>下。在<code>Linux</code>下开发，出厂默认的配置文件不要去改，拷贝出来一份后再进行修改。</p>
+<h3 id="Units单位"><a href="#Units单位" class="headerlink" title="Units单位"></a>Units单位</h3><p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/18.redis%E5%8D%95%E4%BD%8D.png" alt></p>
+<ol>
+<li>配置文件开头定义了一些基本的度量单位，只支持<code>bytes</code>，不支持<code>bit</code>。</li>
+<li>对大小写不敏感。</li>
+</ol>
+<h3 id="常见配置redis-conf介绍"><a href="#常见配置redis-conf介绍" class="headerlink" title="常见配置redis.conf介绍"></a>常见配置redis.conf介绍</h3><ol>
+<li><p><code>Redis</code>默认不是以守护进程的方式运行，可以通过把<code>daemonize no</code>改为<code>daemonize yes</code>来启用守护进程。</p>
+</li>
+<li><p>当<code>Redis</code>以守护进程方式运行时，<code>Redis</code>默认会把<code>pid</code>写入<code>/var/run/redis.pid</code>文件，可以通过<code>pidfile</code>指定：<code>pidfile /var/run/redis.pid</code>。</p>
+</li>
+<li><p>指定<code>Redis</code>监听端口，默认端口是<code>6379</code>，作者在自己的一篇博文中解释了为什么选用<code>6379</code>作为默认端口，因为6379在手机按键上是<code>MERZ</code>对应的号码，而<code>MERZ</code>取自意大利女歌手<code>Alessia Merz</code>的名字。<br><code>port 6379</code></p>
+</li>
+<li><p>绑定的主机地址<br><code>bind 127.0.0.1</code></p>
+</li>
+<li><p>当客户端闲置多长时间后，关闭连接。如果指定为0，表示关闭该功能（即永远不断开连接）。<br><code>timeout 300</code></p>
+</li>
+<li><p>指定日志记录级别，<code>Redis</code>总共支持四个级别：<code>debug</code>、<code>verbose</code>、<code>notice</code>、<code>warning</code>，默认为<code>verbose</code>。<br><code>loglevel verbose</code></p>
+</li>
+<li><p>日志记录方式，默认为标准输出，如果配置<code>Redis</code>为守护进程方式运行，而这里又配置为日志记录方式为标准输出，则日志将会发送给<code>/dev/null</code></p>
+<p><code>logfile stdout</code></p>
+</li>
+<li><p>设置数据库的数量，默认数据库为0，可以使用<code>SELECT &lt;dbid&gt;</code>命令在连接上指定数据库id<br><code>databases 16</code></p>
+</li>
+<li><p>指定在多长时间内，有多少次更新操作，就将数据同步到数据文件，可以多个条件配合。<br><code>save &lt;seconds&gt; &lt;changes&gt;</code><br><code>Redis</code>默认配置文件中提供了三个条件：<br><code>save 900 1</code><br><code>save 300 10</code><br><code>save 60 10000</code><br>分别表示900秒（15分钟）内有一个更改，300秒（5分钟）内有10个更改，60秒内有10000个更改。</p>
+</li>
+<li><p>指定存储至本地数据库时是否压缩数据，默认为<code>yes</code>，<code>Redis</code>采用<code>LZF</code>压缩，如果为了节省<code>CPU</code>时间，可以关闭该选项，但会导致数据库文件变得巨大。<br><code>rdbcompression yes</code></p>
+</li>
+<li><p>指定本地数据库文件名，默认值为<code>dump.rdb</code><br><code>dbfilename dump.rdb</code></p>
+</li>
+<li><p>指定本地数据库存放目录<br><code>dir ./</code></p>
+</li>
+<li><p>设置当本机为<code>slav</code>服务时，设置<code>master</code>服务的IP地址及端口，在<code>Redis</code>启动时，它会自动从<code>master</code>进行数据同步<br><code>slaveof &lt;masterip&gt; &lt;masterport&gt;</code></p>
+</li>
+<li><p>当<code>master</code>服务设置了密码保护时，<code>slav</code>服务连接<code>master</code>的密码<br><code>masterauth &lt;master-password&gt;</code></p>
+</li>
+<li><p>设置<code>Redis</code>连接密码，如果配置了连接密码，客户端在连接<code>Redis</code>时需要通过<code>AUTH &lt;password&gt;</code>命令提供密码。默认关闭密码。<br><code>requirepass foobared</code></p>
+</li>
+<li><p>设置同一时间最大客户端连接数，默认无限制，<code>Redis</code>可以同时打开的连接数为<code>Redis</code>进程可以打开的最大文件描述符数，如果设置<code>maxclients 0</code>，表示不作限制。当客户端连接数到达限制时，<code>Redis</code>会关闭新的连接并向客户端返回<code>max number of clients reached</code>错误信息。<br><code>maxclients 128</code></p>
+</li>
+<li><p>指定<code>Redis</code>最大内存限制，<code>Redis</code>在启动时会把数据加载到内存中，达到最大内存后，<code>Redis</code>会尝试清除已到期或即将到期的<code>Key</code>。当此方法处理后，若仍然达到最大内存设置，将无法再进行写入操作，但仍然可以进行读取操作。<code>Redis</code>新的<code>vm</code>机制，会把<code>Key</code>存放内存，<code>Value</code>会存放在<code>swap</code>区。<br><code>maxmemory &lt;bytes&gt;</code></p>
+</li>
+<li><p>指定是否在每次更新操作后进行日志记录，<code>Redis</code>在默认情况下是异步地把数据写入磁盘，如果不开启，可能会在断电时导致一段时间内的数据丢失。因为<code>Redis</code>本身同步数据文件是按上面<code>save</code>条件来同步的，所以有的数据会在一段时间内只存在于内存中。默认为<code>no</code>。</p>
+</li>
+<li><p>指定更新日志文件名，默认为<code>appendonly.aof</code><br><code>appendfilename appendonly.aof</code></p>
+</li>
+<li><p>指定更新日志条件，共有3个可选值：<br>no：表示等操作系统进行数据缓存同步到磁盘（快）</p>
+<p>always：表示每次更新操作后，手动调用<code>fsync()</code>将数据写到磁盘（慢，安全）<br>everysec：表示每秒同步一次（折中，默认值）<br><code>appendfsync everysec</code></p>
+</li>
+<li><p>指定是否启用虚拟内存机制，默认值为<code>no</code>，简单的介绍一下，<code>VM</code>机制将数据分页存放，由<code>Redis</code>将访问量较少的页，即“冷数据”<code>swap</code>到磁盘上，访问多的页面由磁盘自动换出到内存中<br><code>vm-enabled no</code></p>
+</li>
+<li><p>虚拟内存文件路径，默认值为<code>/tmp/redis.swap</code>，不可多个<code>Redis</code>实例共享。<br><code>vm-swap-file /tmp/redis.swap</code></p>
+</li>
+<li><p>将所有大于<code>vm-max-memory</code>的数据存入虚拟内存，无论<code>vm-max-memory</code>设置多小，所有索引数据都是内存存储的（<code>Redis</code>的索引数据就是<code>keys</code>），也就是说，当<code>vm-max-memory</code>设置为0的时候，其实是所有<code>value</code>都存于磁盘。默认值为0。<br><code>vm-max-memory 0</code></p>
+</li>
+<li><p><code>Redis swap</code>文件分成了很多的<code>page</code>，一个对象可以保存在多个<code>page</code>上面，但一个<code>page</code>上不能被多个对象共享，<code>vm-page-size</code>是要根据存储的数据大小来设定的，作者建议如果存储很多小对象，<code>page</code>大小最好设置为32或者64bytes；如果存储很多大对象，则可以使用更大的<code>page</code>；如果不确定，就是用默认值。<br><code>vm-page-size 32</code></p>
+</li>
+<li><p>设置<code>swap</code>文件中的<code>page</code>数量，由于页表（一种表示页面空闲或使用的<code>bitmap</code>）是放在内存中的，在磁盘上每8个<code>pages</code>将消耗<code>1byte</code>的内存。<br><code>vm-pages 134217728</code></p>
+</li>
+<li><p>设置访问<code>swap</code>文件的线程数，最好不要超过机器的核数，如果设置为0，那么所有对<code>swap</code>文件的操作都是串行的，可能会造成比较长时间的延迟。默认值为4。<br><code>vm-max-threads 4</code></p>
+</li>
+<li><p>设置在向客户端应答时，是否把较小的包合并为一个包发送，默认为开启。<br><code>glueoutputbuf yes</code></p>
+</li>
+<li><p>指定在超过一定的数量或者最大的元素超过某一临界值时，采用一种特殊的哈希算法。<br><code>hash-max-zipmap-entires 64</code><br><code>hash-max-zipmap-values 512</code></p>
+</li>
+<li><p>指定是否激活重置哈希，默认为开启。<br><code>activerehashing yes</code></p>
+</li>
+<li><p>指定包含其它的配置文件，可以在同一主机上多个<code>Redis</code>实例之间使用同一份配置文件，而同时各个实例又拥有自己的特定配置文件。<br><code>include /path/to/local.conf</code></p>
+</li>
+</ol>
+<h2 id="Redis的持久化（重要）"><a href="#Redis的持久化（重要）" class="headerlink" title="Redis的持久化（重要）"></a>Redis的持久化（重要）</h2><h3 id="RDB（Redis-DataBase）"><a href="#RDB（Redis-DataBase）" class="headerlink" title="RDB（Redis DataBase）"></a>RDB（Redis DataBase）</h3><p>在指定的时间间隔内，将内存中的数据集快照写入磁盘。也就是行话讲的<code>Snapshot</code>快照，它恢复时是将快照文件直接读到内存里。<br><code>Redis</code>会单独创建（fork）一个子进程来进行持久化，会先将数据写入到一个临时文件中，待持久化过程都结束了，再用这个临时文件替换上次持久化好的文件。整个过程中， 主进程是不进行任何IO操作的，这就确保了极高的性能。如果需要<strong>进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感</strong>，那<code>RDB</code>方式要比<code>AOF</code>方式更加的高效。<code>RDB</code>的缺点是最后一次持久化后的数据可能丢失。<br>RDB 保存的是 <code>dump.rdb</code>文件。</p>
+<h4 id="SNAOSHOTTING快照"><a href="#SNAOSHOTTING快照" class="headerlink" title="SNAOSHOTTING快照"></a>SNAOSHOTTING快照</h4><p>RDB 是整个内存压缩过的 Snapshot，RDB 的数据结构，可以配置复合的快照触发条件。默认是15分钟内改了1次 / 5分钟内改了10次 / 1分钟内改了10000次。如果想禁用 RDB 持久化的策略，只要不设置任何 save 指令，或者给 save 传一个空字符串也可以：<code>save &quot;&quot;</code>。</p>
+<ul>
+<li>stop-writes-on-bgsave-error<br>默认是<code>yes</code>，表示后台在存储数据出错时，前台要停止写数据。如果设置成<code>no</code>，表示你不在乎数据不一致或者有其它的手段发现和控制。</li>
+<li>rdbcompression<br>默认是<code>yes</code>。对于存储到磁盘中的快照，可以设置是否进行压缩存储。如果是的话，redis会采用 LZF 算法进行压缩。如果你不想消耗CPU来进行压缩的话，可是设置为<code>no</code>。</li>
+<li>rdbchecksum<br>默认是<code>yes</code>。在存储快照后，还可以让redis使用 CRC64 算法来进行数据校验，但是这样做会增加大约10%的性能损耗。如果希望获取最大性能提升，可以关闭此功能。</li>
+<li>dbfilename<br>快照的名字：<code>dump.rdb</code>。</li>
+</ul>
+<h4 id="Fork"><a href="#Fork" class="headerlink" title="Fork"></a>Fork</h4><p>Fork 的作用是复制一个与当前进程一样的进程。新进程的所有数据（变量、环境变量、程序计数器等）数值都和原进程一致，但是是一个全新的进程，并作为原进程的子进程。</p>
+<h4 id="如何触发RDB快照"><a href="#如何触发RDB快照" class="headerlink" title="如何触发RDB快照"></a>如何触发RDB快照</h4><ol>
+<li>配置文件中默认的三种快照配置策略。</li>
+<li>命令 save 或者 bgsave。<br>执行<code>save</code>时只管保存，其它不管，全部阻塞。执行<code>bgsave</code>时，Redis 会在后台异步进行快照操作，快照同时还可以响应客户端请求。可以通过<code>lastsave</code>命令获取最后一次成功执行快照的时间。</li>
+<li>执行<code>flushall</code>命令，也会产生<code>dump.rdb</code>文件，但里面是空的，无意义。</li>
+<li>当执行shutdown 命令时，也会主动地备份数据。</li>
+</ol>
+<h4 id="优势"><a href="#优势" class="headerlink" title="优势"></a>优势</h4><p>适合大规模的数据恢复，对数据完整性和一致性要求不高。</p>
+<h4 id="劣势"><a href="#劣势" class="headerlink" title="劣势"></a>劣势</h4><p>在一定时间间隔做一次备份，所以如果 redis 意外 down 掉的话，就会丢失最后一次快照后的所有修改。<br>Fork 的时候，内存中的数据被克隆了一份，导致2倍的膨胀性需要考虑。</p>
+<h4 id="动手测试"><a href="#动手测试" class="headerlink" title="动手测试"></a>动手测试</h4><ol>
+<li>首先进入到<code>/home/dqj/myredis/</code>，修改<code>redis-conf</code>文件。在 VIM 中输入<code>SNAP</code>，即可定位到<code>SNAPSHOTTING</code>，按回车，向下找到将触发存储的三种策略，修改其中的一种策略进行试验。<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/20.snapshotting.png" alt><br>将第二种策略改为<code>save 120 10</code>，即“<strong>120秒内进行10次及以上修改<code>key</code>的操作会触发持久化操作</strong>”。</li>
+<li>启动 Redis，并进行10次修改<code>key</code>的操作：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/21.2%E5%88%86%E9%92%9F%E5%86%8510%E6%AC%A1%E6%93%8D%E4%BD%9C.png" alt></li>
+<li>在另一个终端上可以看到新生成了<code>dump.rdb</code>文件<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/22.%E6%96%B0%E7%94%9F%E6%88%90%E4%BA%86dump.rdb%E6%96%87%E4%BB%B6.png" alt></li>
+<li>现在将它备份一份，名字为<code>dump_bk.rdb</code>。实际情况可能会在多个机器上进行备份。<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/23.%E6%8B%B7%E8%B4%9D%E4%B8%80%E4%BB%BDdump.rdb%E6%96%87%E4%BB%B6.png" alt></li>
+<li>这个时候执行<code>FLUSHALL</code>操作，它会把所有的 key 值清空。接着关闭 Redis<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/24.%E6%89%A7%E8%A1%8CFLUSHALL%E6%93%8D%E4%BD%9C%E5%B9%B6%E5%85%B3%E9%97%ADredis.png" alt></li>
+<li>关闭后会生成一个新的<code>dump.rdb</code>文件，但是这个文件此时已经不保存有 key 值的信息了，因为在保存前执行过<code>FLUSHALL</code>操作。<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/25.%E5%85%B3%E9%97%AD%E5%90%8E%E6%96%B0%E7%94%9F%E6%88%90%E7%9A%84dum.rdb%E6%96%87%E4%BB%B6.png" alt></li>
+<li>此时重新启动 redis 发现 key 值都不见了<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/26.%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8redis%E5%8F%91%E7%8E%B0%E9%87%8C%E9%9D%A2%E7%9A%84%E9%94%AE%E5%AF%B9%E4%B8%8D%E8%A7%81%E4%BA%86.png" alt></li>
+<li>要想恢复这些 key 值，可以使用备份文件。先将原来的<code>dump.rdb</code>删除，再将备份文件拷贝给新的<code>dump.rdb</code>。<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/27.%E7%94%A8%E5%A4%87%E4%BB%BD%E6%96%87%E4%BB%B6%E9%87%8D%E6%96%B0%E7%94%9F%E6%88%90%E5%8E%9F%E6%9D%A5%E7%9A%84dump.rdb%E6%96%87%E4%BB%B6.png" alt></li>
+<li>此时重新启动 Redis，就会加载新创建的<code>dump.rdb</code>文件，这个文件里有 key 值信息。<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/28.%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8redis%E5%8F%91%E7%8E%B0key%E5%80%BC%E9%83%BD%E5%9B%9E%E6%9D%A5%E4%BA%86.png" alt></li>
+</ol>
+<h3 id="AOF（Append-Only-FIle）"><a href="#AOF（Append-Only-FIle）" class="headerlink" title="AOF（Append Only FIle）"></a>AOF（Append Only FIle）</h3><p><strong>以日志的形式来记录每个写操作</strong>。将Redis执行过的所有写指令记录下来（读操作不记录），只许追加文件但不可以改写文件。redis启动之初会读取该文件重新构建数据，换言之，redis重启的话就根据日志文件的内容将写指令从前到后执行一次以完成数据的恢复工作。</p>
+<h4 id="配置文件内容"><a href="#配置文件内容" class="headerlink" title="配置文件内容"></a>配置文件内容</h4><ul>
+<li>appendonly<br>默认<code>appendonly</code>关闭，若要使用则需改成<code>yes</code>。</li>
+<li>appendfilename<br>就是<code>appendonly.aof</code>，不要去改。</li>
+<li><strong>appendfsync</strong><br>写数据到磁盘的行为，redis 有三种模式：<ol>
+<li>always<br>同步持久化。每次发生数据变更会被立即记录到磁盘，性能较差但数据完整性比较好。</li>
+<li>everysec<br>出厂默认设置。异步操作，每秒记录。如果一秒内宕机，有数据丢失。</li>
+<li>no</li>
+</ol>
+</li>
+<li>no-appendfsync-on-rewrite：重写时是否可以运用<code>appendfsync</code>，用默认 no 即可，保证数据安全性。</li>
+<li>auto-aof-rewrite-min-size：设置重写的基准值。（具体的数值）</li>
+<li>auto-aof-rewrite-percentage：设置重写基准值。（百分比）</li>
+</ul>
+<h4 id="Rewrite（重要）"><a href="#Rewrite（重要）" class="headerlink" title="Rewrite（重要）"></a>Rewrite（重要）</h4><p>AOF 采用文件追加方式，文件会越来越大，为避免出现此种情况，新增了<strong>重写机制</strong>，当 AOF 文件的大小超过所设定的阈值时，Redis 就会启动 AOF 文件的内容压缩，只保留可以恢复数据的最小指令集。可以使用命令<code>bgrewriteaof</code>。</p>
+<p>重写原理：AOF 文件持续增长而过大时，会 <strong>fork 出一条新进程来将文件重写</strong>（也是先写临时文件最后再 rename），遍历新进程的内存中的数据，每条记录有一条set语句。重写 aof 文件的操作，并没有读取旧的 aof 文件，而是将整个内存中的数据库内容用命令的方式重新写了一个新的 aof 文件，这点和快照有点像。</p>
+<p>触发机制：Redis 会记录上次重写时的 AOF 大小，默认配置是当 AOF 文件大小是上次 rewrite 后大小的一倍且文件大于 64M 时触发。</p>
+<h4 id="优势-1"><a href="#优势-1" class="headerlink" title="优势"></a>优势</h4><ul>
+<li>每修改同步：<code>appendfsync always</code>同步持久化。每次发生数据变更会被立即记录到磁盘，性能较差但数据完整性比较好。</li>
+<li>每秒同步：<code>appendfsync everysec</code>异步操作，每秒记录。如果一秒内宕机，有数据丢失。</li>
+<li>不同步：<code>appendfsync no</code>从不同步。</li>
+</ul>
+<h4 id="劣势-1"><a href="#劣势-1" class="headerlink" title="劣势"></a>劣势</h4><p>相同数据集数据而言 aof 文件要远大于 rdb 文件，恢复速率慢于 rdb。<br>AOF运行效率慢于 RDB，每秒同步策略效率较好，不同步效率和 RDB 相同。</p>
+<h4 id="动手测试-1"><a href="#动手测试-1" class="headerlink" title="动手测试"></a>动手测试</h4><ol>
+<li><p>这次拷贝一份配置文件：<code>cp redis.conf redis_aof.conf</code>。在新的配置文件里修改配置。</p>
+</li>
+<li><p>用<code>VIM</code>进入配置文件，输入<code>/APPEND</code>即可定位到对应的位置，将<code>appendonly</code>开启：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/29.%E5%90%AF%E5%8A%A8appendonly.png" alt></p>
+</li>
+<li><p>将原来存在于<code>/usr/local/bin</code>下的<code>dump.rdb</code>和<code>dump_bk.rdb</code>先删除。使用以下命令启动 Redis：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">redis-server /home/dqj/myredis/redis_aof.conf</span><br><span class="line">redis-cli -p 6379</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>设置 key 值，设完 key 值后再进行<code>FLUSHALL</code>操作，关闭 redis 并退出。</p>
+</li>
+<li><p>此时发现<code>/usr/local/bin</code>下生成了<code>appendonly.aof</code>文件，通过<code>cat</code>命令查看该文件：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/30.%E6%9F%A5%E7%9C%8Bappendonly.aof%E6%96%87%E4%BB%B6.png" alt></p>
+</li>
+<li><p>可以看到这个文件里记录了我之前的操作。随后重新开启 redis ，发现里面没有 key 值数据。因为之前我执行了<code>FLUSHALL</code>命令，同样的，在<code>appendonly.aof</code>中也记录了这个操作。<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/31.%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E5%8F%91%E7%8E%B0%E6%B2%A1%E6%9C%89key%E5%80%BC.png" alt></p>
+</li>
+<li><p>若想恢复原先的 key 值，则需要<code>vim appendonly.aof</code>，定位到最后一行，执行<code>dd</code>命令，将最后一行数据<code>FLUSHALL</code>删除。随后重新启动 redis，通过<code>keys *</code>即可看到 key 值。</p>
+</li>
+<li><p>此时在<code>appendonly.aof</code>的最后一行胡乱输入一通并保存。退出 redis，此时<code>/usr/local/bin</code>下有<code>appendonly.aof</code>和<code>dump.rdb</code>这两个文件。但是<code>dump.rdb</code>是正常文件，而<code>appendonly.aof</code>则是被我修改坏了的。</p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/32.%E6%8D%9F%E5%9D%8Fappendonly.aof.png" alt></p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/33.%E4%B8%A4%E4%B8%AA%E6%96%87%E4%BB%B6.png" alt></p>
+</li>
+<li><p>此时启动 redis 命令，注意到这个时候<code>appendonly.aof</code>和<code>dump.rdb</code>这两个文件同时存在，启动的时候输入如下内容：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/34.%E6%97%A0%E6%B3%95%E6%AD%A3%E5%B8%B8%E5%90%AF%E5%8A%A8.png" alt><br>没有正常启动，说明当这两个文件共存时，redis 找的是<code>appendonly.aof</code>这个文件。</p>
+</li>
+<li><p>可以通过<code>/usr/local/bin</code>下的<code>redis-check-aof</code>进行修复：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/35.%E4%BF%AE%E5%A4%8Dappendonly.aof.png" alt></p>
+</li>
+<li><p>重新启动 redis 可以看到 key 值都复现了<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/36.%E9%87%8D%E6%96%B0%E5%90%AF%E5%8A%A8%E5%8F%91%E7%8E%B0key%E5%80%BC%E9%83%BD%E5%87%BA%E7%8E%B0%E4%BA%86.png" alt></p>
+</li>
+</ol>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>RDB 持久化方式能够在指定的时间间隔内对你的数据进行快照存储。</li>
+<li>AOF持久化方式记录每次对服务器的写操作，当服务器重启的时候会重新执行这些命令来恢复原始的数据。AOF 命令以 redis 协议追加保存每次写的操作到文件末尾。Redis 还能对 AOF 文件进行后台重写，使得 AOF 文件的体积不至于过大。</li>
+<li>只做缓存：如果你只希望你的数据在服务器运行的时候存在，你也可以不使用任何持久化方式。</li>
+<li>同时开启两种持久化方式（官方建议）：<br>在这种情况下，当 redis 重启时会优先载入 AOF 文件来恢复原始的数据，因为在通常情况下 AOF 文件保存的数据集要比 RDB 文件保存的数据集要完整。<br>RDB 的数据不实时，同时使用两者时服务器重启也只会找 AOF 文件。那要不要只使用 AOF 呢？作者建议不要，因为 RDB 更适合用于备份数据库（AOF 在不断变化不好备份），快速重启。而且不会有 AOF 那样可能潜在的 bug，留着作为一个万一的手段。</li>
+<li>官方推荐两个都用；如果对数据不敏感，可以选单独用RDB；不建议单独用AOF，因为可能出现Bug;如果只是做纯内存缓存，可以都不用。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/25/redis入门介绍与数据类型/" rel="next" title="Redis入门介绍与数据类型">
+                <i class="fa fa-chevron-left"></i> Redis入门介绍与数据类型
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/28/redis事务/" rel="prev" title="Redis事务">
+                Redis事务 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="DQJ">
+          <p class="site-author-name" itemprop="name">DQJ</p>
+           
+              <p class="site-description motion-element" itemprop="description">路漫漫其修远兮。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaryDai" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailtto:879020663@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#解析配置文件redis-conf"><span class="nav-number">1.</span> <span class="nav-text">解析配置文件redis.conf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#它在哪？"><span class="nav-number">1.1.</span> <span class="nav-text">它在哪？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Units单位"><span class="nav-number">1.2.</span> <span class="nav-text">Units单位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见配置redis-conf介绍"><span class="nav-number">1.3.</span> <span class="nav-text">常见配置redis.conf介绍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Redis的持久化（重要）"><span class="nav-number">2.</span> <span class="nav-text">Redis的持久化（重要）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RDB（Redis-DataBase）"><span class="nav-number">2.1.</span> <span class="nav-text">RDB（Redis DataBase）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SNAOSHOTTING快照"><span class="nav-number">2.1.1.</span> <span class="nav-text">SNAOSHOTTING快照</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Fork"><span class="nav-number">2.1.2.</span> <span class="nav-text">Fork</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如何触发RDB快照"><span class="nav-number">2.1.3.</span> <span class="nav-text">如何触发RDB快照</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优势"><span class="nav-number">2.1.4.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#劣势"><span class="nav-number">2.1.5.</span> <span class="nav-text">劣势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动手测试"><span class="nav-number">2.1.6.</span> <span class="nav-text">动手测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AOF（Append-Only-FIle）"><span class="nav-number">2.2.</span> <span class="nav-text">AOF（Append Only FIle）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置文件内容"><span class="nav-number">2.2.1.</span> <span class="nav-text">配置文件内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Rewrite（重要）"><span class="nav-number">2.2.2.</span> <span class="nav-text">Rewrite（重要）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#优势-1"><span class="nav-number">2.2.3.</span> <span class="nav-text">优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#劣势-1"><span class="nav-number">2.2.4.</span> <span class="nav-text">劣势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#动手测试-1"><span class="nav-number">2.2.5.</span> <span class="nav-text">动手测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.3.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DQJ</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

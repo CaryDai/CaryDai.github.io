@@ -1,0 +1,781 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Redis,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="主从简介配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。 目的：  读写分离提高Redis 性能； 避免单点故障，容灾快速恢复。  原理：每次从机联通后，都会给主机发送sync指令，主机立刻进行存盘操作，发送RDB 文件给从机。从机收到RDB文件">
+<meta name="keywords" content="Redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis主从复制">
+<meta property="og:url" content="http://yoursite.com/2019/09/02/redis主从复制/index.html">
+<meta property="og:site_name" content="Dai戴的博客">
+<meta property="og:description" content="主从简介配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。 目的：  读写分离提高Redis 性能； 避免单点故障，容灾快速恢复。  原理：每次从机联通后，都会给主机发送sync指令，主机立刻进行存盘操作，发送RDB 文件给从机。从机收到RDB文件">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/46.%E4%B8%BB%E6%9C%BA%E4%B8%8E%E4%BB%8E%E6%9C%BA.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/47.%E4%B8%BB%E4%BB%8E%E6%9C%BA.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/48.79%E7%9A%84info.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/49.80%E7%9A%84info.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/50.%E4%B8%BB%E6%9C%BA%E5%AE%95%E6%9C%BA%E6%97%B6.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/51.%E4%B8%BB%E6%9C%BA%E6%B4%BB%E4%BA%86.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/52.%E4%BB%8E%E6%9C%BA%E6%AD%BB%E4%BA%86.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/53.%E8%96%AA%E7%81%AB%E7%9B%B8%E4%BC%A0.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F1.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F2.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F3.png">
+<meta property="og:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F4.png">
+<meta property="og:updated_time" content="2021-06-30T01:48:44.073Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis主从复制">
+<meta name="twitter:description" content="主从简介配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。 目的：  读写分离提高Redis 性能； 避免单点故障，容灾快速恢复。  原理：每次从机联通后，都会给主机发送sync指令，主机立刻进行存盘操作，发送RDB 文件给从机。从机收到RDB文件">
+<meta name="twitter:image" content="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/46.%E4%B8%BB%E6%9C%BA%E4%B8%8E%E4%BB%8E%E6%9C%BA.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/02/redis主从复制/">
+
+
+
+
+
+  <title> Redis主从复制 | Dai戴的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dai戴的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/02/redis主从复制/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DQJ">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dai戴的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Redis主从复制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-02T21:39:12+08:00">
+                2019-09-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Redis/" itemprop="url" rel="index">
+                    <span itemprop="name">Redis</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="主从简介"><a href="#主从简介" class="headerlink" title="主从简介"></a>主从简介</h2><p>配置多台Redis 服务器，以主机和备机的身份分开。主机数据更新后，根据配置和策略，自动同步到备机的<br>master/salver 机制。Master 以写为主，Slave 以读为主，二者之间自动同步数据。</p>
+<p>目的：</p>
+<ul>
+<li>读写分离提高Redis 性能；</li>
+<li>避免单点故障，容灾快速恢复。</li>
+</ul>
+<p>原理：每次从机联通后，都会给主机发送<code>sync</code>指令，主机立刻进行存盘操作，发送<code>RDB</code> 文件给从机。从机收到<code>RDB</code>文件后，进行全盘加载。之后每次主机的写操作，都会立刻发送给从机，从机执行相同的命令。</p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/46.%E4%B8%BB%E6%9C%BA%E4%B8%8E%E4%BB%8E%E6%9C%BA.png" alt></p>
+<h3 id="一主二仆"><a href="#一主二仆" class="headerlink" title="一主二仆"></a>一主二仆</h3><ol>
+<li>首先拷贝多份配置文件并分别命名为<code>redis6379.conf</code>、<code>redis6380.conf</code>、<code>redis6381.conf</code>。修改各自的端口号为 6379、6380、6381。并修改相关日志文件和<code>dbfilename</code>。</li>
+<li>打开三个终端，使用命令<code>title 端口号</code>将三个终端的名字分别改为79/80/81。</li>
+<li>以<code>79</code>作为主机，<code>80</code>、<code>81</code>作为从机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/47.%E4%B8%BB%E4%BB%8E%E6%9C%BA.png" alt><br>可以看到从机可以把主机的所有值都备份过去。</li>
+<li>此时使用<code>info replication</code>命令查看：<br><code>79</code>的信息：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/48.79%E7%9A%84info.png" alt><br><code>80</code>的信息：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/49.80%E7%9A%84info.png" alt></li>
+<li>当主机关停后，两台从机的状态还是<code>slave</code>，并不会有一台变成主机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/50.%E4%B8%BB%E6%9C%BA%E5%AE%95%E6%9C%BA%E6%97%B6.png" alt></li>
+<li>当主机重新启动后，设置了一个新值，从机还是能正常取得新的值：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/51.%E4%B8%BB%E6%9C%BA%E6%B4%BB%E4%BA%86.png" alt></li>
+<li>当从机宕机后，如果重新开启，则它的角色又是一台主机（每次与master断开之后，都需要重新连接，除非你配置进<code>redis.conf</code>文件）：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/52.%E4%BB%8E%E6%9C%BA%E6%AD%BB%E4%BA%86.png" alt></li>
+</ol>
+<h3 id="薪火相传"><a href="#薪火相传" class="headerlink" title="薪火相传"></a>薪火相传</h3><p>上一个 Slave 可以是下一个 Slave 的 Master，Slave 同样可以接收其它 salves 的连接和同步请求，那么该 slave 作为了链条中下一个的 master，可以有效减轻 master 的写压力。</p>
+<p>中途变更转向，会清楚之前的数据，重新建立拷贝最新的。</p>
+<p>把<code>81</code>变成<code>80</code>的从机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/53.%E8%96%AA%E7%81%AB%E7%9B%B8%E4%BC%A0.png" alt></p>
+<p>可以看到<code>80</code>的身份还是从机，但是它又连着1个从机。</p>
+<h3 id="反客为主"><a href="#反客为主" class="headerlink" title="反客为主"></a>反客为主</h3><p><code>SLAVEOF no one</code>：使当前数据库停止与其它数据库的同步，转成主数据库。在<code>80</code>中执行这个命令，它就会成为一个新的主机。</p>
+<h2 id="哨兵模式"><a href="#哨兵模式" class="headerlink" title="哨兵模式"></a>哨兵模式</h2><p>简单讲，哨兵模式就是“反客为主”的自动版。能够从后台监控主机是否故障，如果出故障了<strong>根据投票数自动将从库转换为主库</strong>。</p>
+<ol>
+<li><p>首先在<code>/home/dqj/myredis</code>下编写哨兵的配置文件<code>sentinel.conf</code>，内容为：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sentinel monitor host6379 127.0.0.1 6379 1</span><br></pre></td></tr></table></figure>
+<p>哨兵监控6379这台主机。最后这个1表示主机宕机后，投票数大于1的从机将会成为主机。</p>
+</li>
+<li><p>cd到<code>/usr/local/bin</code>目录下，执行<code>redis-sentinel /home/dqj/myredis/sentinel.conf</code>命令启动哨兵：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F1.png" alt></p>
+</li>
+<li><p>此时关停79主机，过一会儿可以看到哨兵进行了新的主机选择。这里选了81作为新的主机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F2.png" alt></p>
+<p><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F3.png" alt></p>
+</li>
+<li><p>这个时候再重新启动79这台机子，发现哨兵会将它分配到80主机下，作为80的从机：<br><img src="https://markdown-1259486229.cos.ap-shanghai.myqcloud.com/54.%E5%93%A8%E5%85%B5%E6%A8%A1%E5%BC%8F4.png" alt></p>
+</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Redis/" rel="tag"># Redis</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/08/28/redis事务/" rel="next" title="Redis事务">
+                <i class="fa fa-chevron-left"></i> Redis事务
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/16/SpringDI和AOP/" rel="prev" title="Spring DI和AOP">
+                Spring DI和AOP <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="DQJ">
+          <p class="site-author-name" itemprop="name">DQJ</p>
+           
+              <p class="site-description motion-element" itemprop="description">路漫漫其修远兮。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaryDai" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailtto:879020663@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#主从简介"><span class="nav-number">1.</span> <span class="nav-text">主从简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一主二仆"><span class="nav-number">1.1.</span> <span class="nav-text">一主二仆</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#薪火相传"><span class="nav-number">1.2.</span> <span class="nav-text">薪火相传</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反客为主"><span class="nav-number">1.3.</span> <span class="nav-text">反客为主</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哨兵模式"><span class="nav-number">2.</span> <span class="nav-text">哨兵模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DQJ</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
