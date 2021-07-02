@@ -2,7 +2,7 @@
 title: RocketMQ源码分析——简单入门
 date: 2020-07-09 10:37:03
 tags: RocketMQ
-categories: RocketMQ
+categories: 消息队列
 description: 简单介绍RocketMQ相关概念并构建源码阅读环境。
 ---
 

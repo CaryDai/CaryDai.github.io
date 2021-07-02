@@ -2,7 +2,7 @@
 title: RocketMQ源码分析——消息发送
 date: 2020-07-12 16:31:05
 tags: RocketMQ
-categories: RocketMQ
+categories: 消息队列
 description: 分析Producer消息发送流程
 ---
 

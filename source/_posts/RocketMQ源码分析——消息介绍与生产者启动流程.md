@@ -2,7 +2,7 @@
 title: RocketMQ源码分析——生产者启动流程
 date: 2020-07-11 11:14:57
 tags: RocketMQ
-categories: RocketMQ
+categories: 消息队列
 description: RocketMQ生产者启动流程源码分析
 ---
 

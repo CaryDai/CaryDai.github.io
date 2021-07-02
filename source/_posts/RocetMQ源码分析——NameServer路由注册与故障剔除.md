@@ -2,7 +2,7 @@
 title: RocketMQ源码分析——NameServer路由注册与故障剔除
 date: 2020-07-10 16:58:06
 tags: RocketMQ
-categories: RocketMQ
+categories: 消息队列
 description: NameServer的路由注册与故障剔除源码分析
 ---
 

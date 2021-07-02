@@ -2,7 +2,7 @@
 title: RocketMQ源码分析——NameServer启动流程
 date: 2020-07-010 14:15:37
 tags: RocketMQ
-categories: RocketMQ
+categories: 消息队列
 description: 介绍NameServer启动流程
 ---
 

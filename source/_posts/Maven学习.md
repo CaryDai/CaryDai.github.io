@@ -129,6 +129,8 @@ Maven常用的插件比如`clean`、`compiler`、`deploy`、`jar`。为什么需
 
 在多模块Maven项目中，使用`dependencyManagement`能够有效地帮我们维护依赖一致性。
 
+> 注意：不要忘了在子模块中使用`parent`标签指定父模块，这样才能将依赖继承下来。
+
 ### pluginManagement
 
 与`dependencyManagement`类似，我们可以使用`pluginManagement`元素管理插件。一个常见的用法就是我们希望项目所有模块使用`compiler`插件的时候，都是用`java1.8`，以及指定Java源文件编码为UTF-8，这时可以在父模块的POM中如下配置`pluginManagement`：
