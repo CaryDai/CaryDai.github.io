@@ -2,7 +2,7 @@
 title: MyBatis学习记录
 date: 2019-05-25 14:24:41
 categories: Mybatis
-tags: MyBatis
+tags: Mybatis
 ---
 
 ## MyBatis架构
