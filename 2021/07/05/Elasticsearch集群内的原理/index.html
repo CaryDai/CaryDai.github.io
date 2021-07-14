@@ -1,0 +1,788 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="Elasticsearch,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="Elasticsearch 的主旨是随时可用和按需扩容。 空集群如果我们启动了一个单独的节点，里面不包含任何的数据和索引，那我们的集群看起来就是一个空集群。如下图所示：  一个运行中的 Elasticsearch 实例称为一个节点，而集群是由一个或者多个拥有相同 cluster.name 配置的节点组成， 它们共同承担数据和负载的压力。当有节点加入集群中或者从集群中移除节点时，集群将会重新平均分布">
+<meta name="keywords" content="Elasticsearch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Elasticsearch集群内的原理">
+<meta property="og:url" content="http://yoursite.com/2021/07/05/Elasticsearch集群内的原理/index.html">
+<meta property="og:site_name" content="Dai戴的博客">
+<meta property="og:description" content="Elasticsearch 的主旨是随时可用和按需扩容。 空集群如果我们启动了一个单独的节点，里面不包含任何的数据和索引，那我们的集群看起来就是一个空集群。如下图所示：  一个运行中的 Elasticsearch 实例称为一个节点，而集群是由一个或者多个拥有相同 cluster.name 配置的节点组成， 它们共同承担数据和负载的压力。当有节点加入集群中或者从集群中移除节点时，集群将会重新平均分布">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0201.png">
+<meta property="og:image" content="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0202.png">
+<meta property="og:image" content="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0203.png">
+<meta property="og:image" content="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0204.png">
+<meta property="og:image" content="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0206.png">
+<meta property="og:updated_time" content="2021-07-05T09:13:02.230Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Elasticsearch集群内的原理">
+<meta name="twitter:description" content="Elasticsearch 的主旨是随时可用和按需扩容。 空集群如果我们启动了一个单独的节点，里面不包含任何的数据和索引，那我们的集群看起来就是一个空集群。如下图所示：  一个运行中的 Elasticsearch 实例称为一个节点，而集群是由一个或者多个拥有相同 cluster.name 配置的节点组成， 它们共同承担数据和负载的压力。当有节点加入集群中或者从集群中移除节点时，集群将会重新平均分布">
+<meta name="twitter:image" content="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0201.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/07/05/Elasticsearch集群内的原理/">
+
+
+
+
+
+  <title> Elasticsearch集群内的原理 | Dai戴的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dai戴的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/07/05/Elasticsearch集群内的原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DQJ">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dai戴的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Elasticsearch集群内的原理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-07-05T16:02:28+08:00">
+                2021-07-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/搜索引擎/" itemprop="url" rel="index">
+                    <span itemprop="name">搜索引擎</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Elasticsearch 的主旨是随时可用和按需扩容。</p>
+<h2 id="空集群"><a href="#空集群" class="headerlink" title="空集群"></a>空集群</h2><p>如果我们启动了一个单独的节点，里面不包含任何的数据和索引，那我们的集群看起来就是一个空集群。如下图所示：</p>
+<p><img src="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0201.png" alt="空集群"></p>
+<p>一个运行中的 Elasticsearch 实例称为一个节点，而集群是由一个或者多个拥有相同 <code>cluster.name</code> 配置的节点组成， 它们共同承担数据和负载的压力。当有节点加入集群中或者从集群中移除节点时，集群将会重新平均分布所有的数据。</p>
+<p>当一个节点被选举成为 <em>主</em> 节点时， 它将负责管理集群范围内的所有变更，例如增加、删除索引，或者增加、删除节点等。 <u>而主节点并不需要涉及到文档级别的变更和搜索等操作</u>，所以当集群只拥有一个主节点的情况下，即使流量的增加它也不会成为瓶颈。 任何节点都可以成为主节点。我们的示例集群就只有一个节点，所以它同时也成为了主节点。</p>
+<p>作为用户，我们可以将请求发送到 <em>集群中的任何节点</em> ，包括主节点。 每个节点都知道任意文档所处的位置，并且能够将我们的请求直接转发到存储我们所需文档的节点。 无论我们将请求发送到哪个节点，它都能负责从各个包含我们所需文档的节点收集回数据，并将最终结果返回給客户端。 Elasticsearch 对这一切的管理都是透明的。</p>
+<h2 id="集群健康"><a href="#集群健康" class="headerlink" title="集群健康"></a>集群健康</h2><p>Elasticsearch 的集群监控信息中包含了许多的统计数据，其中最为重要的一项就是 <em>集群健康</em> ， 它在 <code>status</code> 字段中展示为 <code>green</code> 、 <code>yellow</code> 或者 <code>red</code> 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GET /_cluster/health</span><br><span class="line"></span><br><span class="line">curl -X GET <span class="string">"localhost:9200/_cluster/health?pretty"</span></span><br></pre></td></tr></table></figure>
+<p><code>status</code> 字段指示着当前集群在总体上是否工作正常。它的三种颜色含义如下：</p>
+<ul>
+<li><p><strong><code>green</code></strong></p>
+<p>所有的主分片和副本分片都正常运行。</p>
+</li>
+<li><p><strong><code>yellow</code></strong></p>
+<p>所有的主分片都正常运行，但不是所有的副本分片都正常运行。</p>
+</li>
+<li><p><strong><code>red</code></strong></p>
+<p>有主分片没能正常运行。</p>
+</li>
+</ul>
+<h2 id="添加索引"><a href="#添加索引" class="headerlink" title="添加索引"></a>添加索引</h2><p>我们往 Elasticsearch 添加数据时需要用到 <em>索引</em> —— 保存相关数据的地方。 索引实际上是指向一个或者多个物理 <em>分片</em> 的 <em>逻辑命名空间</em>。</p>
+<p>一个 <em>分片</em> 是一个底层的 <em>工作单元</em> ，它仅保存了全部数据中的一部分。 在<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/inside-a-shard.html" target="_blank" rel="noopener"><code>分片内部机制</code></a>中，我们将详细介绍分片是如何工作的，而现在我们只需知道一个分片是一个 Lucene 的实例，以及它本身就是一个完整的搜索引擎。 我们的文档被存储和索引到分片内，但是应用程序是直接与索引而不是与分片进行交互。</p>
+<p>Elasticsearch 是利用分片将数据分发到集群内各处的。分片是数据的容器，文档保存在分片内，分片又被分配到集群内的各个节点里。 当你的集群规模扩大或者缩小时， Elasticsearch 会自动的在各节点中迁移分片，使得数据仍然均匀分布在集群里。</p>
+<blockquote>
+<p>技术上来说，一个主分片最大能够存储 Integer.MAX_VALUE - 128 个文档，但是实际最大值还需要参考你的使用场景：包括你使用的硬件， 文档的大小和复杂程度，索引和查询文档的方式以及你期望的响应时长。</p>
+</blockquote>
+<p>一个副本分片只是一个主分片的拷贝。副本分片作为硬件故障时保护数据不丢失的冗余备份，并为搜索和返回文档等读操作提供服务。</p>
+<p>在索引建立的时候就已经确定了主分片数，但是副本分片数可以随时修改。</p>
+<p>让我们在包含一个空节点的集群内创建名为 <code>blogs</code> 的索引。 索引在默认情况下会被分配5个主分片， 但是为了演示目的，我们将分配3个主分片和一份副本（每个主分片拥有一个副本分片）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">PUT /blogs</span><br><span class="line">&#123;</span><br><span class="line">   <span class="string">"settings"</span> : &#123;</span><br><span class="line">      <span class="string">"number_of_shards"</span> : 3,</span><br><span class="line">      <span class="string">"number_of_replicas"</span> : 1</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">curl -X PUT <span class="string">"localhost:9200/blogs?pretty"</span> -H <span class="string">'Content-Type: application/json'</span> -d<span class="string">'</span></span><br><span class="line"><span class="string">&#123;</span></span><br><span class="line"><span class="string">   "settings" : &#123;</span></span><br><span class="line"><span class="string">      "number_of_shards" : 3,</span></span><br><span class="line"><span class="string">      "number_of_replicas" : 1</span></span><br><span class="line"><span class="string">   &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">'</span></span><br></pre></td></tr></table></figure>
+<p>我们的集群现在是<strong>拥有一个索引的单节点集群</strong>，所有3个主分片都被分配在 <code>Node 1</code> 。</p>
+<p><img src="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0202.png" alt></p>
+<p>集群的健康状况为 <code>yellow</code> 则表示全部 <em>主</em> 分片都正常运行（集群可以正常服务所有请求），但是 <em>副本</em> 分片没有全部处在正常状态。 实际上，所有3个副本分片都是 <code>unassigned</code> —— 它们都没有被分配到任何节点。 在同一个节点上既保存原始数据又保存副本是没有意义的，因为一旦失去了那个节点，我们也将丢失该节点上的所有副本数据。当前我们的集群是正常运行的，但是在硬件故障时有丢失数据的风险。</p>
+<h2 id="添加故障转移"><a href="#添加故障转移" class="headerlink" title="添加故障转移"></a>添加故障转移</h2><p>启动第二个节点：<a href="https://jasonkayzk.github.io/2019/10/04/%E5%9C%A8%E5%8D%95%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAElasticSearch%E8%8A%82%E7%82%B9/" target="_blank" rel="noopener">https://jasonkayzk.github.io/2019/10/04/%E5%9C%A8%E5%8D%95%E5%8F%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2%E5%A4%9A%E4%B8%AAElasticSearch%E8%8A%82%E7%82%B9/</a></p>
+<p>启动了第二个节点后，我们的集群将会如下图所示：</p>
+<p><img src="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0203.png" alt="拥有两个节点的集群——所有主分片和副本分片都已被分配"></p>
+<p>当第二个节点加入到集群后，3个 <em>副本分片</em> 将会分配到这个节点上——每个主分片对应一个副本分片。 这意味着当集群内任何一个节点出现问题时，我们的数据都完好无损。</p>
+<p><strong>所有新近被索引的文档都将会保存在主分片上，然后被并行的复制到对应的副本分片上。</strong>这就保证了我们既可以从主分片又可以从副本分片上获得文档。</p>
+<p><code>cluster-health</code> 现在展示的状态为 <code>green</code> ，这表示所有6个分片（包括3个主分片和3个副本分片）都在正常运行。</p>
+<h2 id="水平扩容"><a href="#水平扩容" class="headerlink" title="水平扩容"></a>水平扩容</h2><p>当启动了第三个节点，我们的集群将会看起来如下图所示：</p>
+<p><img src="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0204.png" alt></p>
+<p><code>Node 1</code> 和 <code>Node 2</code> 上各有一个分片被迁移到了新的 <code>Node 3</code> 节点，现在每个节点上都拥有2个分片，而不是之前的3个。 这表示每个节点的硬件资源（CPU, RAM, I/O）将被更少的分片所共享，每个分片的性能将会得到提升。</p>
+<p>分片是一个功能完整的搜索引擎，它拥有使用一个节点上的所有资源的能力。 我们这个拥有6个分片（3个主分片和3个副本分片）的索引可以最大扩容到6个节点，每个节点上存在一个分片，并且每个分片拥有所在节点的全部资源。</p>
+<h2 id="应对故障"><a href="#应对故障" class="headerlink" title="应对故障"></a>应对故障</h2><p>我们之前说过 Elasticsearch 可以应对节点故障，接下来让我们尝试下这个功能。 如果我们关闭第一个节点，这时集群的状态为<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_coping_with_failure.html#cluster-post-kill" target="_blank" rel="noopener">Figure 6, “关闭了一个节点后的集群”</a>，如下图所示：</p>
+<p><img src="https://www.elastic.co/guide/cn/elasticsearch/guide/current/images/elas_0206.png" alt="关闭了一个节点后的集群"></p>
+<p>我们关闭的节点是一个主节点。而集群必须拥有一个主节点来保证正常工作，所以发生的第一件事情就是选举一个新的主节点： <code>Node 2</code> 。</p>
+<p>在我们关闭 <code>Node 1</code> 的同时也失去了主分片 <code>1</code> 和 <code>2</code> ，并且在缺失主分片的时候索引也不能正常工作。 如果此时来检查集群的状况，我们看到的状态将会为 <code>red</code> ：不是所有主分片都在正常工作。</p>
+<p>幸运的是，在其它节点上存在着这两个主分片的完整副本， 所以新的主节点立即将这些分片在 <code>Node 2</code> 和 <code>Node 3</code> 上对应的副本分片提升为主分片， 此时集群的状态将会为 <code>yellow</code> 。 这个提升主分片的过程是瞬间发生的，如同按下一个开关一般。</p>
+<p>为什么我们集群状态是 <code>yellow</code> 而不是 <code>green</code> 呢？ 虽然我们拥有所有的三个主分片，但是同时设置了每个主分片需要对应2份副本分片，而此时只存在一份副本分片。 所以集群不能为 <code>green</code> 的状态，不过我们不必过于担心：如果我们同样关闭了 <code>Node 2</code> ，我们的程序 <em>依然</em> 可以保持在不丢任何数据的情况下运行，因为 <code>Node 3</code> 为每一个分片都保留着一份副本。</p>
+<p>如果我们重新启动 <code>Node 1</code> ，集群可以将缺失的副本分片再次进行分配，那么集群的状态也将如<a href="https://www.elastic.co/guide/cn/elasticsearch/guide/current/_scale_horizontally.html#cluster-three-nodes-two-replicas" target="_blank" rel="noopener">Figure 5, “将参数 <code>number_of_replicas</code> 调大到 2”</a>所示。 如果 <code>Node 1</code> 依然拥有着之前的分片，它将尝试去重用它们，同时仅从主分片复制发生了修改的数据文件。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Elasticsearch/" rel="tag"># Elasticsearch</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/02/Elasticsearch入门/" rel="next" title="Elasticsearch入门">
+                <i class="fa fa-chevron-left"></i> Elasticsearch入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2021/07/09/Docker学习/" rel="prev" title="Docker学习">
+                Docker学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="DQJ">
+          <p class="site-author-name" itemprop="name">DQJ</p>
+           
+              <p class="site-description motion-element" itemprop="description">路漫漫其修远兮。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">40</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaryDai" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailtto:879020663@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#空集群"><span class="nav-number">1.</span> <span class="nav-text">空集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群健康"><span class="nav-number">2.</span> <span class="nav-text">集群健康</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加索引"><span class="nav-number">3.</span> <span class="nav-text">添加索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加故障转移"><span class="nav-number">4.</span> <span class="nav-text">添加故障转移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#水平扩容"><span class="nav-number">5.</span> <span class="nav-text">水平扩容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应对故障"><span class="nav-number">6.</span> <span class="nav-text">应对故障</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DQJ</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
