@@ -1,0 +1,782 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css">
+
+
+  <meta name="keywords" content="日常总结,">
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0">
+
+
+
+
+
+
+<meta name="description" content="CollectionUtils.isEmpty123public static boolean isEmpty(Collection coll) &amp;#123;  return coll == null || coll.isEmpty();&amp;#125; 判断集合是否为空（null 或没有元素时为 true） 12CollectionUtils.isEmpty(null): trueCollectio">
+<meta name="keywords" content="日常总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常用工具函数总结">
+<meta property="og:url" content="http://yoursite.com/2021/08/12/常用工具函数总结/index.html">
+<meta property="og:site_name" content="Dai戴的博客">
+<meta property="og:description" content="CollectionUtils.isEmpty123public static boolean isEmpty(Collection coll) &amp;#123;  return coll == null || coll.isEmpty();&amp;#125; 判断集合是否为空（null 或没有元素时为 true） 12CollectionUtils.isEmpty(null): trueCollectio">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2021-09-10T08:41:30.047Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="常用工具函数总结">
+<meta name="twitter:description" content="CollectionUtils.isEmpty123public static boolean isEmpty(Collection coll) &amp;#123;  return coll == null || coll.isEmpty();&amp;#125; 判断集合是否为空（null 或没有元素时为 true） 12CollectionUtils.isEmpty(null): trueCollectio">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2021/08/12/常用工具函数总结/">
+
+
+
+
+
+  <title> 常用工具函数总结 | Dai戴的博客 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Dai戴的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/08/12/常用工具函数总结/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="DQJ">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/touxiang.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Dai戴的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                常用工具函数总结
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-08-12T15:44:38+08:00">
+                2021-08-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/工具/" itemprop="url" rel="index">
+                    <span itemprop="name">工具</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="CollectionUtils-isEmpty"><a href="#CollectionUtils-isEmpty" class="headerlink" title="CollectionUtils.isEmpty"></a>CollectionUtils.isEmpty</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">(Collection coll)</span> </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> coll == <span class="keyword">null</span> || coll.isEmpty();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>判断集合是否为空（null 或没有元素时为 true）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CollectionUtils.isEmpty(<span class="keyword">null</span>): <span class="keyword">true</span></span><br><span class="line">CollectionUtils.isEmpty(<span class="keyword">new</span> ArrayList&lt;&gt;()): <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<h2 id="CollectionUtils-isNotEmpty"><a href="#CollectionUtils-isNotEmpty" class="headerlink" title="CollectionUtils.isNotEmpty"></a>CollectionUtils.isNotEmpty</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CollectionUtils.isNotEmpty(<span class="keyword">null</span>): <span class="keyword">false</span></span><br><span class="line">CollectionUtils.isNotEmpty(<span class="keyword">new</span> ArrayList()): <span class="keyword">false</span></span><br></pre></td></tr></table></figure>
+<h2 id="Collectors-toMap"><a href="#Collectors-toMap" class="headerlink" title="Collectors.toMap"></a>Collectors.toMap</h2><p>有三个重载方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Collector&lt;T, ?, Map&lt;K,U&gt;&gt; toMap(Function&lt;? <span class="keyword">super</span> T, ? extends K&gt; keyMapper,</span><br><span class="line">                                Function&lt;? <span class="keyword">super</span> T, ? extends U&gt; valueMapper)</span><br><span class="line">Collector&lt;T, ?, Map&lt;K,U&gt;&gt; toMap(Function&lt;? <span class="keyword">super</span> T, ? extends K&gt; keyMapper,</span><br><span class="line">                                Function&lt;? <span class="keyword">super</span> T, ? extends U&gt; valueMapper,</span><br><span class="line">                                BinaryOperator&lt;U&gt; mergeFunction)</span><br><span class="line">Collector&lt;T, ?, M&gt; toMap(Function&lt;? <span class="keyword">super</span> T, ? extends K&gt; keyMapper,</span><br><span class="line">                         Function&lt;? <span class="keyword">super</span> T, ? extends U&gt; valueMapper,</span><br><span class="line">                         BinaryOperator&lt;U&gt; mergeFunction,</span><br><span class="line">                         Supplier&lt;M&gt; mapSupplier)</span><br></pre></td></tr></table></figure>
+<p>直接转换成Map：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;String, String&gt; <span class="title">listToMap</span><span class="params">(List&lt;Book&gt; books)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> books.stream().collect(Collectors.toMap(Book::getIsbn, Book::getName));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解决key冲突，假如设置为：发生冲突时，保留现有元素：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;Integer, Book&gt; <span class="title">listToMapWithDupKey</span><span class="params">(List&lt;Book&gt; books)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> books.stream().collect(Collectors.toMap(Book::getReleaseYear, Function.identity(), </span><br><span class="line">                                                   (existing, replacement) -&gt; existing));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里<code>Function.identity()</code>函数返回输入值，即每个<code>book</code>。</p>
+<p>若需将List转化为其它Map，如ConcurrentHashMap，则使用第三个重载函数：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Map&lt;Integer, Book&gt; <span class="title">listToConcurrentMap</span><span class="params">(List&lt;Book&gt; books)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> books.stream().collect(Collectors.toMap(Book::getReleaseYear, Function.identity(),</span><br><span class="line">                                                   (o1, o2) -&gt; o1, ConcurrentHashMap::<span class="keyword">new</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Stream-of"><a href="#Stream-of" class="headerlink" title="Stream.of"></a>Stream.of</h2><p>用于为给定元素创建顺序流：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> &lt;T&gt; <span class="function">Stream&lt;T&gt; <span class="title">of</span><span class="params">(T t)</span></span></span><br><span class="line"><span class="function"><span class="keyword">static</span> &lt;T&gt; Stream&lt;T&gt; <span class="title">of</span><span class="params">(T... values)</span></span></span><br></pre></td></tr></table></figure>
+<p>创建整数流：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Integer&gt; mystream = Stream.of(<span class="number">10</span>, <span class="number">12</span>, <span class="number">14</span>, <span class="number">16</span>);</span><br><span class="line">mystream.forEach(e -&gt; System.out.println(e));</span><br></pre></td></tr></table></figure>
+<p>创建字符串流：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; mystream = Stream.of(<span class="string">"AA"</span>, <span class="string">"BB"</span>, <span class="string">"CC"</span>, <span class="string">"DD"</span>);</span><br><span class="line">mystream.forEach(e -&gt; System.out.println(e));</span><br></pre></td></tr></table></figure>
+<h2 id="StringUtils-isEmpty"><a href="#StringUtils-isEmpty" class="headerlink" title="StringUtils.isEmpty"></a>StringUtils.isEmpty</h2><p><strong>StringUtils.isEmpty(String str)</strong> 判断某字符串是否为空，为空的标准是<code>str==null</code>或<code>str.length()==0</code>。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(StringUtils.isEmpty(<span class="keyword">null</span>));        <span class="comment">//true</span></span><br><span class="line">System.out.println(StringUtils.isEmpty(<span class="string">""</span>));          <span class="comment">//true</span></span><br><span class="line">System.out.println(StringUtils.isEmpty(<span class="string">"   "</span>));       <span class="comment">//false</span></span><br><span class="line">System.out.println(StringUtils.isEmpty(<span class="string">"dd"</span>));        <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<h2 id="StringUtils-isNotEmpty"><a href="#StringUtils-isNotEmpty" class="headerlink" title="StringUtils.isNotEmpty"></a>StringUtils.isNotEmpty</h2><p>等价于<code>!StringUtils.isEmpty(String str)</code>。</p>
+<h2 id="StringUtils-isBlank"><a href="#StringUtils-isBlank" class="headerlink" title="StringUtils.isBlank"></a>StringUtils.isBlank</h2><p><strong>StringUtils.isBlank(String str)</strong> 判断某字符串是否为空或长度为0或由空白符(whitespace)构成。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">System.out.println(StringUtils.isBlank(<span class="keyword">null</span>));        <span class="comment">//true</span></span><br><span class="line">System.out.println(StringUtils.isBlank(<span class="string">""</span>));          <span class="comment">//true</span></span><br><span class="line">System.out.println(StringUtils.isBlank(<span class="string">"   "</span>));       <span class="comment">//true</span></span><br><span class="line">System.out.println(StringUtils.isBlank(<span class="string">"dd"</span>));        <span class="comment">//false</span></span><br></pre></td></tr></table></figure>
+<h2 id="StringUtils-isNotBlank"><a href="#StringUtils-isNotBlank" class="headerlink" title="StringUtils.isNotBlank"></a>StringUtils.isNotBlank</h2><p>等价于<code>!isBlank(String str)</code></p>
+<h2 id="Stream-peek"><a href="#Stream-peek" class="headerlink" title="Stream.peek"></a>Stream.peek</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Stream&lt;T&gt; <span class="title">peek</span><span class="params">(Consumer&lt;? <span class="keyword">super</span> T&gt; action)</span></span>;</span><br></pre></td></tr></table></figure>
+<p><code>peek</code> 操作接收的是一个 <code>Consumer&lt;T&gt;</code> 函数。顾名思义 peek 操作会按照 <code>Consumer&lt;T&gt;</code> 函数提供的逻辑去消费流中的每一个元素，同时有可能改变元素内部的一些属性。</p>
+<p>流的生命周期有三个阶段：</p>
+<ul>
+<li>起始生成阶段。</li>
+<li>中间操作会逐一获取元素并进行处理。 可有可无。<strong>所有中间操作都是惰性的，因此，流在管道中流动之前，任何操作都不会产生任何影响。</strong></li>
+<li>终端操作。通常分为<strong>最终的消费</strong> （<code>foreach</code> 之类的）和 <strong>归纳</strong> （<code>collect</code>）两类。还有重要的一点就是终端操作启动了流在管道中的流动。</li>
+</ul>
+<p>所以这样写根本不会输出，因为流没有启动：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stream = Stream.of(<span class="string">"hello"</span>, <span class="string">"world"</span>);</span><br><span class="line">stream.peek(System.out::println);</span><br></pre></td></tr></table></figure>
+<p>正确的写法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;String&gt; stream = Stream.of(<span class="string">"hello"</span>, <span class="string">"world"</span>);</span><br><span class="line">List&lt;String&gt; strs = stream.peek(System.out::println).collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<p>与map的区别：<code>peek</code> 操作一般用于不想改变流中元素本身的类型或者只想操作元素的内部状态时；而 <code>map</code> 则用于改变流中元素本身类型，即从元素中派生出另一种类型的操作。这是他们之间的最大区别。 那么 peek 实际中我们会用于哪些场景呢？比如对 <code>Stream&lt;T&gt;</code> 中的 <code>T</code> 的某些属性进行批处理的时候用 <code>peek</code> 操作就比较合适。如果我们要从 <code>Stream&lt;T&gt;</code>  中获取 <code>T</code> 的某个属性的集合时用 <code>map</code> 也就最好不过了。</p>
+<p>peek接收一个Consumer，而map接收一个Function。<strong>Consumer是没有返回值的</strong>，它只是对Stream中的元素进行某些操作，但是操作之后的数据并不返回到Stream中，所以Stream中的元素还是原来的元素。而<strong>Function是有返回值的</strong>，这意味着对于Stream的元素的所有操作都会作为新的结果返回到Stream中。</p>
+<h2 id="List-lt-Long-gt-gt-List-lt-Integer-gt"><a href="#List-lt-Long-gt-gt-List-lt-Integer-gt" class="headerlink" title="List&lt;Long&gt;-&gt;List&lt;Integer&gt;"></a><code>List&lt;Long&gt;</code>-&gt;<code>List&lt;Integer&gt;</code></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;Integer&gt; intList = longList.stream().mapToInt(Long::intValue).boxed().collect(Collectors.toList());</span><br></pre></td></tr></table></figure>
+<p><code>Stream mapToInt(ToIntFunction mapper)</code>返回一个<code>IntStream</code>，其中包括将给定函数应用于此流的元素的结果。</p>
+<p><code>IntStream</code>的<code>boxed()</code>方法返回一个由该流元素组成的<code>Stream</code>，每个元素都装箱为一个<code>Integer</code>，即：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">IntStream intStream = IntStream.range(<span class="number">10</span>,<span class="number">20</span>);</span><br><span class="line">Stream&lt;Integer&gt; s = intStream.boxed();</span><br></pre></td></tr></table></figure>
+<h2 id="Map-lt-Integer-Integer-gt-gt-Map-lt-Long-Long-gt"><a href="#Map-lt-Integer-Integer-gt-gt-Map-lt-Long-Long-gt" class="headerlink" title="Map&lt;Integer,Integer&gt;-&gt;Map&lt;Long,Long&gt;"></a><code>Map&lt;Integer,Integer&gt;</code>-&gt;<code>Map&lt;Long,Long&gt;</code></h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Map&lt;Long,Long&gt; longMap = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">intMap.forEach((key,value) -&gt; longMap.put(key.longValue, value.longValue));</span><br></pre></td></tr></table></figure>
+<h2 id="JSON-parseArray"><a href="#JSON-parseArray" class="headerlink" title="JSON.parseArray"></a>JSON.parseArray</h2><p><code>JSON.parseArray</code>和<code>JSON.parseObject</code>都是将<code>json</code>字符串转为实体类的方法，那么二者有什么区别呢？取决于<code>json</code>字符串的格式。<code>JSON.parseArray</code>用于<code>[]</code>包裹的，<code>JSON.parseObject</code>用于<code>{}</code>包裹的。</p>
+<h2 id="findAny-与findFirst"><a href="#findAny-与findFirst" class="headerlink" title="findAny()与findFirst()"></a>findAny()与findFirst()</h2><ul>
+<li><code>findFirst()</code>：返回列表中的第一个元素。</li>
+<li><code>findAny()</code>：返回的元素是不确定的，对于同一个列表多次调用<code>findAny()</code>有可能会返回不同的值。使用<code>findAny()</code>是为了更高效的性能。如果是数据较少，串行的情况下，一般会返回第一个结果；如果是并行的情况，那就不能确保是第一个。</li>
+</ul>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a href="https://juejin.cn/post/6844904004619616264" target="_blank" rel="noopener">Java 8 Stream Api 中的 peek 操作</a></li>
+<li><a href="https://www.codenong.com/intstream-boxed-method-in-java/" target="_blank" rel="noopener">Java中的IntStream boxed()方法</a></li>
+<li><a href="https://vimsky.com/examples/usage/stream-maptoint-java-examples.html" target="_blank" rel="noopener">Java Stream mapToInt()用法及代码示例</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/日常总结/" rel="tag"># 日常总结</a>
+          
+        </div>
+      
+
+      
+        
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/07/09/Docker学习/" rel="next" title="Docker学习">
+                <i class="fa fa-chevron-left"></i> Docker学习
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image" src="/images/touxiang.jpg" alt="DQJ">
+          <p class="site-author-name" itemprop="name">DQJ</p>
+           
+              <p class="site-description motion-element" itemprop="description">路漫漫其修远兮。</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">41</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/CaryDai" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="mailtto:879020663@qq.com" target="_blank" title="Email">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Email
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CollectionUtils-isEmpty"><span class="nav-number">1.</span> <span class="nav-text">CollectionUtils.isEmpty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CollectionUtils-isNotEmpty"><span class="nav-number">2.</span> <span class="nav-text">CollectionUtils.isNotEmpty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collectors-toMap"><span class="nav-number">3.</span> <span class="nav-text">Collectors.toMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stream-of"><span class="nav-number">4.</span> <span class="nav-text">Stream.of</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringUtils-isEmpty"><span class="nav-number">5.</span> <span class="nav-text">StringUtils.isEmpty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringUtils-isNotEmpty"><span class="nav-number">6.</span> <span class="nav-text">StringUtils.isNotEmpty</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringUtils-isBlank"><span class="nav-number">7.</span> <span class="nav-text">StringUtils.isBlank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringUtils-isNotBlank"><span class="nav-number">8.</span> <span class="nav-text">StringUtils.isNotBlank</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Stream-peek"><span class="nav-number">9.</span> <span class="nav-text">Stream.peek</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List-lt-Long-gt-gt-List-lt-Integer-gt"><span class="nav-number">10.</span> <span class="nav-text">List&lt;Long&gt;-&gt;List&lt;Integer&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Map-lt-Integer-Integer-gt-gt-Map-lt-Long-Long-gt"><span class="nav-number">11.</span> <span class="nav-text">Map&lt;Integer,Integer&gt;-&gt;Map&lt;Long,Long&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JSON-parseArray"><span class="nav-number">12.</span> <span class="nav-text">JSON.parseArray</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#findAny-与findFirst"><span class="nav-number">13.</span> <span class="nav-text">findAny()与findFirst()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">14.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">DQJ</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
